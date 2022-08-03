@@ -12,6 +12,7 @@ Shell commands to be run as user are denoted by `%`.
 
 - C++17-compatible compiler with standard library (`gcc` >= 8)
 - `cmake` >= 3.10
+- Curses implementation (`ncurses`)
 
 ### Release
 

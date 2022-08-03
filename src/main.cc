@@ -15,15 +15,17 @@
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 #include <cstdlib>
-#include <ncurses.h>
+
+#include <curses.h>
 
 int main()
 {
-  initscr();
+    initscr();
 
-  printw("Hello World!");
-  
-  getch();
-  endwin();
-  return EXIT_SUCCESS;
+    printw("Hello, world!");
+
+    getch();
+    endwin();
+
+    return EXIT_SUCCESS;
 }
