@@ -1,4 +1,4 @@
-// Entry point to Gelatinous Cube, a Dungeons and Dragons character manager.
+// Entry point to Gelatinous Cube, a Dungeons & Dragons character manager.
 // Copyright (C) 2022 Ryan Pullinger and Natalie Wiggins
 //
 // This program is free software: you can redistribute it and/or modify

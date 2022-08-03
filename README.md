@@ -1,6 +1,6 @@
 # Gelatinous Cube
 
-Dungeons and Dragons character manager.
+Dungeons & Dragons character manager.
 
 ## Documentation
 
