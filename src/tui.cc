@@ -55,7 +55,7 @@ int Tui::start()
         wrefresh(window);
 
     // Main loop.
-    while (getch() != (int) 'q') {};
+    while (getch() != static_cast<int>('q')) {};
 
     // End.
     endwin();
