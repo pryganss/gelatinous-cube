@@ -16,7 +16,7 @@
 
 #include <cstdlib>
 
-#include <curses.h>
+#include <ncurses.h>
 
 int main()
 {

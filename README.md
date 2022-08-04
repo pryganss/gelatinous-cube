@@ -4,7 +4,7 @@ Dungeons & Dragons character manager.
 
 ## Documentation
 
-Shell commands to be run as user are denoted by `%`.
+Shell commands to be run as user are denoted by `$`.
 
 ## Building
 
@@ -12,15 +12,15 @@ Shell commands to be run as user are denoted by `%`.
 
 - C++17-compatible compiler with standard library (`gcc` >= 8)
 - `cmake` >= 3.10
-- Curses implementation (`ncurses`)
+- `ncurses`
 
 ### Release
 
-`% (mkdir -p build && cd build && cmake .. && make)`
+`$ (mkdir -p build && cd build && cmake .. && make)`
 
 ### Debug
 
-`% (mkdir -p build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Debug && make)`
+`$ (mkdir -p build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Debug && make)`
 
 ## Usage
 

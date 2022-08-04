@@ -9,6 +9,7 @@ set(gelatinous-cube_OUTPUT_NAME gelatinous-cube)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+set(CURSES_NEED_NCURSES TRUE)
 find_package(Curses REQUIRED)
 
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
