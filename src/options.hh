@@ -1,4 +1,3 @@
-// Terminal User Interface.
 // Copyright (C) 2022 Ryan Pullinger and Natalie Wiggins
 //
 // This program is free software: you can redistribute it and/or modify
@@ -14,50 +13,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-#include "Tui.hh"
-
-#include <cstdlib>
-
-#include <ncurses.h>
+#ifndef GELCUBE_SRC_OPTIONS_HH_
+#define GELCUBE_SRC_OPTIONS_HH_
 
 namespace gelcube
 {
 
-std::vector<WINDOW*> Tui::windows;
-
-int Tui::start()
+namespace options
 {
-    // Screen initialization
-    initscr();
-    noecho();
-    cbreak();
-    resizeterm(31, 98);
-    curs_set(0);
 
-    // Window initialization
-    windows = {
-        newwin(31, 36, 0, 0),
-        newwin(5, 25, 0, 36),
-        newwin(3, 25, 5, 36),
-        newwin(23, 25, 8, 36),
-        newwin(31, 36, 0, 61)
-    };
+// Parses program options and performs required procedures. Returns an exit code
+// for the program.
+int parse();
 
-    for (auto& window : windows)
-        box(window, 0, 0);
-
-    refresh();
-
-    for (auto& window : windows)
-        wrefresh(window);
-
-    // Main loop
-    while (getch() != (int) 'q') {};
-
-    // End
-    endwin();
-
-    return EXIT_SUCCESS;
-}
+}; // namespace options
 
 }; // namespace gelcube
+
+#endif // GELCUBE_SRC_OPTIONS_HH_

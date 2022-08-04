@@ -27,7 +27,8 @@ namespace gelcube
 class Tui
 {
 public:
-    // Initializes ncurses and starts the main UI loop.
+    // Initializes ncurses and starts the main UI loop. Returns an exit code for
+    // the program.
     static int start();
 
 private:

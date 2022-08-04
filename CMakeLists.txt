@@ -13,13 +13,19 @@ set(CURSES_NEED_NCURSES TRUE)
 set(CURSES_NEED_WIDE TRUE)
 find_package(Curses REQUIRED)
 
+find_package(Boost
+             1.79.0
+             REQUIRED
+             COMPONENTS program_options)
+
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 
 set(gelcube_CODE_SOURCE_DIR ${gelcube_SOURCE_DIR}/src)
 
 set(gelcube_SOURCES
-    Tui.cc
-    main.cc)
+    main.cc
+    options.cc
+    tui.cc)
 
 list(TRANSFORM gelcube_SOURCES
      PREPEND "${gelcube_CODE_SOURCE_DIR}/")

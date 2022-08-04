@@ -1,4 +1,4 @@
-// Entry point to Gelatinous Cube, a Dungeons & Dragons character manager.
+// Program options parser.
 // Copyright (C) 2022 Ryan Pullinger and Natalie Wiggins
 //
 // This program is free software: you can redistribute it and/or modify
@@ -15,13 +15,16 @@
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 #include "options.hh"
+#include "tui.hh"
 
-#include <clocale>
-
-int main(int argc, char* argv[])
+namespace gelcube
 {
-    // Enable unicode.
-    setlocale(LC_ALL, "");
 
-    return gelcube::options::parse();
+int options::parse()
+{
+    // TODO(Natalie): Implement parsing of program options using
+    // boost::program_options, and execution of required procedures. 
+    return Tui::start();
 }
+
+}; // namespace gelcube

@@ -11,6 +11,7 @@ Dungeons & Dragons character manager.
 ### Requirements
 
 - C++17-compatible compiler with standard library (`gcc` >= 8)
+- `boost` >= 1.79.0
 - `cmake` >= 3.10
 - `ncurses`
 
@@ -31,7 +32,7 @@ Dungeons & Dragons character manager.
 - Written in C++
 - Built using CMake
 - Gelatinous Cube is abbreviated to `gelcube` in source code identifiers, the
-build system, and the name of libraries and executables
+build system, and the names of libraries and executables
 - Lines no longer than 80 characters
 - Source code located in `src/`
     - Source files have the suffix `.cc`
