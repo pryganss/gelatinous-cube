@@ -19,15 +19,40 @@
 
 #include <ncurses.h>
 
+class panel;
+
 int main()
 {
-    setlocale(LC_ALL, "");
+	int i;
+	WINDOW *windows[5];
+  
+	setlocale(LC_ALL, "");
 
-    initscr();
+	// screen initialization
+	initscr();
+	noecho();
+	resizeterm(31, 98);
+	curs_set(0);
+	cbreak();
 
-    printw("Hello, world!");
+	// windows initialization
+	windows[0] = newwin(31, 36, 0, 0);
+	windows[1] = newwin(5, 25, 0, 36);
+	windows[2] = newwin(3, 25, 5, 36);
+	windows[3] = newwin(23, 25, 8, 36);
+	windows[4] = newwin(31, 36, 0, 61);
 
-    getch();
+	for (i = 0; i < 5; i++)
+		box(windows[i], 0, 0);
+	
+	refresh();
+	for (i = 0; i < 5; i++)
+		wrefresh(windows[i]);
+	
+	while (getch() != (int)'q'); // wiat for the user to press q
+	
+	
+	// END
     endwin();
 
     return EXIT_SUCCESS;
