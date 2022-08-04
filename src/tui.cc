@@ -54,10 +54,10 @@ int Tui::start()
     for (auto& window : windows)
         wrefresh(window);
 
-    // Main loop
+    // Main loop.
     while (getch() != (int) 'q') {};
 
-    // End
+    // End.
     endwin();
 
     return EXIT_SUCCESS;
