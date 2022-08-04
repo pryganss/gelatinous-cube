@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.10)
 
 # Project initialisation
-project(gelatinous-cube VERSION 1.0)
-set(gelatinous-cube_VERSION_YEAR 2022)
-set(gelatinous-cube_OUTPUT_NAME gelatinous-cube)
+project(gelcube VERSION 1.0)
+set(gelcube_VERSION_YEAR 2022)
+set(gelcube_OUTPUT_NAME gelcube)
 
 # Build configuration
 set(CMAKE_CXX_STANDARD 17)
@@ -15,18 +15,18 @@ find_package(Curses REQUIRED)
 
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 
-set(gelatinous-cube_CODE_SOURCE_DIR ${gelatinous-cube_SOURCE_DIR}/src)
+set(gelcube_CODE_SOURCE_DIR ${gelcube_SOURCE_DIR}/src)
 
-set(gelatinous-cube_SOURCES
+set(gelcube_SOURCES
+    Tui.cc
     main.cc)
 
-list(TRANSFORM gelatinous-cube_SOURCES
-     PREPEND "${gelatinous-cube_CODE_SOURCE_DIR}/")
+list(TRANSFORM gelcube_SOURCES
+     PREPEND "${gelcube_CODE_SOURCE_DIR}/")
 
-add_executable(${gelatinous-cube_OUTPUT_NAME} ${gelatinous-cube_SOURCES})
+add_executable(${gelcube_OUTPUT_NAME} ${gelcube_SOURCES})
 
-set(gelatinous-cube_CXX_LIBRARIES
+set(gelcube_CXX_LIBRARIES
     ${CURSES_LIBRARIES})
 
-target_link_libraries(${gelatinous-cube_OUTPUT_NAME}
-                      ${gelatinous-cube_CXX_LIBRARIES})
+target_link_libraries(${gelcube_OUTPUT_NAME} ${gelcube_CXX_LIBRARIES})

@@ -4,7 +4,7 @@ Dungeons & Dragons character manager.
 
 ## Documentation
 
-Shell commands to be run as user are denoted by `$`.
+- Shell commands to be run as user are denoted by `$`
 
 ## Building
 
@@ -24,12 +24,14 @@ Shell commands to be run as user are denoted by `$`.
 
 ## Usage
 
-`% ./build/gelatinous-cube`
+`% ./build/gelcube`
 
 ## Code structure
 
 - Written in C++
 - Built using CMake
+- Gelatinous Cube is abbreviated to `gelcube` in source code identifiers, the
+build system, and the name of libraries and executables
 - Lines no longer than 80 characters
 - Source code located in `src/`
     - Source files have the suffix `.cc`

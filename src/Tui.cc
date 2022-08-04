@@ -1,4 +1,4 @@
-// Entry point to Gelatinous Cube, a Dungeons & Dragons character manager.
+// Terminal User Interface.
 // Copyright (C) 2022 Ryan Pullinger and Natalie Wiggins
 //
 // This program is free software: you can redistribute it and/or modify
@@ -16,12 +16,48 @@
 
 #include "Tui.hh"
 
-#include <clocale>
+#include <cstdlib>
 
-int main()
+#include <ncurses.h>
+
+namespace gelcube
 {
-    // Enable unicode
-    setlocale(LC_ALL, "");
 
-    return gelcube::Tui::start();
+std::vector<WINDOW*> Tui::windows;
+
+int Tui::start()
+{
+    // Screen initialization
+    initscr();
+    noecho();
+    cbreak();
+    resizeterm(31, 98);
+    curs_set(0);
+
+    // Window initialization
+    windows = {
+        newwin(31, 36, 0, 0),
+        newwin(5, 25, 0, 36),
+        newwin(3, 25, 5, 36),
+        newwin(23, 25, 8, 36),
+        newwin(31, 36, 0, 61)
+    };
+
+    for (auto& window : windows)
+        box(window, 0, 0);
+
+    refresh();
+
+    for (auto& window : windows)
+        wrefresh(window);
+
+    // Main loop
+    while (getch() != (int) 'q') {};
+
+    // End
+    endwin();
+
+    return EXIT_SUCCESS;
 }
+
+}; // namespace gelcube
