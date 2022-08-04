@@ -19,8 +19,6 @@
 
 #include <ncurses.h>
 
-class panel;
-
 int main()
 {
 	int i;
