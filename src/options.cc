@@ -23,7 +23,7 @@ namespace gelcube
 int options::parse()
 {
     // TODO(Natalie): Implement parsing of program options using
-    // boost::program_options, and execution of required procedures. 
+    // boost::program_options, and execution of required procedures.
     return Tui::start();
 }
 
