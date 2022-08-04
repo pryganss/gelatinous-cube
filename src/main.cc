@@ -16,41 +16,43 @@
 
 #include <clocale>
 #include <cstdlib>
+#include <vector>
 
 #include <ncurses.h>
 
 int main()
 {
-	int i;
-	WINDOW *windows[5];
-  
-	setlocale(LC_ALL, "");
+    // Enable unicode
+    setlocale(LC_ALL, "");
 
-	// screen initialization
-	initscr();
-	noecho();
-	resizeterm(31, 98);
-	curs_set(0);
-	cbreak();
+    // Screen initialization
+    initscr();
+    noecho();
+    cbreak();
+    resizeterm(31, 98);
+    curs_set(0);
 
-	// windows initialization
-	windows[0] = newwin(31, 36, 0, 0);
-	windows[1] = newwin(5, 25, 0, 36);
-	windows[2] = newwin(3, 25, 5, 36);
-	windows[3] = newwin(23, 25, 8, 36);
-	windows[4] = newwin(31, 36, 0, 61);
+    // Window initialization
+    std::vector<WINDOW*> windows = {
+        newwin(31, 36, 0, 0),
+        newwin(5, 25, 0, 36),
+        newwin(3, 25, 5, 36),
+        newwin(23, 25, 8, 36),
+        newwin(31, 36, 0, 61)
+    };
 
-	for (i = 0; i < 5; i++)
-		box(windows[i], 0, 0);
-	
-	refresh();
-	for (i = 0; i < 5; i++)
-		wrefresh(windows[i]);
-	
-	while (getch() != (int)'q'); // wiat for the user to press q
-	
-	
-	// END
+    for (auto& window : windows)
+        box(window, 0, 0);
+
+    refresh();
+
+    for (auto& window : windows)
+        wrefresh(window);
+
+    // Main loop
+    while (getch() != (int) 'q') {};
+
+    // End
     endwin();
 
     return EXIT_SUCCESS;
