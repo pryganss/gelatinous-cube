@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.10)
 # Project initialisation
 project(gelcube VERSION 1.0)
 set(gelcube_VERSION_YEAR 2022)
-set(gelcube_OUTPUT_NAME gelcube)
 
 # Libraries
 set(CURSES_NEED_NCURSES TRUE)
@@ -30,12 +29,12 @@ set(gelcube_SOURCES
 list(TRANSFORM gelcube_SOURCES
      PREPEND "${gelcube_CODE_SOURCE_DIR}/")
 
-add_executable(${gelcube_OUTPUT_NAME} ${gelcube_SOURCES})
+add_executable(${CMAKE_PROJECT_NAME} ${gelcube_SOURCES})
 
 set(gelcube_CXX_LIBRARIES
     ${CURSES_LIBRARIES})
 
-target_link_libraries(${gelcube_OUTPUT_NAME} ${gelcube_CXX_LIBRARIES})
+target_link_libraries(${CMAKE_PROJECT_NAME} ${gelcube_CXX_LIBRARIES})
 
 # Internationalization
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/i18n.cmake)

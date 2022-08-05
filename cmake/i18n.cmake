@@ -1,4 +1,5 @@
-# Internationalization
+# Internationalization.
+# Requires CMAKE_PROJECT_NAME and ${CMAKE_PROJECT_NAME}_SOURCES to be set.
 find_package(Intl REQUIRED)
 if(Intl_FOUND)
     message(STATUS "Internationalization found:")
@@ -31,11 +32,11 @@ if(GETTEXT_XGETTEXT_EXECUTABLE)
 
     add_custom_target(
         pot-update
-        DEPENDS "${CMAKE_LOCALE_SOURCE_DIR}/${OUTPUT_NAME}.pot"
+        DEPENDS "${CMAKE_LOCALE_SOURCE_DIR}/${CMAKE_PROJECT_NAME}.pot"
         COMMENT "pot-update: Done.")
 
     add_custom_command(
-        OUTPUT "${CMAKE_LOCALE_SOURCE_DIR}/${OUTPUT_NAME}.pot"
+        OUTPUT "${CMAKE_LOCALE_SOURCE_DIR}/${CMAKE_PROJECT_NAME}.pot"
         COMMAND
             ${CMAKE_COMMAND}
                 -E make_directory "${CMAKE_LOCALE_SOURCE_DIR}"
@@ -43,13 +44,13 @@ if(GETTEXT_XGETTEXT_EXECUTABLE)
             ${GETTEXT_XGETTEXT_EXECUTABLE}
                 --from-code=utf-8
                 --force-po
-                --output=${CMAKE_LOCALE_SOURCE_DIR}/${OUTPUT_NAME}.pot
+                --output=${CMAKE_LOCALE_SOURCE_DIR}/${CMAKE_PROJECT_NAME}.pot
                 --keyword=_
                 --width=80
                 ${${CMAKE_PROJECT_NAME}_SOURCES}
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
         COMMENT "pot-update: pot file generated: \
-                 ${CMAKE_LOCALE_SOURCE_DIR}/${OUTPUT_NAME}.pot")
+        ${CMAKE_LOCALE_SOURCE_DIR}/${CMAKE_PROJECT_NAME}.pot")
 endif(GETTEXT_XGETTEXT_EXECUTABLE)
 
 if(GETTEXT_MSGMERGE_EXECUTABLE)
@@ -58,7 +59,7 @@ if(GETTEXT_MSGMERGE_EXECUTABLE)
     add_custom_target(
         pot-merge
         COMMENT "pot-merge: Done."
-        DEPENDS ${CMAKE_LOCALE_SOURCE_DIR}/${OUTPUT_NAME}.pot)
+        DEPENDS ${CMAKE_LOCALE_SOURCE_DIR}/${CMAKE_PROJECT_NAME}.pot)
 
     file(GLOB PO_FILES ${CMAKE_LOCALE_SOURCE_DIR}/*.po)
     message(TRACE " PO_FILES: ${PO_FILES}")
@@ -71,7 +72,7 @@ if(GETTEXT_MSGMERGE_EXECUTABLE)
             COMMAND
                 ${GETTEXT_MSGMERGE_EXECUTABLE}
                     ${PO_FILE}
-                    ${CMAKE_LOCALE_SOURCE_DIR}/${OUTPUT_NAME}.pot
+                    ${CMAKE_LOCALE_SOURCE_DIR}/${CMAKE_PROJECT_NAME}.pot
             COMMENT "pot-merge: ${PO_FILE}")
     endforeach()
 endif(GETTEXT_MSGMERGE_EXECUTABLE)
@@ -101,7 +102,7 @@ if(GETTEXT_MSGFMT_EXECUTABLE)
                     ${CMAKE_LOCALE_BINARY_DIR}/${PO_LANG}/LC_MESSAGES
             COMMAND
                 ${GETTEXT_MSGFMT_EXECUTABLE}
-                    --output-file=${CMAKE_LOCALE_BINARY_DIR}/${PO_LANG}/LC_MESSAGES/${OUTPUT_NAME}.mo
+                    --output-file=${CMAKE_LOCALE_BINARY_DIR}/${PO_LANG}/LC_MESSAGES/${CMAKE_PROJECT_NAME}.mo
                     ${PO_FILE}
             COMMENT "po-compile: ${PO_LANG}")
     endforeach()
