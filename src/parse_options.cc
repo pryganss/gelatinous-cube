@@ -40,14 +40,14 @@ typedef class Option
 {
 public:
     Option(const char* long_name, const char* description,
-           const char* short_name = nullptr)
+           const char* short_name = "")
         : long_name{long_name}, description{description}, short_name{short_name}
     {
     }
 
     const char* name() noexcept
     {
-        if (short_name == nullptr)
+        if (short_name == "")
             return long_name;
         else
         {
