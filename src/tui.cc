@@ -17,13 +17,91 @@
 #include "tui.hh"
 
 #include <cstdlib>
+#include <string>
+#include <vector>
 
 #include <ncurses.h>
 
 namespace gelcube
 {
 
-std::vector<WINDOW*> Tui::windows;
+class Panel
+{
+public:
+    Panel(int height, int width, int y, int x, const std::string& name)
+        : height{height}, width{width}, y{y}, x{x}, name{name},
+          window{newwin(height, width, y, x)}
+    {
+    }
+
+    ~Panel()
+    {
+        delwin(window);
+    }
+
+    inline const WINDOW* get_window() const noexcept
+    {
+        return window;
+    }
+
+    inline int get_height() const noexcept
+    {
+        return height;
+    }
+
+    inline int get_width() const noexcept
+    {
+        return width;
+    }
+    
+    inline int get_y() const noexcept
+    {
+        return y;
+    }
+
+    inline int get_x() const noexcept
+    {
+        return x;
+    }
+
+    inline const std::string get_name() const noexcept
+    {
+        return name;
+    }
+
+    inline void draw() noexcept
+    {
+        box(window, 0, 0); // 0, 0 used for default border characters
+        // TODO(Ryan): Print panel name at the top left of the window
+    }
+
+    inline void refresh() noexcept
+    {
+        wrefresh(window);
+    }
+
+    void move(int y, int x) noexcept
+    {
+        this->y = y;
+        this->x = x;
+        delwin(window);
+        window = newwin(height, width, y, x);
+    }    
+
+    void resize(int height, int width) noexcept
+    {
+        this->height = height;
+        this->width = width;
+        wresize(window, height, width);
+    }
+
+private:
+    int height, width, y, x;
+    std::string name;
+    WINDOW* window;
+};
+
+std::vector<Panel*> Tui::panels;
 
 int Tui::start() noexcept
 {
@@ -38,26 +116,27 @@ int Tui::start() noexcept
 
     // Window initialization.
     // TODO(Natalie): Implement dynamic assignment of window sizes.
-    windows = {
-        newwin(31, 36, 0, 0),
-        newwin(5, 25, 0, 36),
-        newwin(3, 25, 5, 36),
-        newwin(23, 25, 8, 36),
-        newwin(31, 36, 0, 61)
+    panels = {
+        new Panel(31, 36, 0, 0, "1"),
+        new Panel(5, 25, 0, 36, "2"),
+        new Panel(3, 25, 5, 36, "3"),
+        new Panel(23, 25, 8, 36, "4"),
+        new Panel(31, 36, 0, 61, "5")
     };
 
-    for (auto& window : windows)
-        box(window, 0, 0);
+    for (auto& panel : panels)
+        panel->draw();
 
     refresh();
 
-    for (auto& window : windows)
-        wrefresh(window);
+    for (auto& panel : panels)
+        panel->refresh();
 
     // Main loop.
     while (getch() != static_cast<int>('q')) {};
 
     // End.
+    panels.clear();
     endwin();
 
     return EXIT_SUCCESS;

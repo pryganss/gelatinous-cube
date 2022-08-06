@@ -18,13 +18,14 @@
 
 #include <vector>
 
-#include <ncurses.h>
-
 namespace gelcube
 {
 
+// Window interface.
+typedef class Panel Panel;
+
 // Manages the Terminal User Interface.
-class Tui
+typedef class Tui
 {
 public:
     // Initializes ncurses and starts the main UI loop. Returns an exit code for
@@ -32,8 +33,8 @@ public:
     static int start() noexcept;
 
 private:
-    static std::vector<WINDOW*> windows;
-};
+    static std::vector<Panel*> panels;
+} Tui;
 
 }; // namespace gelcube
 

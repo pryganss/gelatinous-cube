@@ -41,8 +41,7 @@ typedef class Option
 public:
     Option(const char* long_name, const char* description,
            const char* short_name = nullptr)
-            : long_name{long_name}, description{description},
-              short_name{short_name}
+        : long_name{long_name}, description{description}, short_name{short_name}
     {
     }
 

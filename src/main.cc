@@ -23,7 +23,7 @@
 int main(int argc, char* argv[])
 {
     // Initialize internationalization.
-    setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "");
     textdomain("gelcube");
 
     // Perform procedures based on options.
