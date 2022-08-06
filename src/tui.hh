@@ -20,9 +20,12 @@
 
 #include <ncurses.h>
 
+#include <string>
+
 namespace gelcube
 {
-
+class Panel;
+	
 // Manages the Terminal User Interface.
 class Tui
 {
@@ -32,9 +35,29 @@ public:
     static int start();
 
 private:
-    static std::vector<WINDOW*> windows;
+    static std::vector<Panel> panels;
 };
 
+class Panel
+{
+	// Panel class to store more imformation around windows
+public:
+	std::string name;
+    Panel(int h, int w, int y, int x, std::string n);
+	void draw();
+    WINDOW *getwin();
+    int getX();
+    int getY();
+	int getHeight();
+	int getWidth();
+	void resize(int h, int w);
+	void movewin(int y, int x);
+	
+private:
+    int height, width, startY, startX;
+    WINDOW *win;
+};
+  
 }; // namespace gelcube
 
 #endif // GELCUBE_SRC_TUI_HH_

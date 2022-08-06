@@ -18,12 +18,14 @@
 
 #include <cstdlib>
 
+#include <string>
+
 #include <ncurses.h>
 
 namespace gelcube
 {
 
-std::vector<WINDOW*> Tui::windows;
+std::vector<Panel> Tui::panels;
 
 int Tui::start()
 {
@@ -38,22 +40,22 @@ int Tui::start()
 
     // Window initialization.
     // TODO(Natalie): Implement dynamic assignment of window sizes.
-    windows = {
-        newwin(31, 36, 0, 0),
-        newwin(5, 25, 0, 36),
-        newwin(3, 25, 5, 36),
-        newwin(23, 25, 8, 36),
-        newwin(31, 36, 0, 61)
+    panels = {
+		Panel(31, 36, 0, 0, "1"),
+        Panel(5, 25, 0, 36, "2"),
+        Panel(3, 25, 5, 36, "3"),
+        Panel(23, 25, 8, 36, "4"),
+        Panel(31, 36, 0, 61, "5")
     };
 
-    for (auto& window : windows)
-        box(window, 0, 0);
+    for (auto& panel : panels)
+        panel.draw();
 
     refresh();
 
-    for (auto& window : windows)
-        wrefresh(window);
-
+	for (auto& panel : panels)
+		wrefresh(panel.getwin());
+	
     // Main loop.
     while (getch() != static_cast<int>('q')) {};
 
@@ -62,5 +64,47 @@ int Tui::start()
 
     return EXIT_SUCCESS;
 }
+	
+
+Panel::Panel(int h, int w, int y, int x, std::string n)
+{
+	height = h;
+	width = w;
+	startY = y;
+	startX = x;
+	
+	name = n;
+	
+	win = newwin(height, width, y, x);
+}
+
+WINDOW *Panel::getwin() { return win; }
+int Panel::getX() { return startX; }
+int Panel::getY() { return startY; }
+int Panel::getHeight() { return height; }
+int Panel::getWidth() { return width; }
+
+void Panel::movewin(int y, int x)
+{
+	startY = y;
+	startX = x;
+	
+	delwin(win);
+	win = newwin(height, width, startY, startX);
+}
+
+void Panel::draw()
+{
+	box(win, 0, 0);
+	// TODO(Ryan): Print panel name at the top left of the window
+}
+
+void Panel::resize(int h, int w)
+{
+	height = h;
+	width = w;
+	wresize(win, height, width);
+}
+
 
 }; // namespace gelcube
