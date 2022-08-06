@@ -17,8 +17,6 @@
 #ifndef GELCUBE_SRC_CONFIG_HH_
 #define GELCUBE_SRC_CONFIG_HH_
 
-#include <cstddef>
-
 namespace gelcube
 {
 
