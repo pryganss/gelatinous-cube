@@ -1,4 +1,4 @@
-// Entry point to Gelatinous Cube, a Dungeons & Dragons character manager.
+// Internationalization macros.
 // Copyright (C) 2022 Ryan Pullinger and Natalie Wiggins
 //
 // This program is free software: you can redistribute it and/or modify
@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-#include "parse_options.hh"
+#ifndef GELCUBE_SRC_I18N_HH
+#define GELCUBE_SRC_I18N_HH
 
-#include <clocale>
+#include <libintl.h>
 
-int main(int argc, char* argv[])
-{
-    // Enable unicode.
-    setlocale(LC_ALL, "");
+#define _(s) gettext(s)
 
-    return gelcube::parse_options(argc, argv);
-}
+#endif // GELCUBE_SRC_I18N_HH

@@ -25,7 +25,7 @@ namespace gelcube
 
 std::vector<WINDOW*> Tui::windows;
 
-int Tui::start()
+int Tui::start() noexcept
 {
     // Screen initialization.
     // TODO(Natalie): Remove forced buffer size; we'll need to update window

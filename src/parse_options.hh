@@ -1,4 +1,3 @@
-// Program options parser.
 // Copyright (C) 2022 Ryan Pullinger and Natalie Wiggins
 //
 // This program is free software: you can redistribute it and/or modify
@@ -14,17 +13,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-#include "options.hh"
-#include "tui.hh"
+#ifndef GELCUBE_SRC_PARSE_OPTIONS_HH_
+#define GELCUBE_SRC_PARSE_OPTIONS_HH_
 
 namespace gelcube
 {
 
-int options::parse()
-{
-    // TODO(Natalie): Implement parsing of program options using
-    // boost::program_options, and execution of required procedures.
-    return Tui::start();
-}
+// Parses program options and performs required procedures. Returns an exit code
+// for the program.
+int parse_options(int argc, char* argv[]) noexcept;
 
 }; // namespace gelcube
+
+#endif // GELCUBE_SRC_PARSE_OPTIONS_HH_

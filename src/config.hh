@@ -1,3 +1,4 @@
+// CMake configured header.
 // Copyright (C) 2022 Ryan Pullinger and Natalie Wiggins
 //
 // This program is free software: you can redistribute it and/or modify
@@ -13,21 +14,23 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-#ifndef GELCUBE_SRC_OPTIONS_HH_
-#define GELCUBE_SRC_OPTIONS_HH_
+#ifndef GELCUBE_SRC_CONFIG_HH_
+#define GELCUBE_SRC_CONFIG_HH_
+
+#include <cstddef>
 
 namespace gelcube
 {
 
-namespace options
+namespace config
 {
 
-// Parses program options and performs required procedures. Returns an exit code
-// for the program.
-int parse();
+const char* version_major = "0";
+const char* version_minor = "1";
+const char* version_year = "2022";
 
-}; // namespace options
+}; // namespace config
 
 }; // namespace gelcube
 
-#endif // GELCUBE_SRC_OPTIONS_HH_
+#endif // GELCUBE_SRC_CONFIG_HH_

@@ -29,7 +29,7 @@ class Tui
 public:
     // Initializes ncurses and starts the main UI loop. Returns an exit code for
     // the program.
-    static int start();
+    static int start() noexcept;
 
 private:
     static std::vector<WINDOW*> windows;

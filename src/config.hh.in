@@ -1,4 +1,4 @@
-// Entry point to Gelatinous Cube, a Dungeons & Dragons character manager.
+// CMake configured header.
 // Copyright (C) 2022 Ryan Pullinger and Natalie Wiggins
 //
 // This program is free software: you can redistribute it and/or modify
@@ -14,14 +14,23 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-#include "parse_options.hh"
+#ifndef GELCUBE_SRC_CONFIG_HH_
+#define GELCUBE_SRC_CONFIG_HH_
 
-#include <clocale>
+#include <cstddef>
 
-int main(int argc, char* argv[])
+namespace gelcube
 {
-    // Enable unicode.
-    setlocale(LC_ALL, "");
 
-    return gelcube::parse_options(argc, argv);
-}
+namespace config
+{
+
+const char* version_major = "@gelcube_VERSION_MAJOR@";
+const char* version_minor = "@gelcube_VERSION_MINOR@";
+const char* version_year = "@gelcube_VERSION_YEAR@";
+
+}; // namespace config
+
+}; // namespace gelcube
+
+#endif // GELCUBE_SRC_CONFIG_HH_

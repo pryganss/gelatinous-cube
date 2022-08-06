@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.10)
 
-# Project initialisation
-project(gelcube VERSION 1.0)
+# Project initialisation.
+project(gelcube VERSION 0.1)
 set(gelcube_VERSION_YEAR 2022)
 
-# Libraries
+# Libraries.
 set(CURSES_NEED_NCURSES TRUE)
 set(CURSES_NEED_WIDE TRUE)
 find_package(Curses REQUIRED)
@@ -14,16 +14,19 @@ find_package(Boost
              REQUIRED
              COMPONENTS program_options)
 
-# Build configuration
+# Build configuration.
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 
 set(gelcube_CODE_SOURCE_DIR ${gelcube_SOURCE_DIR}/src)
 
-set(gelcube_SOURCES
+configure_file(${gelcube_CODE_SOURCE_DIR}/config.hh.in
+               ${gelcube_CODE_SOURCE_DIR}/config.hh)
+
+    set(gelcube_SOURCES
     main.cc
-    options.cc
+    parse_options.cc
     tui.cc)
 
 list(TRANSFORM gelcube_SOURCES
@@ -32,14 +35,15 @@ list(TRANSFORM gelcube_SOURCES
 add_executable(${CMAKE_PROJECT_NAME} ${gelcube_SOURCES})
 
 set(gelcube_CXX_LIBRARIES
+    ${Boost_LIBRARIES}
     ${CURSES_LIBRARIES})
 
 target_link_libraries(${CMAKE_PROJECT_NAME} ${gelcube_CXX_LIBRARIES})
 
-# Internationalization
-include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/i18n.cmake)
+# Internationalization.
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/intl.cmake)
 
-# Install
+# Install.
 install(TARGETS gelcube
     RUNTIME
     DESTINATION bin)
@@ -53,7 +57,7 @@ foreach(PO_LANG IN ITEMS ${PO_LANGS})
     endif()
 endforeach()
 
-# Uninstall
+# Uninstall.
 if(NOT TARGET uninstall)
     configure_file(
         "${CMAKE_CURRENT_SOURCE_DIR}/cmake/uninstall.cmake.in"

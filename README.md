@@ -34,7 +34,7 @@ Dungeons & Dragons character manager.
 - Built using CMake
 - Gelatinous Cube is abbreviated to `gelcube` in source code identifiers, the
 build system, and the names of libraries and executables
-- Lines no longer than 80 characters
+- Lines no longer than 80 characters, unless readability is affected
 - Source code located in `src/`
     - Source files have the suffix `.cc`
     - Header files have the suffix `.hh`
