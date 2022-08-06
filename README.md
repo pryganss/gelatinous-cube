@@ -13,6 +13,7 @@ Dungeons & Dragons character manager.
 - C++17-compatible compiler with standard library (`gcc` >= 8)
 - `boost` >= 1.79.0
 - `cmake` >= 3.10
+- `gettext`
 - `ncurses`
 
 ### Release
