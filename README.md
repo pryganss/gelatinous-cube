@@ -94,8 +94,9 @@ Ensure you have built the program for the debug target.
 Requires the [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)
 extension from the VS Code Marketplace.
 
-* Run the default launch task (`(Debug) (gdb) Launch`)
-    * Default keybind: `F5`
+* Open a source file
+    * Run the default launch task (`(Debug) (gdb) Launch`)
+        * Default keybind: `F5`
 
 ## Internationalization
 
