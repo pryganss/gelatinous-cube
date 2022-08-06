@@ -1,0 +1,71 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "(Debug) Build",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/build/debug"
+            },
+            "command": "make",
+            "dependsOn": [
+                "(Debug) CMake"
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "(Debug) CMake",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/build/debug"
+            },
+            "command": "cmake",
+            "args": [
+                "-DCMAKE_BUILD_TYPE=Debug",
+                "${workspaceFolder}"
+            ],
+            "dependsOn": [
+                "(Debug) Create Build Directory"
+            ]
+        },
+        {
+            "label": "(Debug) Create Build Directory",
+            "type": "shell",
+            "command": "mkdir -p ${workspaceFolder}/build/debug"
+        },
+        {
+            "label": "(Release) Build",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/build/release"
+            },
+            "command": "make",
+            "dependsOn": [
+                "(Release) CMake"
+            ]
+        },
+        {
+            "label": "(Release) CMake",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/build/release"
+            },
+            "command": "cmake",
+            "args": [
+                "${workspaceFolder}"
+            ],
+            "dependsOn": [
+                "(Release) Create Build Directory"
+            ]
+        },
+        {
+            "label": "(Release) Create Build Directory",
+            "type": "shell",
+            "command": "mkdir -p ${workspaceFolder}/build/release"
+        }
+    ]
+}

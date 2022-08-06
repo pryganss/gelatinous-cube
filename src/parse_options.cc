@@ -76,23 +76,21 @@ namespace options
 {
 
 Option help(
-        _("help"),
-        _("display this help and exit"),
-        _("h"));
+    _("help"),
+    _("display this help and exit"),
+    _("h"));
 
 Option version(
-        _("version"),
-        _("output version information and exit"),
-        _("V"));
+    _("version"),
+    _("output version information and exit"),
+    _("V"));
 
 }; // namespace options
 
 void show_version() noexcept
 {
-    std::cout << _("Gelatinous Cube ") << config::version_major << "."
-                << config::version_minor << std::endl
-              << _("Copyright (C) ") << config::version_year << _(" Ryan Pullinger and Natalie Wiggins.")
-                << std::endl
+    std::cout << _("Gelatinous Cube ") << config::version_major << "." << config::version_minor << std::endl
+              << _("Copyright (C) ") << config::version_year << _(" Ryan Pullinger and Natalie Wiggins.") << std::endl
               << _("License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.") << std::endl
               << _("This is free software: you are free to change and redistribute it.") << std::endl
               << _("There is NO WARRANTY, to the extent permitted by law.") << std::endl

@@ -18,10 +18,14 @@
 
 #include <clocale>
 
+#include <libintl.h>
+
 int main(int argc, char* argv[])
 {
-    // Enable unicode.
-    setlocale(LC_ALL, "");
+    // Initialize internationalization.
+    setlocale(LC_ALL, NULL);
+    textdomain("gelcube");
 
+    // Perform procedures based on options.
     return gelcube::parse_options(argc, argv);
 }
