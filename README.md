@@ -21,7 +21,7 @@ See output of `$ gelcube --help`.
 
 ## Building
 
-### Additional Requirements
+### Additional requirements
 
 * C++17-compatible compiler with standard library (`gcc` >= 8)
 * `cmake` >= 3.10
@@ -51,7 +51,7 @@ Targets:
 
 Ensure you have built the program for the release target.
 
-### Additional Requirements
+### Additional requirements
 
 * `sudo`
 
@@ -81,7 +81,7 @@ for more guidelines. Exceptions to these guidelines include:
 
 Ensure you have built the program for the debug target.
 
-### Additional Requirements
+### Additional requirements
 
 * `gdb`
 
