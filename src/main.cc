@@ -14,7 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-#include "parse_options.hh"
+#include "logger.hh"
+#include "options.hh"
 
 #include <clocale>
 
@@ -26,6 +27,9 @@ int main(int argc, char* argv[])
     setlocale(LC_ALL, "");
     textdomain("gelcube");
 
+    // Initialize logging.
+    gelcube::Logger::init();
+
     // Perform procedures based on options.
-    return gelcube::parse_options(argc, argv);
+    return gelcube::options::parse(argc, argv);
 }

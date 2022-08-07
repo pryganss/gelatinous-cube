@@ -1,4 +1,4 @@
-// Program options parser.
+// Parses program options and performs required procedures.
 // Copyright (C) 2022 Ryan Pullinger and Natalie Wiggins
 //
 // This program is free software: you can redistribute it and/or modify
@@ -16,12 +16,12 @@
 
 #include "config.hh"
 #include "intl.hh"
-#include "parse_options.hh"
+#include "logger.hh"
+#include "options.hh"
 #include "tui.hh"
 
 #include <cstdlib>
 #include <iostream>
-#include <ostream>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -32,6 +32,9 @@
 #include <boost/program_options/variables_map.hpp>
 
 namespace gelcube
+{
+
+namespace options
 {
 
 namespace po = boost::program_options;
@@ -71,9 +74,6 @@ private:
     std::string s_name;
 } Option;
 
-namespace options
-{
-
 Option help(
     _("help"),
     _("display this help and exit"),
@@ -83,8 +83,6 @@ Option version(
     _("version"),
     _("output version information and exit"),
     _("V"));
-
-}; // namespace options
 
 void show_version() noexcept
 {
@@ -97,10 +95,12 @@ void show_version() noexcept
               << _("Written by Ryan Pullinger and Natalie Wiggins.") << std::endl;
 }
 
-int parse_options(int argc, char* argv[]) noexcept
+int parse(int argc, char* argv[]) noexcept
 {
     if (argc < 1)
         return EXIT_FAILURE;
+
+    Logger::Source log = Logger::source;
 
     // Declare supported options.
     std::stringstream caption;
@@ -130,14 +130,17 @@ int parse_options(int argc, char* argv[]) noexcept
             return EXIT_SUCCESS;
         }
         else
-            return Tui::start();
+            return tui::start();
     }
     catch (po::unknown_option& e)
     {
-        std::cerr << argv[0] << _(": unrecognized option '") << e.get_option_name() << _("'") << std::endl
-                  << _("Try '") << argv[0] << _(" --help' for more information.") << std::endl;
+        BOOST_LOG_SEV(log, LogLevel::fatal)
+            << argv[0] << _(": unrecognized option '") << e.get_option_name() << _("'") << std::endl
+            << _("Try '") << argv[0] << _(" --help' for more information.") << std::endl;
         return EXIT_FAILURE;
     }
 }
+
+}; // namespace options
 
 }; // namespace gelcube

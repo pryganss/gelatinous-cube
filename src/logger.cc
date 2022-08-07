@@ -1,3 +1,4 @@
+// Handles message logging.
 // Copyright (C) 2022 Ryan Pullinger and Natalie Wiggins
 //
 // This program is free software: you can redistribute it and/or modify
@@ -13,21 +14,29 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-#ifndef GELCUBE_SRC_TUI_HH_
-#define GELCUBE_SRC_TUI_HH_
+#include "logger.hh"
+
+#include <iostream>
+
+#include <boost/core/null_deleter.hpp>
+#include <boost/log/core.hpp>
+#include <boost/smart_ptr/make_shared_object.hpp>
+#include <boost/smart_ptr/shared_ptr.hpp>
+
+namespace logging = boost::log;
 
 namespace gelcube
 {
 
-namespace tui
+boost::shared_ptr<Logger::Sink> Logger::sink;
+Logger::Source Logger::source;
+
+void Logger::init()
 {
-
-// Initializes ncurses and starts the main UI loop. Returns an exit code for the
-// program.
-int start() noexcept;
-
-}; // namespace tui
+    sink = boost::make_shared<Sink>();
+    boost::shared_ptr<std::ostream> stream{&std::clog, boost::null_deleter{}};
+    sink->locked_backend()->add_stream(stream);
+    logging::core::get()->add_sink(sink);
+}
 
 }; // namespace gelcube
-
-#endif // GELCUBE_SRC_TUI_HH_

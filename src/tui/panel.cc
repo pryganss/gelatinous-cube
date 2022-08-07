@@ -1,3 +1,4 @@
+// ncurses window wrapper.
 // Copyright (C) 2022 Ryan Pullinger and Natalie Wiggins
 //
 // This program is free software: you can redistribute it and/or modify
@@ -13,8 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-#ifndef GELCUBE_SRC_TUI_HH_
-#define GELCUBE_SRC_TUI_HH_
+#include "dimensions.hh"
+#include "panel.hh"
+
+#include <string>
+
+#include <ncurses.h>
 
 namespace gelcube
 {
@@ -22,12 +27,18 @@ namespace gelcube
 namespace tui
 {
 
-// Initializes ncurses and starts the main UI loop. Returns an exit code for the
-// program.
-int start() noexcept;
+Panel::Panel(Dimensions dimensions, const std::string& name)
+{
+    resize(dimensions.height, dimensions.width);
+    move(dimensions.y, dimensions.x);
+}
+
+Panel::~Panel()
+{
+    if (window != nullptr)
+        delwin(window);
+}
 
 }; // namespace tui
 
 }; // namespace gelcube
-
-#endif // GELCUBE_SRC_TUI_HH_

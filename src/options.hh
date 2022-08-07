@@ -13,21 +13,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-#ifndef GELCUBE_SRC_TUI_HH_
-#define GELCUBE_SRC_TUI_HH_
+#ifndef GELCUBE_SRC_OPTIONS_HH_
+#define GELCUBE_SRC_OPTIONS_HH_
 
 namespace gelcube
 {
 
-namespace tui
+namespace options
 {
 
-// Initializes ncurses and starts the main UI loop. Returns an exit code for the
-// program.
-int start() noexcept;
+// Parses program options and performs required procedures. Returns an exit code
+// for the program.
+int parse(int argc, char* argv[]) noexcept;
 
-}; // namespace tui
+}; // namespace options
 
 }; // namespace gelcube
 
-#endif // GELCUBE_SRC_TUI_HH_
+#endif // GELCUBE_SRC_OPTIONS_HH_

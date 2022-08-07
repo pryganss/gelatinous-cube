@@ -1,3 +1,4 @@
+// Objects for managing the size and position of UI elements.
 // Copyright (C) 2022 Ryan Pullinger and Natalie Wiggins
 //
 // This program is free software: you can redistribute it and/or modify
@@ -13,8 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-#ifndef GELCUBE_SRC_TUI_HH_
-#define GELCUBE_SRC_TUI_HH_
+#ifndef GELCUBE_SRC_TUI_DIMENSIONS_HH_
+#define GELCUBE_SRC_TUI_DIMENSIONS_HH_
+
+#include <exception>
 
 namespace gelcube
 {
@@ -22,12 +25,19 @@ namespace gelcube
 namespace tui
 {
 
-// Initializes ncurses and starts the main UI loop. Returns an exit code for the
-// program.
-int start() noexcept;
+typedef struct Dimensions
+{
+    int height, width, y, x;
+} Dimensions;
+
+// Thrown if the height or width of a set of dimensions is invalid for a UI
+// element.
+typedef class SizeException : public std::exception
+{
+} SizeException;
 
 }; // namespace tui
 
 }; // namespace gelcube
 
-#endif // GELCUBE_SRC_TUI_HH_
+#endif // GELCUBE_SRC_TUI_DIMENSIONS_HH_

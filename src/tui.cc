@@ -1,4 +1,4 @@
-// Terminal User Interface.
+// Manages the Terminal User Interface.
 // Copyright (C) 2022 Ryan Pullinger and Natalie Wiggins
 //
 // This program is free software: you can redistribute it and/or modify
@@ -14,10 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
+#include "intl.hh"
+#include "logger.hh"
 #include "tui.hh"
+#include "tui/dimensions.hh"
+#include "tui/panel_dimensions.hh"
+#include "tui/panel.hh"
 
 #include <cstdlib>
-#include <string>
 #include <vector>
 
 #include <ncurses.h>
@@ -25,104 +29,39 @@
 namespace gelcube
 {
 
-class Panel
+namespace tui
 {
-public:
-    Panel(int height, int width, int y, int x, const std::string& name)
-        : height{height}, width{width}, y{y}, x{x}, name{name},
-          window{newwin(height, width, y, x)}
-    {
-    }
 
-    ~Panel()
-    {
-        delwin(window);
-    }
+std::vector<Panel*> panels;
 
-    inline const WINDOW* get_window() const noexcept
-    {
-        return window;
-    }
-
-    inline int get_height() const noexcept
-    {
-        return height;
-    }
-
-    inline int get_width() const noexcept
-    {
-        return width;
-    }
-    
-    inline int get_y() const noexcept
-    {
-        return y;
-    }
-
-    inline int get_x() const noexcept
-    {
-        return x;
-    }
-
-    inline const std::string get_name() const noexcept
-    {
-        return name;
-    }
-
-    inline void draw() noexcept
-    {
-        box(window, 0, 0); // 0, 0 used for default border characters
-        // TODO(Ryan): Print panel name at the top left of the window
-    }
-
-    inline void refresh() noexcept
-    {
-        wrefresh(window);
-    }
-
-    void move(int y, int x) noexcept
-    {
-        this->y = y;
-        this->x = x;
-        delwin(window);
-        window = newwin(height, width, y, x);
-    }    
-
-    void resize(int height, int width) noexcept
-    {
-        this->height = height;
-        this->width = width;
-        wresize(window, height, width);
-    }
-
-private:
-    int height, width, y, x;
-    std::string name;
-    WINDOW* window;
-};
-
-std::vector<Panel*> Tui::panels;
-
-int Tui::start() noexcept
+int start() noexcept
 {
+    Logger::Source log = Logger::source;
+
     // Screen initialization.
-    // TODO(Natalie): Remove forced buffer size; we'll need to update window
-    // initialization.
     initscr();
     noecho();
     cbreak();
-    resizeterm(31, 98);
     curs_set(0);
 
-    // Window initialization.
-    // TODO(Natalie): Implement dynamic assignment of window sizes.
-    panels = {
-        new Panel(31, 36, 0, 0, "1"),
-        new Panel(5, 25, 0, 36, "2"),
-        new Panel(3, 25, 5, 36, "3"),
-        new Panel(23, 25, 8, 36, "4"),
-        new Panel(31, 36, 0, 61, "5")
-    };
+    // Panel initialization.
+    PanelDimensions::update();
+    try
+    {
+        panels = {
+            new Panel(PanelDimensions::large_left, "1"),
+            new Panel(PanelDimensions::middle_upper, "2"),
+            new Panel(PanelDimensions::large_right, "3"),
+            new Panel(PanelDimensions::middle_middle, "4"),
+            new Panel(PanelDimensions::middle_lower, "5")
+        };
+    }
+    catch (SizeException& e)
+    {
+        BOOST_LOG_SEV(log, LogLevel::fatal)
+            << _("Terminal too small to fit user interface.");
+        return EXIT_FAILURE;
+    }
 
     for (auto& panel : panels)
         panel->draw();
@@ -133,6 +72,8 @@ int Tui::start() noexcept
         panel->refresh();
 
     // Main loop.
+    // TODO(Natalie): Check for terminal resize and update panel dimensions
+    // accordingly.
     while (getch() != static_cast<int>('q')) {};
 
     // End.
@@ -141,5 +82,7 @@ int Tui::start() noexcept
 
     return EXIT_SUCCESS;
 }
+
+}; // namespace tui
 
 }; // namespace gelcube

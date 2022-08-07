@@ -13,16 +13,29 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-#ifndef GELCUBE_SRC_PARSE_OPTIONS_HH_
-#define GELCUBE_SRC_PARSE_OPTIONS_HH_
+#ifndef GELCUBE_SRC_TUI_PANEL_DIMENSIONS_HH_
+#define GELCUBE_SRC_TUI_PANEL_DIMENSIONS_HH_
+
+#include "dimensions.hh"
 
 namespace gelcube
 {
 
-// Parses program options and performs required procedures. Returns an exit code
-// for the program.
-int parse_options(int argc, char* argv[]) noexcept;
+namespace tui
+{
+
+// Manages the dimensions for all panels in the UI.
+typedef struct PanelDimensions
+{
+    static Dimensions large_left, middle_upper, large_right, middle_middle,
+                      middle_lower;
+
+    // Updates dimensions to fit the current terminal size.
+    static void update() noexcept;
+} PanelDimensions;
+
+}; // namespace tui
 
 }; // namespace gelcube
 
-#endif // GELCUBE_SRC_PARSE_OPTIONS_HH_
+#endif // GELCUBE_SRC_TUI_PANEL_DIMENSIONS_HH_

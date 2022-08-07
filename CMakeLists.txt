@@ -12,7 +12,9 @@ find_package(Curses REQUIRED)
 find_package(Boost
              1.79.0
              REQUIRED
-             COMPONENTS program_options)
+             COMPONENTS
+                log
+                program_options)
 
 # Build configuration.
 set(CMAKE_CXX_STANDARD 17)
@@ -24,10 +26,13 @@ set(gelcube_CODE_SOURCE_DIR ${gelcube_SOURCE_DIR}/src)
 configure_file(${gelcube_CODE_SOURCE_DIR}/config.hh.in
                ${gelcube_CODE_SOURCE_DIR}/config.hh)
 
-    set(gelcube_SOURCES
+set(gelcube_SOURCES
+    logger.cc
     main.cc
-    parse_options.cc
-    tui.cc)
+    options.cc
+    tui.cc
+    tui/panel_dimensions.cc
+    tui/panel.cc)
 
 list(TRANSFORM gelcube_SOURCES
      PREPEND "${gelcube_CODE_SOURCE_DIR}/")
