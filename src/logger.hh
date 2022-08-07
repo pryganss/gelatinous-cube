@@ -23,8 +23,8 @@
 #include <boost/smart_ptr/shared_ptr.hpp>
 
 namespace logging = boost::log;
-namespace sinks = boost::log::sinks;
 namespace sources = boost::log::sources;
+namespace sinks = boost::log::sinks;
 
 namespace gelcube
 {
@@ -42,7 +42,7 @@ private:
     static boost::shared_ptr<Sink> sink;
 } Logger;
 
-typedef boost::log::trivial::severity_level LogLevel;
+typedef logging::trivial::severity_level LogLevel;
 
 }; // namespace gelcube
 
