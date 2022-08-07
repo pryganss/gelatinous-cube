@@ -17,7 +17,6 @@
 #include "intl.hh"
 #include "logger.hh"
 #include "tui.hh"
-#include "tui/dimensions.hh"
 #include "tui/panel_dimensions.hh"
 #include "tui/panel.hh"
 
