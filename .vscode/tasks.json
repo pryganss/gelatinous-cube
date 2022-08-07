@@ -38,6 +38,22 @@
             "command": "mkdir -p ${workspaceFolder}/build/debug"
         },
         {
+            "label": "(Debug) Clean",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/build/debug"
+            },
+            "command": "make",
+            "args": [
+                "clean"
+            ]
+        },
+        {
+            "label": "(Debug) Remove Build Directory",
+            "type": "shell",
+            "command": "rm -rf ${workspaceFolder}/build/debug"
+        },
+        {
             "label": "(Release) Build",
             "type": "shell",
             "options": {
@@ -66,6 +82,22 @@
             "label": "(Release) Create Build Directory",
             "type": "shell",
             "command": "mkdir -p ${workspaceFolder}/build/release"
+        },
+        {
+            "label": "(Release) Clean",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/build/release"
+            },
+            "command": "make",
+            "args": [
+                "clean"
+            ]
+        },
+        {
+            "label": "(Release) Remove Build Directory",
+            "type": "shell",
+            "command": "rm -rf ${workspaceFolder}/build/release"
         }
     ]
 }
