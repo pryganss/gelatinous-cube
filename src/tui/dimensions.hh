@@ -30,8 +30,8 @@ typedef struct Dimensions
     int height, width, y, x;
 } Dimensions;
 
-// Thrown if the height or width of a set of dimensions is invalid for a UI
-// element.
+// Thrown if the height or width of a set of dimensions for a UI element is
+// invalid.
 typedef class SizeException : public std::exception
 {
 } SizeException;
