@@ -16,11 +16,9 @@
 #ifndef GELCUBE_SRC_LOGGER_HH_
 #define GELCUBE_SRC_LOGGER_HH_
 
-#include <boost/log/core.hpp>
 #include <boost/log/sinks/sync_frontend.hpp>
 #include <boost/log/sinks/text_ostream_backend.hpp>
 #include <boost/log/sources/logger.hpp>
-#include <boost/log/trivial.hpp>
 #include <boost/log/trivial.hpp>
 #include <boost/smart_ptr/shared_ptr.hpp>
 
