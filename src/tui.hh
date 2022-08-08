@@ -52,9 +52,9 @@ public:
         // Deletes the window associated with the panel.
         ~Panel();
 
-        // Updates the dimensions of the window associated with the panel from the
-        // dimensions passed to the Panel constructor. Throws a SizeException if the
-        // height or width of the dimensions is less than 1.
+        // Updates the dimensions of the window associated with the panel from
+        // the dimensions passed to the constructor. Throws a SizeException if
+        // the height or width of the dimensions is less than 1.
         inline void update_dimensions()
         {
             if (dimensions->height > 0 && dimensions->width > 0)
@@ -139,8 +139,8 @@ public:
 #endif
     } MainLoop;
 
-    // Initializes ncurses and starts the main UI loop. Returns an exit code for the
-    // program.
+    // Initializes ncurses and starts the main UI loop. Returns an exit code for
+    // the program.
     static int start() noexcept;
 
 private:
