@@ -130,7 +130,7 @@ int parse(int argc, char* argv[]) noexcept
             return EXIT_SUCCESS;
         }
         else
-            return tui::start();
+            return Tui::start();
     }
     catch (po::unknown_option& e)
     {

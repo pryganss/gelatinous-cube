@@ -24,7 +24,7 @@
 int main(int argc, char* argv[])
 {
     // Initialize internationalization.
-    setlocale(LC_ALL, "");
+    std::setlocale(LC_ALL, "");
     textdomain("gelcube");
 
     // Initialize logging.

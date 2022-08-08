@@ -1,4 +1,4 @@
-// Manages the Terminal User Interface.
+// Starts the Terminal User Interface.
 // Copyright (C) 2022 Ryan Pullinger and Natalie Wiggins
 //
 // This program is free software: you can redistribute it and/or modify
@@ -14,28 +14,22 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-#include "intl.hh"
-#include "logger.hh"
-#include "tui.hh"
-#include "tui/panel_dimensions.hh"
-#include "tui/panel.hh"
+#include "../intl.hh"
+#include "../logger.hh"
+#include "../tui.hh"
 
 #include <cstdlib>
-#include <vector>
 
 #include <ncurses.h>
 
 namespace gelcube
 {
 
-namespace tui
-{
+Logger::Source Tui::log;
 
-std::vector<Panel*> panels;
-
-int start() noexcept
+int Tui::start() noexcept
 {
-    Logger::Source log = Logger::source;
+    log = Logger::source;
 
     // Screen initialization.
     initscr();
@@ -44,16 +38,10 @@ int start() noexcept
     curs_set(0);
 
     // Panel initialization.
-    PanelDimensions::update();
+    PanelManager::create();
     try
     {
-        panels = {
-            new Panel(PanelDimensions::large_left, "1"),
-            new Panel(PanelDimensions::middle_upper, "2"),
-            new Panel(PanelDimensions::large_right, "3"),
-            new Panel(PanelDimensions::middle_middle, "4"),
-            new Panel(PanelDimensions::middle_lower, "5")
-        };
+        PanelManager::update();
     }
     catch (SizeException& e)
     {
@@ -62,26 +50,23 @@ int start() noexcept
         return EXIT_FAILURE;
     }
 
-    for (auto& panel : panels)
-        panel->draw();
-
-    refresh();
-
-    for (auto& panel : panels)
-        panel->refresh();
-
-    // Main loop.
-    // TODO(Natalie): Check for terminal resize and update panel dimensions
-    // accordingly.
-    while (getch() != static_cast<int>('q')) {};
+    // Process user input and UI events.
+    try
+    {
+        MainLoop::start();
+    }
+    catch (SizeException& e)
+    {
+        BOOST_LOG_SEV(log, LogLevel::fatal)
+            << _("Terminal too small to fit user interface.");
+        return EXIT_FAILURE;
+    }
 
     // End.
-    panels.clear();
+    PanelManager::destroy();
     endwin();
 
     return EXIT_SUCCESS;
 }
-
-}; // namespace tui
 
 }; // namespace gelcube

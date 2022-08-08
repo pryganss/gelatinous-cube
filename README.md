@@ -7,7 +7,7 @@ Dungeons & Dragons character manager.
 * POSIX shell commands to be run as user are denoted by `$`
 * Text to be substituted in shell commands is capitalised and encapsulated in
 brackets
-* Visual Studio Code and Code - OSS are abbreviated to VS Code
+* 'Visual Studio Code' and 'Code - OSS' are abbreviated to VS Code
 
 ## Requirements
 
@@ -23,7 +23,7 @@ See output of `$ gelcube --help`.
 
 ### Additional requirements
 
-* C++17-compatible compiler with standard library (`gcc` >= 8)
+* C++17-compatible compiler with POSIX-compliant standard library (`gcc` >= 8)
 * `cmake` >= 3.10
 
 ### Standalone

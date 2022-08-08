@@ -1,4 +1,4 @@
-// Manages the dimensions for all panels in the UI.
+// Manages all panels.
 // Copyright (C) 2022 Ryan Pullinger and Natalie Wiggins
 //
 // This program is free software: you can redistribute it and/or modify
@@ -14,49 +14,68 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-#include "panel_dimensions.hh"
+#include "../tui.hh"
+
+#include <vector>
 
 #include <ncurses.h>
 
 namespace gelcube
 {
 
-namespace tui
-{
+Tui::Dimensions Tui::PanelManager::large_left, Tui::PanelManager::middle_upper,
+                Tui::PanelManager::large_right,
+                Tui::PanelManager::middle_middle,
+                Tui::PanelManager::middle_lower;
+std::vector<Tui::Panel*> Tui::PanelManager::panels;
 
-Dimensions PanelDimensions::large_left, PanelDimensions::middle_upper,
-           PanelDimensions::large_right, PanelDimensions::middle_middle,
-           PanelDimensions::middle_lower;
-
-void PanelDimensions::update() noexcept
+void Tui::PanelManager::create()
 {
-    // Height
+    panels = {
+        new Panel(&large_left, "1"),
+        new Panel(&middle_upper, "2"),
+        new Panel(&large_right, "3"),
+        new Panel(&middle_middle, "4"),
+        new Panel(&middle_lower, "5")
+    };
+}
+
+void Tui::PanelManager::update()
+{
+    // Height.
     large_left.height = LINES;
     middle_upper.height = LINES / 3.5;
     large_right.height = large_left.height;
     middle_middle.height = LINES / 4.5;
     middle_lower.height = LINES - middle_upper.height
                                 - middle_middle.height;
-    // Width
+    // Width.
     large_left.width = COLS / 2.7;
     middle_upper.width = COLS - (2 * large_left.width);
     large_right.width = large_left.width;
     middle_middle.width = middle_upper.width;
     middle_lower.width = middle_upper.width;
-    // Y
+    // Y.
     large_left.y = 0;
     middle_upper.y = 0;
     large_right.y = 0;
     middle_middle.y = middle_upper.height;
     middle_lower.y = middle_upper.height + middle_middle.height;
-    // X
+    // X.
     large_left.x = 0;
     middle_upper.x = large_left.width;
     large_right.x = large_left.width + middle_upper.width;
     middle_middle.x = large_left.width;
     middle_lower.x = large_left.width;
-}
 
-}; // namespace tui
+    for (auto& panel : panels)
+    {
+        panel->update_dimensions();
+        panel->draw();
+    }
+    refresh();
+    for (auto& panel : panels)
+        panel->refresh();
+}
 
 }; // namespace gelcube

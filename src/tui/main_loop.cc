@@ -1,4 +1,4 @@
-// Wrapper for ncurses window.
+// Processes events and user input.
 // Copyright (C) 2022 Ryan Pullinger and Natalie Wiggins
 //
 // This program is free software: you can redistribute it and/or modify
@@ -14,24 +14,50 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
+#include "../signal.hh"
 #include "../tui.hh"
 
-#include <string>
+#include <csignal>
+#include <vector>
 
 #include <ncurses.h>
 
 namespace gelcube
 {
 
-Tui::Panel::Panel(Dimensions* dimensions, const std::string& name)
-    : dimensions{dimensions}
-{
-}
+volatile sig_atomic_t Tui::MainLoop::done;
+#ifndef NCURSES_EXT_FUNCS
+volatile sig_atomic_t Tui::MainLoop::was_resized;
+#endif
 
-Tui::Panel::~Panel()
+void Tui::MainLoop::start()
 {
-    if (window != nullptr)
-        delwin(window);
+    std::vector<Signal*> signals = {
+        new Signal(stop, {SIGINT})
+#ifndef NCURSES_EXT_FUNCS
+        ,
+        new Signal(resized, {SIGWINCH})
+#endif
+    };
+
+    while (!done)
+    {
+#ifndef NCURSES_EXT_FUNCS
+        if (was_resized)
+            PanelManager::update();
+#endif
+        switch (getch())
+        {
+#ifdef NCURSES_EXT_FUNCS
+            case KEY_RESIZE:
+                PanelManager::update();
+                break;
+#endif
+            case static_cast<int>('q'):
+                stop();
+                break;
+        }
+    }
 }
 
 }; // namespace gelcube

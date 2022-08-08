@@ -30,9 +30,11 @@ set(gelcube_SOURCES
     logger.cc
     main.cc
     options.cc
-    tui.cc
-    tui/panel_dimensions.cc
-    tui/panel.cc)
+    signal.cc
+    tui/main_loop.cc
+    tui/panel_manager.cc
+    tui/panel.cc
+    tui/start.cc)
 
 list(TRANSFORM gelcube_SOURCES
      PREPEND "${gelcube_CODE_SOURCE_DIR}/")
