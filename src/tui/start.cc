@@ -45,6 +45,7 @@ int Tui::start() noexcept
     }
     catch (SizeException& e)
     {
+        endwin();
         BOOST_LOG_SEV(log, LogLevel::fatal)
             << _("Terminal too small to fit user interface.");
         return EXIT_FAILURE;
@@ -57,6 +58,8 @@ int Tui::start() noexcept
     }
     catch (SizeException& e)
     {
+        PanelManager::destroy();
+        endwin();
         BOOST_LOG_SEV(log, LogLevel::fatal)
             << _("Terminal too small to fit user interface.");
         return EXIT_FAILURE;
