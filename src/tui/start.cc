@@ -31,13 +31,13 @@ int Tui::start() noexcept
 {
     log = Logger::source;
 
-    // Screen initialization.
+    // Initialize screen.
     initscr();
     noecho();
     cbreak();
     curs_set(0);
 
-    // Panel initialization.
+    // Initialize panels.
     PanelManager::create();
     try
     {
