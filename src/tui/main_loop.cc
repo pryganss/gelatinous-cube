@@ -43,6 +43,8 @@ void Tui::MainLoop::start()
     while (!done)
     {
 #ifndef NCURSES_EXT_FUNCS
+        // TODO(Natalie): Test and re-implment non-extended resize functionality
+        // to prevent resizing from being delayed until input is received.
         if (was_resized)
             PanelManager::update();
 #endif
