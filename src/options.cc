@@ -21,6 +21,7 @@
 #include "tui.hh"
 
 #include <cstdlib>
+#include <cstring>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -50,14 +51,16 @@ public:
 
     const char* name() noexcept
     {
-        if (short_name == "")
-            return long_name;
-        else
+        if (std::strlen(short_name) > 0)
         {
             std::stringstream ss_name;
             ss_name << long_name << "," << short_name;
             s_name = ss_name.str();
             return s_name.c_str();
+        }
+        else
+        {
+            return long_name;
         }
     }
 
