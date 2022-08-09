@@ -2,6 +2,30 @@
 
 Dungeons & Dragons character manager.
 
+* [Gelatinous Cube](#gelatinous-cube)
+    * [Documentation](#documentation)
+    * [Requirements](#requirements)
+    * [Usage](#usage)
+    * [Building](#building)
+        * [Additional requirements](#additional-requirements)
+        * [Standalone](#standalone)
+        * [VS Code](#vs-code)
+    * [Installation](#installation)
+        * [Additional requirements](#additional-requirements-1)
+        * [Uninstallation](#uninstallation)
+    * [Code structure](#code-structure)
+    * [Debugging](#debugging)
+        * [Additional requirements](#additional-requirements-2)
+        * [Standalone](#standalone-1)
+        * [VS Code](#vs-code-1)
+    * [Internationalization](#internationalization)
+        * [Generating the POT template file](#generating-the-pot-template-file)
+        * [Generating PO files](#generating-po-files)
+        * [Updating existing PO files](#updating-existing-po-files)
+        * [Generating MO files](#generating-mo-files)
+    * [Version control](#version-control)
+    * [License](#license)
+
 ## Documentation
 
 * POSIX shell commands to be run as user are denoted by `$`
