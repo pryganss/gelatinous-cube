@@ -71,6 +71,8 @@ void Tui::MainLoop::start()
     }
 
 #ifndef NCURSES_EXT_FUNCS
+    poll_resize_mutex.unlock();
+    poll_resize_thread.join();
     if (resize_failed)
         throw SizeException();
 #endif
@@ -81,13 +83,13 @@ void Tui::MainLoop::poll_resize(std::timed_mutex* mutex)
 {
     while (!done)
     {
-        mutex->try_lock_for(chrono::milliseconds(200));
         if (was_resized)
         {
             try
             {
                 PanelManager::update();
                 was_resized = false;
+                mutex->try_lock_for(chrono::milliseconds(200));
             }
             catch (SizeException& e)
             {
