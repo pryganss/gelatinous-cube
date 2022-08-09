@@ -19,35 +19,44 @@
 
 #include <csignal>
 #include <vector>
+#ifndef NCURSES_EXT_FUNCS
+#include <chrono>
+#include <mutex>
+#include <thread>
+namespace chrono = std::chrono;
+#endif
 
 #include <ncurses.h>
 
 namespace gelcube
 {
 
-volatile sig_atomic_t Tui::MainLoop::done;
+volatile sig_atomic_t Tui::MainLoop::done = false;
+
 #ifndef NCURSES_EXT_FUNCS
-volatile sig_atomic_t Tui::MainLoop::was_resized;
+volatile sig_atomic_t Tui::MainLoop::was_resized = false;
+bool Tui::MainLoop::resize_failed = false;
 #endif
 
 void Tui::MainLoop::start()
 {
+    // TODO(Natalie): Verify window resizing works if ncurses extended
+    // functions, and by extension, KEY_RESIZE, are not supported.
+
     std::vector<Signal*> signals = {
-        new Signal(stop, {SIGINT})
+        new Signal(stop, {SIGINT}),
 #ifndef NCURSES_EXT_FUNCS
-        ,
         new Signal(resized, {SIGWINCH})
 #endif
     };
 
+#ifndef NCURSES_EXT_FUNCS
+    std::timed_mutex poll_resize_mutex;
+    std::thread poll_resize_thread(poll_resize, &poll_resize_mutex);
+#endif
+
     while (!done)
     {
-#ifndef NCURSES_EXT_FUNCS
-        // TODO(Natalie): Test and re-implment non-extended resize functionality
-        // to prevent resizing from being delayed until input is received.
-        if (was_resized)
-            PanelManager::update();
-#endif
         switch (getch())
         {
 #ifdef NCURSES_EXT_FUNCS
@@ -60,6 +69,34 @@ void Tui::MainLoop::start()
                 break;
         }
     }
+
+#ifndef NCURSES_EXT_FUNCS
+    if (resize_failed)
+        throw SizeException();
+#endif
 }
+
+#ifndef NCURSES_EXT_FUNCS
+void Tui::MainLoop::poll_resize(std::timed_mutex* mutex)
+{
+    while (!done)
+    {
+        mutex->try_lock_for(chrono::milliseconds(200));
+        if (was_resized)
+        {
+            try
+            {
+                PanelManager::update();
+                was_resized = false;
+            }
+            catch (SizeException& e)
+            {
+                resize_failed = true;
+                stop();
+            }
+        }
+    }
+}
+#endif
 
 }; // namespace gelcube

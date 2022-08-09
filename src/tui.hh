@@ -22,6 +22,9 @@
 #include <exception>
 #include <string>
 #include <vector>
+#ifndef NCURSES_EXT_FUNCS
+#include <mutex>
+#endif
 
 #include <ncurses.h>
 
@@ -125,7 +128,7 @@ public:
         }
 
 #ifndef NCURSES_EXT_FUNCS
-        // Signal handler for window resize if KEY_RESIZE is not supported.
+        // Signal handler for window resize for when KEY_RESIZE is not supported.
         static inline void resized(int sig_num = 0) noexcept
         {
             was_resized = true;
@@ -133,9 +136,17 @@ public:
 #endif
 
     private:
+#ifndef NCURSES_EXT_FUNCS
+        // Polls to check if the SIGWINCH signal was received and triggers
+        // panels to resize for when KEY_RESIZE is not supported. Stops the loop
+        // and sets resize_failed if the terminal is too small to fit the panels.
+        static void poll_resize(std::timed_mutex* mutex);
+#endif
+
         static volatile sig_atomic_t done;
 #ifndef NCURSES_EXT_FUNCS
         static volatile sig_atomic_t was_resized;
+        static bool resize_failed;
 #endif
     } MainLoop;
 
