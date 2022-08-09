@@ -61,13 +61,13 @@ void Tui::MainLoop::start()
         switch (getch())
         {
 #ifdef NCURSES_EXT_FUNCS
-            case KEY_RESIZE:
-                PanelManager::update();
-                break;
+        case KEY_RESIZE:
+            PanelManager::update();
+            break;
 #endif
-            case static_cast<int>('q'):
-                stop();
-                break;
+        case static_cast<int>('q'):
+            stop();
+            break;
         }
     }
 
