@@ -23,7 +23,7 @@ See output of `$ gelcube --help`.
 
 ### Additional requirements
 
-* C++17-compatible compiler with POSIX-compliant standard library (`gcc` >= 8)
+* C++17-compatible compiler with POSIX-compliant standard library (`clang` >= 5)
 * `cmake` >= 3.10
 
 ### Standalone
