@@ -19,14 +19,15 @@
 
 #include <csignal>
 #include <vector>
+
+#include <ncurses.h>
+
 #ifndef NCURSES_EXT_FUNCS
 #include <chrono>
 #include <mutex>
 #include <thread>
 namespace chrono = std::chrono;
 #endif
-
-#include <ncurses.h>
 
 namespace gelcube
 {

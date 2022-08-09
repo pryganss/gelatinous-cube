@@ -22,11 +22,12 @@
 #include <exception>
 #include <string>
 #include <vector>
+
+#include <ncurses.h>
+
 #ifndef NCURSES_EXT_FUNCS
 #include <mutex>
 #endif
-
-#include <ncurses.h>
 
 namespace gelcube
 {
