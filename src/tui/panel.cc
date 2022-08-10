@@ -66,6 +66,8 @@ void Tui::Panel::draw()
         throw NoWindowException();
     }
 
+    // TODO(Natalie): Check dimensions.
+
     // Border.
     box(window, 0, 0); // 0, 0 used for default border characters
 
