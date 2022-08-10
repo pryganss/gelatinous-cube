@@ -41,8 +41,8 @@ volatile sig_atomic_t Tui::MainLoop::done = false;
 
 #ifndef NCURSES_EXT_FUNCS
 volatile sig_atomic_t Tui::MainLoop::was_resized = false;
-bool Tui::MainLoop::resize_failed = false;
-bool Tui::MainLoop::resize_failed_uninitialized = false;
+bool Tui::MainLoop::invalid_resize = false;
+bool Tui::MainLoop::uninitialized_resize = false;
 #endif
 
 void Tui::MainLoop::start()
@@ -81,11 +81,11 @@ void Tui::MainLoop::start()
 #ifndef NCURSES_EXT_FUNCS
     poll_resize_mutex.unlock();
     poll_resize_thread.join();
-    if (resize_failed)
+    if (invalid_resize)
     {
         throw SizeException();
     }
-    else if (resize_failed_uninitialized)
+    else if (uninitialized_resize)
     {
         throw NoWindowException();
     }
@@ -108,12 +108,12 @@ void Tui::MainLoop::poll_resize(std::timed_mutex* mutex,
             }
             catch (SizeException& e)
             {
-                resize_failed = true;
+                invalid_resize = true;
                 stop();
             }
             catch (NoWindowException& e)
             {
-                resize_failed_uninitialized = true;
+                uninitialized_resize = true;
                 stop();
             }
         }

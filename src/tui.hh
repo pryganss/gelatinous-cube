@@ -202,9 +202,9 @@ public:
         /// @brief Polls to check if the SIGWINCH signal was received and
         ///        triggers a panel size update accordingly.
         /// Used on a separate thread if KEY_RESIZE is not supported. Stops the
-        /// loop and: sets resize_failed to true if PanelManager throws a
-        /// SizeException; sets resize_failed_uninitialized if PanelManager
-        /// throws a NoWindowException.
+        /// loop and: sets invalid_resize to true if PanelManager throws a
+        /// SizeException; sets uninitialized_resize if PanelManager throws a
+        /// NoWindowException.
         /// @param mutex Timed mutex used to lock thread when sleeping.
         /// @param lock_duration Duration to lock the thread after each poll.
         static void poll_resize(std::timed_mutex* mutex,
@@ -214,8 +214,8 @@ public:
         static volatile sig_atomic_t done;
 #ifndef NCURSES_EXT_FUNCS
         static volatile sig_atomic_t was_resized;
-        static bool resize_failed;
-        static bool resize_failed_uninitialized;
+        static bool invalid_resize;
+        static bool uninitialized_resize;
 #endif
     } MainLoop;
 
