@@ -36,23 +36,34 @@
 #include <boost/program_options/parsers.hpp>
 #include <boost/program_options/variables_map.hpp>
 
+namespace po = boost::program_options;
+
 namespace gelcube
 {
 
 namespace options
 {
 
-namespace po = boost::program_options;
-
+/// @brief Stores data for a program option.
+/// Used as a dynamic container for boost::program_options (po::).
 typedef class Option
 {
 public:
+    /// @brief Constructs a new Option object.
+    /// Stores option data for use with po::.
+    /// @param long_name Long-format option name.
+    /// @param description Describes the functionality of the option.
+    /// @param short_name Short-format option name.
     Option(const char* long_name, const char* description,
            const char* short_name = "")
         : long_name{long_name}, description{description}, short_name{short_name}
     {
     }
 
+    /// @brief Gets the full name of the option to add to a description.
+    /// Uses the format 'LONG' or 'LONG,SHORT' for use with
+    /// po::options_description.add_options.
+    /// @return const char* Full name (internal data).
     const char* name() noexcept
     {
         if (std::strlen(short_name) > 0)
@@ -68,6 +79,10 @@ public:
         }
     }
 
+    /// @brief Gets the number of occurrences of the option in a variables map.
+    /// Used with a notified variables map containing parsed option data.
+    /// @param vm Variables map of long-format option names to values.
+    /// @return size_t Number of occurrences.
     inline size_t count(po::variables_map vm) const noexcept
     {
         return vm.count(long_name);
@@ -91,6 +106,8 @@ Option version(
     _("output version information and exit"),
     _("V"));
 
+/// @brief Shows the version string.
+/// Prints version, copyright, and author information to stdout.
 void show_version() noexcept
 {
     std::cout << _("Gelatinous Cube ") << config::version_major << "." << config::version_minor << std::endl

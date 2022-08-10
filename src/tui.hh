@@ -33,6 +33,7 @@
 #ifndef NCURSES_EXT_FUNCS
 #include <chrono>
 #include <mutex>
+
 namespace chrono = std::chrono;
 #endif
 
@@ -181,9 +182,10 @@ public:
 #ifndef NCURSES_EXT_FUNCS
         /// @brief Polls to check if the SIGWINCH signal was received and
         ///        triggers a panel size update accordingly.
-        /// Used if KEY_RESIZE is not supported. Stops the loop and sets
-        /// resize_failed to true if PanelManager throws a SizeException.
-        /// @param mutex Mutex used to lock thread when sleeping.
+        /// Used on a separate thread if KEY_RESIZE is not supported. Stops the
+        /// loop and sets resize_failed to true if PanelManager throws a
+        /// SizeException.
+        /// @param mutex Timed mutex used to lock thread when sleeping.
         /// @param lock_duration Duration to lock the thread after each poll.
         static void poll_resize(std::timed_mutex* mutex,
                                 chrono::milliseconds lock_duration) noexcept;
