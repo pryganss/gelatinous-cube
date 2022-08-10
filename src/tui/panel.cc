@@ -81,7 +81,7 @@ void Tui::Panel::draw()
     }
 
     // Index label.
-    mvwprintw(window, 0, dimensions->width - 4, "[%u]", index);
+    mvwprintw(window, 0, dimensions->width - 4, "[%zi]", index);
 }
 
 }; // namespace gelcube
