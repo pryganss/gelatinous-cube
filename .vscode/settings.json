@@ -33,6 +33,8 @@
     "doxdocgen.cpp.dtorText": "Destroys the {name} object.",
     "doxdocgen.c.setterText": "Sets the {name} object.",
     "doxdocgen.c.factoryMethodText": "Creates a {name} object.",
+    "doxdocgen.c.getterText": "Gets the {name} object.",
+    "doxdocgen.generic.returnTemplate": "@return ",
     "files.associations": {
         "string": "cpp",
         "mutex": "cpp",

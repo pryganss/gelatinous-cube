@@ -27,6 +27,7 @@
 #include <cstddef>
 #include <exception>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 #include <ncurses.h>
@@ -87,19 +88,20 @@ public:
         /// @brief Updates the dimensions of the panel's window.
         /// (Re)creates the window, dereferencing the dimensions passed to the
         /// constructor. Must be called at least once before refreshing the
-        /// panel in order for it to be displayed. Throws a SizeException if the
-        /// height or width of the dimensions is less than 1.
+        /// panel in order for it to be displayed.
+        /// @throw SizeException if the height or width of the dimensions is
+        ///        less than 1.
         void update_dimensions();
 
         /// @brief Draws the border.
-        /// Updates the panel's window object. Throws a NoWindowException if the
-        /// window has not been created.
+        /// Updates the panel's window object.
+        /// @throw NoWindowException if the window has not been created.
         void draw();
 
         /// @brief Refreshes the panel contents.
         /// Updates the displayed window. Must be called for the panel to be
-        /// displayed. Thorw a NoWindowException if the window has not been
-        /// created.
+        /// displayed.
+        /// @throw NoWindowException if the window has not been created.
         inline void refresh()
         {
             if (!window)
@@ -127,9 +129,9 @@ public:
     private:
         Dimensions* dimensions;
         const char* title;
-        WINDOW* window = nullptr;
         size_t index;
         bool selected = false;
+        WINDOW* window = nullptr;
     } Panel;
 
     /// @brief Manages all panels.
@@ -144,9 +146,10 @@ public:
         /// @brief Updates the dimensions of all panels to fit the current
         ///        terminal size; draws and refreshes the panels to display
         ///        them.
-        /// Throws a SizeException if the terminal is too small to fit the
-        /// panels; throws a NoWindowException if a panel is updated or
-        /// refreshed and the panel's window has not been created.
+        /// @throw SizeException if the terminal is too small to fit the
+        ///        panels.
+        /// @throw NoWindowException if a panel is updated or refreshed and the
+        ///        panel's window has not been created.
         static void update();
 
         /// @brief Destroys all panels.
@@ -156,10 +159,52 @@ public:
             panels.clear();
         }
 
+        /// @brief Gets the index of the currently selected panel.
+        /// @return Index.
+        static inline size_t get_selected_index()
+        {
+            return selected_index;
+        }
+
+        /// @brief Gets the index of the previously selected panel.
+        /// @return Index.
+        static inline size_t get_last_selected_index()
+        {
+            return last_selected_index;
+        }
+
+        /// @brief Selects a panel.
+        /// Highlights the specified panel's title.
+        /// @param index Index of the panel in the manager's internal panels
+        ///              vector.
+        /// @throw std::out_of_range if index is invalid.
+        static inline void select(size_t index)
+        {
+            panels.at(index)->select();
+            panels.at(index)->draw();
+            panels.at(index)->refresh();
+            selected_index = index;
+        }
+
+        /// @brief Deselects a panel.
+        /// Removes the highlight from the specified panel's title.
+        /// @param index Index of the panel in the manager's internal panels
+        ///              vector.
+        /// @throw std::out_of_range if index is invalid.
+        static inline void deselect(size_t index)
+        {
+            panels.at(index)->deselect();
+            panels.at(index)->draw();
+            panels.at(index)->refresh();
+            last_selected_index = index;
+        }
+
     private:
         static Dimensions large_left, middle_upper, large_right, middle_middle,
                           middle_lower;
         static std::vector<Panel*> panels;
+        static size_t selected_index;
+        static size_t last_selected_index;
     } PanelManager;
 
     /// @brief Processes events and user input.
@@ -169,9 +214,10 @@ public:
     public:
         /// @brief Starts the main UI loop.
         /// Processes user input and handles window resizing until stopped,
-        /// using panels from PanelManager. Throws a SizeException if the
-        /// terminal is too small to fit the panels; throws a NoWindowException
-        /// if a panel is updated and its window has not been created.
+        /// using panels from PanelManager.
+        /// @throw SizeException if the terminal is too small to fit the panels.
+        /// @throw NoWindowException if a panel is updated and its window has
+        ///        not been created.
         static void start();
 
         /// @brief Stops the main UI loop.
@@ -208,6 +254,7 @@ public:
 #endif
 
         static volatile sig_atomic_t done;
+        static std::unordered_map<int, bool> modifiers;
 #ifndef NCURSES_EXT_FUNCS
         static volatile sig_atomic_t was_resized;
         static bool invalid_resize;
@@ -217,7 +264,7 @@ public:
 
     /// @brief Starts the TUI.
     /// Initializes ncurses and starts the main UI loop.
-    /// @return int Exit code for the program.
+    /// @return Exit code for the program.
     static int start() noexcept;
 
 private:

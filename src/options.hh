@@ -31,7 +31,7 @@ namespace options
 /// Performs required procedures based on options given via the command line.
 /// @param argc Number of arguments.
 /// @param argv Array of arguments.
-/// @return int Exit code for the program.
+/// @return Exit code for the program.
 int parse(int argc, char* argv[]) noexcept;
 
 }; // namespace options

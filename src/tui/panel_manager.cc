@@ -21,6 +21,7 @@
 #include "../intl.hh"
 #include "../tui.hh"
 
+#include <cstddef>
 #include <vector>
 
 #include <ncurses.h>
@@ -33,6 +34,8 @@ Tui::Dimensions Tui::PanelManager::large_left, Tui::PanelManager::middle_upper,
                 Tui::PanelManager::middle_middle,
                 Tui::PanelManager::middle_lower;
 std::vector<Tui::Panel*> Tui::PanelManager::panels;
+size_t Tui::PanelManager::selected_index;
+size_t Tui::PanelManager::last_selected_index;
 
 void Tui::PanelManager::create()
 {
@@ -43,6 +46,9 @@ void Tui::PanelManager::create()
         new Panel(&middle_middle, _("Name"), 4),
         new Panel(&middle_lower, _("Attacks"), 5)
     };
+
+    selected_index = 0;
+    last_selected_index = 0;
 }
 
 void Tui::PanelManager::update()

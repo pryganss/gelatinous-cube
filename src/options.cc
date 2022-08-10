@@ -63,7 +63,7 @@ public:
     /// @brief Gets the full name of the option to add to a description.
     /// Uses the format 'LONG' or 'LONG,SHORT' for use with
     /// po::options_description::add_options.
-    /// @return const char* Full name (internal data).
+    /// @return Full name (internal data).
     const char* name() noexcept
     {
         if (std::strlen(short_name) > 0)
@@ -82,7 +82,7 @@ public:
     /// @brief Gets the number of occurrences of the option in a variables map.
     /// Used with a notified variables map containing parsed option data.
     /// @param vm Variables map of long-format option names to values.
-    /// @return size_t Number of occurrences.
+    /// @return Number of occurrences.
     inline size_t count(po::variables_map vm) const noexcept
     {
         return vm.count(long_name);
