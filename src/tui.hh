@@ -59,6 +59,13 @@ public:
     {
     } SizeException;
 
+    /// @brief Exception signifying an uninitialized window.
+    /// Thrown if a function which references an ncurses window is called
+    /// without its window being initialized.
+    typedef class NoWindowException : public std::exception
+    {
+    } NoWindowException;
+
     /// @brief Wrapper for ncurses window.
     /// UI element using dimensions modifyable at runtime.
     typedef class Panel
@@ -100,7 +107,11 @@ public:
         /// Changes the panel's window object.
         inline void draw() noexcept
         {
-            // TODO(Natalie): Check if window is initialized.
+            if (!window)
+            {
+                throw NoWindowException();
+            }
+
             // TODO(Ryan): Print panel label at the top left of the window.
             box(window, 0, 0); // 0, 0 used for default border characters
         }
@@ -110,7 +121,11 @@ public:
         /// displayed.
         inline void refresh() noexcept
         {
-            // TODO(Natalie): Check if window is initialized.
+            if (!window)
+            {
+                throw NoWindowException();
+            }
+
             wrefresh(window);
         }
 
