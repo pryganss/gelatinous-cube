@@ -89,13 +89,14 @@ Ensure you have built the program for the release target.
 ## Code structure
 
 * Written in C++
-* Built using CMake
+* Built using [CMake](https://cmake.org)
 * Gelatinous Cube is abbreviated to `gelcube` in source code identifiers, the
 build system, and the names of libraries and executables
 * Lines no longer than 80 characters, unless readability is affected
 * Source code located in `src/`
 * Source files have the suffix `.cc`
 * Header files have the suffix `.hh`
+* [Doxygen](https://doxygen.nl/index.html) comments
 * See the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html)
 for more guidelines. Exceptions to these guidelines include:
     * Tab width is 4 spaces
@@ -149,11 +150,11 @@ Edit `locale/[LANG].po` as required.
 ## Version control
 
 Commit messages should follow [this convention](https://www.conventionalcommits.org/)
-for readability, and for any tools used in the future that depend on it.
+for readability, and for any tools we may use in the future which depend on it.
 
 ## License
 
-Copyright (c) 2022 The Gelatinous Cube Authors (see `AUTHORS`).
+Copyright (c) 2022 The Gelatinous Cube Authors.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -168,4 +169,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-See `LICENSE` for more information.
+Written by Ryan Pullinger and Natalie Wiggins.
+
+See `LICENSE` and `AUTHORS` for more information.
