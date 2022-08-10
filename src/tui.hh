@@ -24,6 +24,7 @@
 #include "logger.hh"
 
 #include <csignal>
+#include <cstddef>
 #include <exception>
 #include <string>
 #include <vector>
@@ -74,9 +75,10 @@ public:
         /// @brief Constructs a new Panel object.
         /// Initializes the panel's dimensions and name.
         /// @param dimensions Geometric dimensions for panel size and position.
-        /// @param label Visible label.
-        /// @param selected Sets the panel to be active.
-        Panel(Dimensions* dimensions, const char* label, bool selected = false);
+        /// @param title Visible title.
+        /// @param index Associated panel number in the UI.
+        /// @param selected Sets the panel to (in)active.
+        Panel(Dimensions* dimensions, const char* title, size_t index, bool selected = false);
 
         /// @brief Destroys the Panel object.
         /// Deletes the window associated with the panel.
@@ -109,14 +111,14 @@ public:
         }
 
         /// @brief Sets the panel to active.
-        /// Highlights the panel's label on the next draw.
+        /// Highlights the panel's title on the next draw.
         inline void select()
         {
             selected = true;
         }
 
         /// @brief Sets the panel to inactive.
-        /// Removes the highlight on the panel's label on the next draw.
+        /// Removes the highlight on the panel's title on the next draw.
         inline void deselect()
         {
             selected = false;
@@ -124,8 +126,9 @@ public:
 
     private:
         Dimensions* dimensions;
-        const char* label;
+        const char* title;
         WINDOW* window = nullptr;
+        size_t index;
         bool selected = false;
     } Panel;
 
@@ -135,11 +138,12 @@ public:
     {
     public:
         /// @brief Creates all panels.
-        /// Initializes panels with labels and unspecified dimensions.
+        /// Initializes panels with titles and unspecified dimensions.
         static void create();
 
         /// @brief Updates the dimensions of all panels to fit the current
-        ///        terminal size; draws and refreshes the panels to display them.
+        ///        terminal size; draws and refreshes the panels to display
+        ///        them.
         /// Throws a SizeException if the terminal is too small to fit the
         /// panels; throws a NoWindowException if a panel is updated or
         /// refreshed and the panel's window has not been created.

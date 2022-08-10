@@ -20,6 +20,7 @@
 
 #include "../tui.hh"
 
+#include <cstddef>
 #include <string>
 
 #include <ncurses.h>
@@ -27,8 +28,9 @@
 namespace gelcube
 {
 
-Tui::Panel::Panel(Dimensions* dimensions, const char* label, bool selected)
-    : dimensions{dimensions}, label{label}, selected{selected}
+Tui::Panel::Panel(Dimensions* dimensions, const char* title, size_t index,
+                  bool selected)
+    : dimensions{dimensions}, title{title}, index{index}, selected{selected}
 {
 }
 
@@ -67,16 +69,19 @@ void Tui::Panel::draw()
     // Border.
     box(window, 0, 0); // 0, 0 used for default border characters
 
-    // Label.
+    // Title.
     if (selected)
     {
         wattron(window, A_STANDOUT);
     }
-    mvwprintw(window, 0, 2, "%s", label);
+    mvwprintw(window, 0, 2, "%s", title);
     if (selected)
     {
         wattroff(window, A_STANDOUT);
     }
+
+    // Index label.
+    mvwprintw(window, 0, dimensions->width - 4, "[%i]", index);
 }
 
 }; // namespace gelcube
