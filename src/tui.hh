@@ -149,7 +149,8 @@ public:
         /// @brief Updates the dimensions of all panels to fit the current
         ///        terminal size; draws and refreshes the panels to display them.
         /// Throws a SizeException if the terminal is too small to fit the
-        /// panels.
+        /// panels; throws a NoWindowException if a panel is updated or
+        /// refreshed and the panel's window has not been created.
         static void update();
 
         /// @brief Destroys all panels.
@@ -173,7 +174,8 @@ public:
         /// @brief Starts the main UI loop.
         /// Processes user input and handles window resizing until stopped,
         /// using panels from PanelManager. Throws a SizeException if the
-        /// terminal is too small to fit the panels.
+        /// terminal is too small to fit the panels; throws a NoWindowException
+        /// if a panel is updated and its window has not been created.
         static void start();
 
         /// @brief Stops the main UI loop.
@@ -200,8 +202,9 @@ public:
         /// @brief Polls to check if the SIGWINCH signal was received and
         ///        triggers a panel size update accordingly.
         /// Used on a separate thread if KEY_RESIZE is not supported. Stops the
-        /// loop and sets resize_failed to true if PanelManager throws a
-        /// SizeException.
+        /// loop and: sets resize_failed to true if PanelManager throws a
+        /// SizeException; sets resize_failed_uninitialized if PanelManager
+        /// throws a NoWindowException.
         /// @param mutex Timed mutex used to lock thread when sleeping.
         /// @param lock_duration Duration to lock the thread after each poll.
         static void poll_resize(std::timed_mutex* mutex,
@@ -212,6 +215,7 @@ public:
 #ifndef NCURSES_EXT_FUNCS
         static volatile sig_atomic_t was_resized;
         static bool resize_failed;
+        static bool resize_failed_uninitialized;
 #endif
     } MainLoop;
 
