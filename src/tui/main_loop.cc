@@ -1,18 +1,22 @@
-// Processes events and user input.
-// Copyright (C) 2022 Ryan Pullinger and Natalie Wiggins
-//
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program. If not, see <https://www.gnu.org/licenses/>.
+/// @file main_loop.cc
+/// @author Natalie Wiggins (islifepeachy@outlook.com)
+/// @brief Continuous TUI event and input handler.
+/// @version 0.1
+/// @date 2022-08-10
+/// 
+/// @copyright Copyright (c) 2022 The Gelatinous Cube Authors.
+/// This program is free software: you can redistribute it and/or modify
+/// it under the terms of the GNU General Public License as published by
+/// the Free Software Foundation, either version 3 of the License, or
+/// (at your option) any later version.
+/// 
+/// This program is distributed in the hope that it will be useful,
+/// but WITHOUT ANY WARRANTY; without even the implied warranty of
+/// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+/// GNU General Public License for more details.
+/// 
+/// You should have received a copy of the GNU General Public License
+/// along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 #include "../signal.hh"
 #include "../tui.hh"
@@ -75,12 +79,15 @@ void Tui::MainLoop::start()
     poll_resize_mutex.unlock();
     poll_resize_thread.join();
     if (resize_failed)
+    {
         throw SizeException();
+    }
 #endif
 }
 
 #ifndef NCURSES_EXT_FUNCS
-void Tui::MainLoop::poll_resize(std::timed_mutex* mutex)
+void Tui::MainLoop::poll_resize(std::timed_mutex* mutex,
+                                chrono::milliseconds lock_duration) noexcept
 {
     while (!done)
     {

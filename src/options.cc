@@ -1,18 +1,22 @@
-// Parses program options and performs required procedures.
-// Copyright (C) 2022 Ryan Pullinger and Natalie Wiggins
-//
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program. If not, see <https://www.gnu.org/licenses/>.
+/// @file options.cc
+/// @author Natalie Wiggins (islifepeachy@outlook.com)
+/// @brief Program options parser.
+/// @version 0.1
+/// @date 2022-08-10
+/// 
+/// @copyright Copyright (c) 2022 The Gelatinous Cube Authors.
+/// This program is free software: you can redistribute it and/or modify
+/// it under the terms of the GNU General Public License as published by
+/// the Free Software Foundation, either version 3 of the License, or
+/// (at your option) any later version.
+/// 
+/// This program is distributed in the hope that it will be useful,
+/// but WITHOUT ANY WARRANTY; without even the implied warranty of
+/// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+/// GNU General Public License for more details.
+/// 
+/// You should have received a copy of the GNU General Public License
+/// along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 #include "config.hh"
 #include "intl.hh"
@@ -90,7 +94,7 @@ Option version(
 void show_version() noexcept
 {
     std::cout << _("Gelatinous Cube ") << config::version_major << "." << config::version_minor << std::endl
-              << _("Copyright (C) ") << config::version_year << _(" Ryan Pullinger and Natalie Wiggins.") << std::endl
+              << _("Copyright (c) ") << config::version_year << _(" The Gelatinous Cube Authors.") << std::endl
               << _("License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.") << std::endl
               << _("This is free software: you are free to change and redistribute it.") << std::endl
               << _("There is NO WARRANTY, to the extent permitted by law.") << std::endl
@@ -105,7 +109,7 @@ int parse(int argc, char* argv[]) noexcept
 
     Logger::Source log = Logger::source;
 
-    // Declare supported options.
+    // Declares supported options.
     std::stringstream caption;
     caption << _("Usage: ") << argv[0] << _(" [OPTION]...") << std::endl
             << _("Manage Dungeons & Dragons characters.") << std::endl
@@ -116,7 +120,7 @@ int parse(int argc, char* argv[]) noexcept
         (options::help.name(), options::help.description)
         (options::version.name(), options::version.description);
 
-    // Process options.
+    // Processes options.
     try
     {
         po::variables_map vm;
@@ -133,7 +137,9 @@ int parse(int argc, char* argv[]) noexcept
             return EXIT_SUCCESS;
         }
         else
+        {
             return Tui::start();
+        }
     }
     catch (po::unknown_option& e)
     {

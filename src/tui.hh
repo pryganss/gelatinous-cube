@@ -1,17 +1,22 @@
-// Copyright (C) 2022 Ryan Pullinger and Natalie Wiggins
-//
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program. If not, see <https://www.gnu.org/licenses/>.
+/// @file tui.hh
+/// @author Natalie Wiggins (islifepeachy@outlook.com)
+/// @brief Terminal User Interface manager.
+/// @version 0.1
+/// @date 2022-08-10
+/// 
+/// @copyright Copyright (c) 2022 The Gelatinous Cube Authors.
+/// This program is free software: you can redistribute it and/or modify
+/// it under the terms of the GNU General Public License as published by
+/// the Free Software Foundation, either version 3 of the License, or
+/// (at your option) any later version.
+/// 
+/// This program is distributed in the hope that it will be useful,
+/// but WITHOUT ANY WARRANTY; without even the implied warranty of
+/// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+/// GNU General Public License for more details.
+/// 
+/// You should have received a copy of the GNU General Public License
+/// along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 #ifndef GELCUBE_SRC_TUI_HH_
 #define GELCUBE_SRC_TUI_HH_
@@ -26,45 +31,61 @@
 #include <ncurses.h>
 
 #ifndef NCURSES_EXT_FUNCS
+#include <chrono>
 #include <mutex>
+namespace chrono = std::chrono;
 #endif
 
 namespace gelcube
 {
 
-// Manages the Terminal User Interface.
+/// @brief Manages the Terminal User Interface.
+/// Handles an ncurses screen and its required procedures.
 typedef class Tui
 {
 public:
+    /// @brief Geometric dimensions for a UI object.
+    /// Stores height, width, y, and x values.
     typedef struct Dimensions
     {
         int height, width, y, x;
     } Dimensions;
 
-    // Thrown if the height or width of a set of dimensions for a UI element is
-    // invalid.
+    /// @brief Exception signifying invalid size for a UI element.
+    /// Thrown if the height or width of a set of dimensions for a UI element
+    /// cannot be fit into the current screen size.
     typedef class SizeException : public std::exception
     {
     } SizeException;
 
-    // Wrapper for ncurses window.
+    /// @brief Wrapper for ncurses window.
+    /// UI element using dimensions modifyable at runtime.
     typedef class Panel
     {
     public:
-        Panel(Dimensions* dimensions, const std::string& name);
+        /// @brief Constructs a new Panel object.
+        /// Initializes the panel's dimensions and name.
+        /// @param dimensions Geometric dimensions for panel size and position.
+        /// @param label Visible label.
+        Panel(Dimensions* dimensions, const std::string& label);
 
-        // Deletes the window associated with the panel.
+        /// @brief Destroys the Panel object.
+        /// Deletes the window associated with the panel.
         ~Panel();
 
-        // Updates the dimensions of the window associated with the panel from
-        // the dimensions passed to the constructor. Throws a SizeException if
-        // the height or width of the dimensions is less than 1.
+        /// @brief Updates the dimensions of the panel's window.
+        /// (Re)creates the window, dereferencing the dimensions passed to the
+        /// constructor. Must be called at least once before refreshing the
+        /// panel in order for it to be displayed. Throws a SizeException if the
+        /// height or width of the dimensions is less than 1.
         inline void update_dimensions()
         {
             if (dimensions->height > 0 && dimensions->width > 0)
             {
                 if (window != nullptr)
+                {
                     delwin(window);
+                }
                 window = newwin(dimensions->height, dimensions->width,
                                 dimensions->y, dimensions->x);
             }
@@ -74,36 +95,47 @@ public:
             }
         }
 
+        /// @brief Draws the border.
+        /// Changes the panel's window object.
         inline void draw() noexcept
         {
+            // TODO(Natalie): Check if window is initialized.
+            // TODO(Ryan): Print panel label at the top left of the window.
             box(window, 0, 0); // 0, 0 used for default border characters
-            // TODO(Ryan): Print panel name at the top left of the window
         }
 
+        /// @brief Refreshes the panel contents.
+        /// Updates the displayed window. Must be called for the panel to be
+        /// displayed.
         inline void refresh() noexcept
         {
+            // TODO(Natalie): Check if window is initialized.
             wrefresh(window);
         }
 
     private:
         Dimensions* dimensions;
-        std::string name;
+        std::string label;
         WINDOW* window = nullptr;
     } Panel;
 
-    // Manages all panels.
+    /// @brief Manages all panels.
+    /// Handles the creation, destruction, and dimensions of all panels.
     typedef class PanelManager
     {
     public:
-        // Creates all panels.
+        /// @brief Creates all panels.
+        /// Initializes panels with labels and unspecified dimensions.
         static void create();
 
-        // Updates dimensions of all panels to fit the current terminal size.
-        // Throws a SizeException if the terminal is too small to fit the
-        // panels.
+        /// @brief Updates the dimensions of all panels to fit the current
+        ///        terminal size; draws and refreshes the panels to display them.
+        /// Throws a SizeException if the terminal is too small to fit the
+        /// panels.
         static void update();
 
-        // Deletes all panels.
+        /// @brief Destroys all panels.
+        /// Calls the destructor of each panel in the manager.
         static inline void destroy() noexcept
         {
             panels.clear();
@@ -115,21 +147,30 @@ public:
         static std::vector<Panel*> panels;
     } PanelManager;
 
-    // Processes events and user input.
+    /// @brief Processes events and user input.
+    /// Continuously handles the UI.
     typedef class MainLoop
     {
     public:
-        // Throws a SizeException if the terminal is too small to fit the
-        // panels.
+        /// @brief Starts the main UI loop.
+        /// Processes user input and handles window resizing until stopped,
+        /// using panels from PanelManager. Throws a SizeException if the
+        /// terminal is too small to fit the panels.
         static void start();
 
+        /// @brief Stops the main UI loop.
+        /// Used internally as a signal handler and for exit actions.
+        /// @param sig_num Signal number for sighandler_t.
         static inline void stop(int sig_num = 0) noexcept
         {
             done = true;
         }
 
 #ifndef NCURSES_EXT_FUNCS
-        // Signal handler for window resize for when KEY_RESIZE is not supported.
+        /// @brief Triggers a panel size update.
+        /// Used internally as a signal handler if KEY_RESIZE is not
+        /// supported.
+        /// @param sig_num Signal number for sighandler_t.
         static inline void resized(int sig_num = 0) noexcept
         {
             was_resized = true;
@@ -138,10 +179,14 @@ public:
 
     private:
 #ifndef NCURSES_EXT_FUNCS
-        // Polls to check if the SIGWINCH signal was received and triggers
-        // panels to resize for when KEY_RESIZE is not supported. Stops the loop
-        // and sets resize_failed if the terminal is too small to fit the panels.
-        static void poll_resize(std::timed_mutex* mutex);
+        /// @brief Polls to check if the SIGWINCH signal was received and
+        ///        triggers a panel size update accordingly.
+        /// Used if KEY_RESIZE is not supported. Stops the loop and sets
+        /// resize_failed to true if PanelManager throws a SizeException.
+        /// @param mutex Mutex used to lock thread when sleeping.
+        /// @param lock_duration Duration to lock the thread after each poll.
+        static void poll_resize(std::timed_mutex* mutex,
+                                chrono::milliseconds lock_duration) noexcept;
 #endif
 
         static volatile sig_atomic_t done;
@@ -151,8 +196,9 @@ public:
 #endif
     } MainLoop;
 
-    // Initializes ncurses and starts the main UI loop. Returns an exit code for
-    // the program.
+    /// @brief Starts the TUI.
+    /// Initializes ncurses and starts the main UI loop.
+    /// @return int Exit code for the program.
     static int start() noexcept;
 
 private:
