@@ -104,8 +104,9 @@ public:
         }
 
         /// @brief Draws the border.
-        /// Changes the panel's window object.
-        inline void draw() noexcept
+        /// Updates the panel's window object. Throws a NoWindowException if the
+        /// window has not been created.
+        inline void draw()
         {
             if (!window)
             {
@@ -118,8 +119,9 @@ public:
 
         /// @brief Refreshes the panel contents.
         /// Updates the displayed window. Must be called for the panel to be
-        /// displayed.
-        inline void refresh() noexcept
+        /// displayed. Thorw a NoWindowException if the window has not been
+        /// created.
+        inline void refresh()
         {
             if (!window)
             {
