@@ -75,7 +75,8 @@ public:
         /// Initializes the panel's dimensions and name.
         /// @param dimensions Geometric dimensions for panel size and position.
         /// @param label Visible label.
-        Panel(Dimensions* dimensions, const char* label);
+        /// @param selected Sets the panel to be active.
+        Panel(Dimensions* dimensions, const char* label, bool selected = false);
 
         /// @brief Destroys the Panel object.
         /// Deletes the window associated with the panel.
@@ -107,10 +108,25 @@ public:
             wrefresh(window);
         }
 
+        /// @brief Sets the panel to active.
+        /// Highlights the panel's label on the next draw.
+        inline void select()
+        {
+            selected = true;
+        }
+
+        /// @brief Sets the panel to inactive.
+        /// Removes the highlight on the panel's label on the next draw.
+        inline void deselect()
+        {
+            selected = false;
+        }
+
     private:
         Dimensions* dimensions;
         const char* label;
         WINDOW* window = nullptr;
+        bool selected = false;
     } Panel;
 
     /// @brief Manages all panels.

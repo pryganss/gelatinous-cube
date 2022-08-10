@@ -27,8 +27,8 @@
 namespace gelcube
 {
 
-Tui::Panel::Panel(Dimensions* dimensions, const char* label)
-    : dimensions{dimensions}, label{label}
+Tui::Panel::Panel(Dimensions* dimensions, const char* label, bool selected)
+    : dimensions{dimensions}, label{label}, selected{selected}
 {
 }
 
@@ -68,7 +68,15 @@ void Tui::Panel::draw()
     box(window, 0, 0); // 0, 0 used for default border characters
 
     // Label.
+    if (selected)
+    {
+        wattron(window, A_STANDOUT);
+    }
     mvwprintw(window, 0, 2, "%s", label);
+    if (selected)
+    {
+        wattroff(window, A_STANDOUT);
+    }
 }
 
 }; // namespace gelcube

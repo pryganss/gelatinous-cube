@@ -37,7 +37,7 @@ std::vector<Tui::Panel*> Tui::PanelManager::panels;
 void Tui::PanelManager::create()
 {
     panels = {
-        new Panel(&large_left, _("Magic")),
+        new Panel(&large_left, _("Magic"), true),
         new Panel(&middle_upper, _("Combat")),
         new Panel(&large_right, _("Skills")),
         new Panel(&middle_middle, _("Name")),
