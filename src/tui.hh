@@ -75,7 +75,7 @@ public:
         /// Initializes the panel's dimensions and name.
         /// @param dimensions Geometric dimensions for panel size and position.
         /// @param label Visible label.
-        Panel(Dimensions* dimensions, const std::string& label);
+        Panel(Dimensions* dimensions, const char* label);
 
         /// @brief Destroys the Panel object.
         /// Deletes the window associated with the panel.
@@ -109,7 +109,7 @@ public:
 
     private:
         Dimensions* dimensions;
-        std::string label;
+        const char* label;
         WINDOW* window = nullptr;
     } Panel;
 

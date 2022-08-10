@@ -27,7 +27,7 @@
 namespace gelcube
 {
 
-Tui::Panel::Panel(Dimensions* dimensions, const std::string& label)
+Tui::Panel::Panel(Dimensions* dimensions, const char* label)
     : dimensions{dimensions}, label{label}
 {
 }
@@ -64,8 +64,11 @@ void Tui::Panel::draw()
         throw NoWindowException();
     }
 
-    // TODO(Ryan): Print panel label at the top left of the window.
+    // Border.
     box(window, 0, 0); // 0, 0 used for default border characters
+
+    // Label.
+    mvwprintw(window, 0, 2, "%s", label);
 }
 
 }; // namespace gelcube
