@@ -18,6 +18,7 @@
 /// You should have received a copy of the GNU General Public License
 /// along with this program. If not, see <https://www.gnu.org/licenses/>.
 
+#include "../intl.hh"
 #include "../tui.hh"
 
 #include <vector>
@@ -36,11 +37,11 @@ std::vector<Tui::Panel*> Tui::PanelManager::panels;
 void Tui::PanelManager::create()
 {
     panels = {
-        new Panel(&large_left, "Magic"),
-        new Panel(&middle_upper, "Combat"),
-        new Panel(&large_right, "Skills"),
-        new Panel(&middle_middle, "Name"),
-        new Panel(&middle_lower, "Attacks")
+        new Panel(&large_left, _("Magic")),
+        new Panel(&middle_upper, _("Combat")),
+        new Panel(&large_right, _("Skills")),
+        new Panel(&middle_middle, _("Name")),
+        new Panel(&middle_lower, _("Attacks"))
     };
 }
 
