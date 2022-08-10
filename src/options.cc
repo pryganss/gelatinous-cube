@@ -62,7 +62,7 @@ public:
 
     /// @brief Gets the full name of the option to add to a description.
     /// Uses the format 'LONG' or 'LONG,SHORT' for use with
-    /// po::options_description.add_options.
+    /// po::options_description::add_options.
     /// @return const char* Full name (internal data).
     const char* name() noexcept
     {
