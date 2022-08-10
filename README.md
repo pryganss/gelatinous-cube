@@ -153,7 +153,7 @@ for readability, and for any tools used in the future that depend on it.
 
 ## License
 
-Copyright (C) 2022 Ryan Pullinger and Natalie Wiggins
+Copyright (c) 2022 The Gelatinous Cube Authors (see `AUTHORS`).
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
