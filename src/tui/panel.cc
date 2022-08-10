@@ -40,4 +40,32 @@ Tui::Panel::~Panel()
     }
 }
 
+void Tui::Panel::update_dimensions()
+{
+    if (dimensions->height > 0 && dimensions->width > 0)
+    {
+        if (window != nullptr)
+        {
+            delwin(window);
+        }
+        window = newwin(dimensions->height, dimensions->width,
+                        dimensions->y, dimensions->x);
+    }
+    else
+    {
+        throw SizeException();
+    }
+}
+
+void Tui::Panel::draw()
+{
+    if (!window)
+    {
+        throw NoWindowException();
+    }
+
+    // TODO(Ryan): Print panel label at the top left of the window.
+    box(window, 0, 0); // 0, 0 used for default border characters
+}
+
 }; // namespace gelcube

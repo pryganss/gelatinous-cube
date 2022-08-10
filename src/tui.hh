@@ -86,36 +86,12 @@ public:
         /// constructor. Must be called at least once before refreshing the
         /// panel in order for it to be displayed. Throws a SizeException if the
         /// height or width of the dimensions is less than 1.
-        inline void update_dimensions()
-        {
-            if (dimensions->height > 0 && dimensions->width > 0)
-            {
-                if (window != nullptr)
-                {
-                    delwin(window);
-                }
-                window = newwin(dimensions->height, dimensions->width,
-                                dimensions->y, dimensions->x);
-            }
-            else
-            {
-                throw SizeException();
-            }
-        }
+        void update_dimensions();
 
         /// @brief Draws the border.
         /// Updates the panel's window object. Throws a NoWindowException if the
         /// window has not been created.
-        inline void draw()
-        {
-            if (!window)
-            {
-                throw NoWindowException();
-            }
-
-            // TODO(Ryan): Print panel label at the top left of the window.
-            box(window, 0, 0); // 0, 0 used for default border characters
-        }
+        void draw();
 
         /// @brief Refreshes the panel contents.
         /// Updates the displayed window. Must be called for the panel to be
