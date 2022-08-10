@@ -45,6 +45,7 @@ Signal::Signal(__sighandler_t handler, std::initializer_list<int> sig_nums)
 
         // Reads the old action associated with signal number.
         sigaction(sig_num, NULL, &old_action);
+        
         // Replaces the old handler if it didn't ignore the signal.
         if (old_action.sa_handler != SIG_IGN)
         {
@@ -60,6 +61,7 @@ Signal::~Signal()
     {
         // Reads the old action associated with signal number.
         sigaction(sig_num, NULL, &old_action);
+
         // Replaces the old handler with the default if it didn't ignore the
         // signal.
         if (old_action.sa_handler != SIG_IGN)
