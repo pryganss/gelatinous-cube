@@ -1,8 +1,8 @@
-/// @file intl.hh
+/// @file size_exception.hh
 /// @author Natalie Wiggins (islifepeachy@outlook.com)
-/// @brief Internationalization utility.
+/// @brief Exception signifying an invalid size for a UI element.
 /// @version 0.1
-/// @date 2022-08-10
+/// @date 2022-08-11
 ///
 /// @copyright Copyright (c) 2022 The Gelatinous Cube Authors.
 /// This program is free software: you can redistribute it and/or modify
@@ -18,14 +18,20 @@
 /// You should have received a copy of the GNU General Public License
 /// along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-#ifndef GELCUBE_SRC_INTL_HH_
-#define GELCUBE_SRC_INTL_HH_
+#ifndef GELCUBE_SRC_TUI_SIZE_EXCEPTION_HH_
+#define GELCUBE_SRC_TUI_SIZE_EXCEPTION_HH_
 
-#include <libintl.h>
+#include "../tui.hh"
 
-/// @brief Shorthand for gettext.
-/// Looks up MSGID in the current default message catalog for the current
-/// LC_MESSAGES locale. If not found, returns MSGID itself (the default text).
-#define _(s) gettext(s)
+#include <exception>
 
-#endif // GELCUBE_SRC_INTL_HH_
+namespace gelcube
+{
+
+class Tui::SizeException : public std::exception
+{
+};
+
+}; // namespace gelcube
+
+#endif // GELCUBE_SRC_TUI_SIZE_EXCEPTION_HH_

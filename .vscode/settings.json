@@ -1,6 +1,6 @@
 {
-    "editor.tabSize": 4,
-    "editor.insertSpaces": true,
+    "C_Cpp.vcFormat.indent.namespaceContents": false,
+    "C_Cpp.vcFormat.newLine.beforeOpenBrace.namespace": "newLine",
     "doxdocgen.c.triggerSequence": "///",
     "doxdocgen.c.commentPrefix": "/// ",
     "doxdocgen.c.firstLine": "",
