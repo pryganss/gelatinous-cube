@@ -19,6 +19,7 @@
 /// along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 #include "../signal.hh"
+#include "key_bindings.hh"
 #include "main_loop.hh"
 #include "panel_manager.hh"
 
@@ -39,11 +40,13 @@
 namespace chrono = std::chrono;
 #endif
 
+namespace modifiers = gelcube::key_bindings::modifiers;
+
 namespace gelcube
 {
 
 volatile sig_atomic_t Tui::MainLoop::done = false;
-std::unordered_map<int, bool> Tui::MainLoop::modifiers;
+std::unordered_map<int, bool> Tui::MainLoop::modifier_map;
 
 #ifndef NCURSES_EXT_FUNCS
 volatile sig_atomic_t Tui::MainLoop::was_resized = false;
@@ -80,58 +83,33 @@ void Tui::MainLoop::start()
             break;
 #endif
         // Quit.
-        case static_cast<int>('q'):
+        case key_bindings::quit:
             stop();
             break;
 
-        // Go to panel.
-        case static_cast<int>('g'):
-            modifiers[static_cast<int>('g')] = true;
-            PanelManager::deselect(PanelManager::get_selected_index());
+        // Select panel.
+        case modifiers::go:
+            check_start_panel_selection();
             break;
         case static_cast<int>('1'):
-            if (modifiers[static_cast<int>('g')])
-            {
-                PanelManager::select(0);
-                modifiers[static_cast<int>('g')] = false;
-            }
+            check_select_panel(0);
             break;
         case static_cast<int>('2'):
-            if (modifiers[static_cast<int>('g')])
-            {
-                PanelManager::select(1);
-                modifiers[static_cast<int>('g')] = false;
-            }
+            check_select_panel(1);
             break;
         case static_cast<int>('3'):
-            if (modifiers[static_cast<int>('g')])
-            {
-                PanelManager::select(2);
-                modifiers[static_cast<int>('g')] = false;
-            }
+            check_select_panel(2);
             break;
         case static_cast<int>('4'):
-            if (modifiers[static_cast<int>('g')])
-            {
-                PanelManager::select(3);
-                modifiers[static_cast<int>('g')] = false;
-            }
+            check_select_panel(3);
             break;
         case static_cast<int>('5'):
-            if (modifiers[static_cast<int>('g')])
-            {
-                PanelManager::select(4);
-                modifiers[static_cast<int>('g')] = false;
-            }
+            check_select_panel(4);
             break;
 
         // Clears modifiers.
         default:
-            if (modifiers[static_cast<int>('g')])
-            {
-                PanelManager::select(PanelManager::get_last_selected_index());
-                modifiers[static_cast<int>('g')] = false;
-            }
+            check_select_panel(PanelManager::get_last_selected_index());
             break;
         }
     }
