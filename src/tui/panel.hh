@@ -24,6 +24,8 @@
 #include "../tui.hh"
 #include "dimensions.hh"
 #include "no_window_exception.hh"
+#include "position.hh"
+#include "size_exception.hh"
 
 #include <cstddef>
 
@@ -48,13 +50,12 @@ public:
     /// Deletes the window associated with the panel.
     ~Panel();
 
-    /// @brief Updates the dimensions of the panel's window.
-    /// (Re)creates the window, dereferencing the dimensions passed to the
-    /// constructor. Must be called at least once before refreshing the
-    /// panel in order for it to be displayed.
+    /// @brief (Re)creates the panel's window.
+    /// Dereferences the dimensions passed to the constructor. Must be called at
+    /// least once before refreshing the panel in order for it to be displayed.
     /// @throw gelcube::Tui::SizeException if the height or width of the
     ///        dimensions is less than 1.
-    void update_dimensions();
+    void create_window();
 
     /// @brief Draws the border.
     /// Updates the panel's window object.
@@ -69,7 +70,7 @@ public:
     ///        created.
     inline void refresh()
     {
-	if (!window)
+	    if (!window)
         {
             throw NoWindowException();
         }
@@ -77,59 +78,60 @@ public:
         wrefresh(window);
     }
 
+    /// @brief Gets the selection status of the panel.
+    /// @return true if currently selected.
+    inline bool is_selected() const noexcept
+    {
+        return selected;
+    }
+
     /// @brief Sets the panel to active.
-    /// Highlights the panel's title on the next draw.
-    inline void select()
+    /// Moves focus to the panel on the next draw.
+    inline void select() noexcept
     {
         selected = true;
-	curs_set(1);
     }
 
     /// @brief Sets the panel to inactive.
-    /// Removes the highlight on the panel's title on the next draw.
-    inline void deselect()
+    /// Removes the focus from the panel on the next draw.
+    inline void deselect() noexcept
     {
         selected = false;
-	curs_set(0);
     }
 
-    /// @brief Moves the cursor within the panel
-    /// @param y position to move cursor to relative to window
-    /// @param x position to move cursor to relative to window 
-    inline void pmove(size_t y, size_t x)
+    /// @brief Sets the cursor position within the panel.
+    /// The cursor position, relative to the upper left-hand corner of the
+    /// panel's window, will be updated on the next draw.
+    /// @param position New coordinates relative to the panel's window.
+    /// @throw gelcube::Tui::SizeException if the position does not fit within
+    ///        panel's dimensions.
+    inline void set_cursor_position(const Position& position)
     {
-	if ((curs_y > 0) && (curs_y < dimensions->height - 1)
-	    && (curs_x > 0) && (curs_x < dimensions->width - 1))
-	{
-	    curs_y = y;
-	    curs_x = x;
-	}
-	
-	wmove(window, y, x);
+        if (position.y < 1 || position.y >= dimensions->height - 1
+            || position.x < 1 || position.x >= dimensions->height - 1)
+        {
+            throw SizeException();
+        }
+
+        cursor_position = position;
     }
 
+    /// @brief Gets the cursor position.
+    /// @return Current position of the cursor relative to the upper left-hand
+    ///         corner of the panel's window.
+    inline const Position& get_cursor_position() const noexcept
+    {
+        return cursor_position;
+    }
 
-    /// @brief Returns x position of cursor
-    /// @return Cursor X position as a size_t
-    inline size_t get_curs_x()
-    {
-	return curs_x;
-    }
-    
-    /// @brief Returns y position of cursor
-    /// @return Cursor y position as a size_t
-    inline size_t get_curs_y()
-    {
-	return curs_y;
-    }
-    
 private:
+    static attr_t selected_title_attributes;
     Dimensions* dimensions;
     const char* title;
     size_t index;
     bool selected = false;
     WINDOW* window = nullptr;
-    size_t curs_x = 1, curs_y = 1;
+    Position cursor_position = {1, 2};
 };
 
 }; // namespace gelcube

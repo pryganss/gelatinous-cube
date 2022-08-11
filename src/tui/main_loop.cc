@@ -82,15 +82,17 @@ void Tui::MainLoop::start()
             PanelManager::update();
             break;
 #endif
-        // Quit.
+        // Exits the loop.
         case key_bindings::quit:
             stop();
             break;
 
-        // Select panel.
+        // Enters panel selection mode.
         case modifiers::go:
             check_start_panel_selection();
             break;
+
+        // Selects the current panel by index.
         case static_cast<int>('1'):
             check_select_panel(0);
             break;

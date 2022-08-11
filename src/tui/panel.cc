@@ -31,6 +31,8 @@
 namespace gelcube
 {
 
+attr_t Tui::Panel::selected_title_attributes = A_BOLD | A_UNDERLINE;
+
 Tui::Panel::Panel(Dimensions* dimensions, const char* title, size_t index,
                   bool selected)
     : dimensions{dimensions}, title{title}, index{index}, selected{selected}
@@ -45,7 +47,7 @@ Tui::Panel::~Panel()
     }
 }
 
-void Tui::Panel::update_dimensions()
+void Tui::Panel::create_window()
 {
     if (dimensions->height > 0 && dimensions->width > 0)
     {
@@ -69,30 +71,27 @@ void Tui::Panel::draw()
         throw NoWindowException();
     }
 
-    // TODO(Natalie): Check dimensions.
-
     // Border.
     box(window, 0, 0); // 0, 0 used for default border characters
 
     // Title.
     if (selected)
     {
-        wattron(window, A_STANDOUT);
+        wattron(window, selected_title_attributes);
     }
     mvwprintw(window, 0, 2, "%s", title);
     if (selected)
     {
-        wattroff(window, A_STANDOUT);
+        wattroff(window, selected_title_attributes);
     }
 
     // Index label.
     mvwprintw(window, 0, dimensions->width - 4, "[%zi]", index);
-    
-    // TODO(Ryan): Display cursor in correct position on startup
-    // Moves cursor to correct position if window is selected
+
+    // Cursor position.
     if (selected)
     {
-	wmove(window, curs_y, curs_x);
+	    wmove(window, cursor_position.y, cursor_position.x);
     }
 }
 

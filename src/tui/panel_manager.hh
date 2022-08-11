@@ -69,7 +69,8 @@ public:
     }
 
     /// @brief Selects a panel.
-    /// Highlights the specified panel's title.
+    /// Emphasises the specified panel's title and enables the cursor. Cursor
+    /// visibility will be updated after the panel's window is refreshed.
     /// @param index Index of the panel in the manager's internal panels
     ///              vector.
     /// @throw std::out_of_range if index is invalid.
@@ -79,10 +80,13 @@ public:
         panels.at(index)->draw();
         panels.at(index)->refresh();
         selected_index = index;
+        curs_set(1);
     }
 
     /// @brief Deselects a panel.
-    /// Removes the highlight from the specified panel's title.
+    /// Removes the emphasis from the specified panel's title and disables the
+    /// cursor across all panels. Cursor visibility will be updated after any
+    /// panel's window is refreshed.
     /// @param index Index of the panel in the manager's internal panels
     ///              vector.
     /// @throw std::out_of_range if index is invalid.
@@ -92,6 +96,7 @@ public:
         panels.at(index)->draw();
         panels.at(index)->refresh();
         last_selected_index = index;
+        curs_set(0);
     }
 
 private:

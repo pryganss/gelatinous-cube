@@ -1,6 +1,6 @@
-/// @file dimensions.hh
+/// @file position.hh
 /// @author Natalie Wiggins (islifepeachy@outlook.com)
-/// @brief 2D geometric dimensions for a UI object.
+/// @brief 2D coordinates for a UI object.
 /// @version 0.1
 /// @date 2022-08-11
 ///
@@ -18,19 +18,21 @@
 /// You should have received a copy of the GNU General Public License
 /// along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-#ifndef GELCUBE_SRC_TUI_DIMENSIONS_HH_
-#define GELCUBE_SRC_TUI_DIMENSIONS_HH_
+#ifndef GELCUBE_SRC_TUI_POSITION_HH_
+#define GELCUBE_SRC_TUI_POSITION_HH_
 
 #include "../tui.hh"
+
+#include <cstddef>
 
 namespace gelcube
 {
 
-struct Tui::Dimensions
+struct Tui::Position
 {
-    int height, width, y, x;
+    size_t y, x;
 };
 
 }; // namespace gelcube
 
-#endif // GELCUBE_SRC_TUI_DIMENSIONS_HH_
+#endif // GELCUBE_SRC_TUI_POSITION_HH_

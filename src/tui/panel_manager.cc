@@ -55,6 +55,8 @@ void Tui::PanelManager::create()
 
 void Tui::PanelManager::update()
 {
+    // TODO(Natale): Improve panel sizing.
+
     // Height.
     large_left.height = LINES;
     middle_upper.height = LINES / 5;
@@ -81,17 +83,22 @@ void Tui::PanelManager::update()
     middle_middle.x = large_left.width;
     middle_lower.x = large_left.width;
 
-    // Updates, (re)draws, and refreshes panels to display them.
+    // Completely (re)renders panels.
+    // The currently selected panel must be refreshed last for the cursor
+    // position to be correct.
     for (auto& panel : panels)
     {
-        panel->update_dimensions();
+        panel->create_window();
         panel->draw();
     }
+    curs_set(1);
     refresh();
     for (auto& panel : panels)
     {
-        panel->refresh();
+        if (!panel->is_selected())
+            panel->refresh();
     }
+    panels.at(selected_index)->refresh();
 }
 
 }; // namespace gelcube

@@ -37,7 +37,11 @@ public:
     static int start() noexcept;
 
 private:
-    /// @brief Geometric dimensions for a UI object.
+    /// @brief 2D coordinates for a UI object.
+    /// Stores y and x values.
+    struct Position;
+
+    /// @brief 2D geometric dimensions for a UI object.
     /// Stores height, width, y, and x values.
     struct Dimensions;
 
