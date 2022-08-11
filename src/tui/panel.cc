@@ -87,6 +87,13 @@ void Tui::Panel::draw()
 
     // Index label.
     mvwprintw(window, 0, dimensions->width - 4, "[%zi]", index);
+    
+    // TODO(Ryan): Display cursor in correct position on startup
+    // Moves cursor to correct position if window is selected
+    if (selected)
+    {
+	wmove(window, curs_y, curs_x);
+    }
 }
 
 }; // namespace gelcube

@@ -42,7 +42,6 @@ int Tui::start() noexcept
     initscr();
     noecho();
     cbreak();
-    curs_set(0);
 
     // Initializes panels.
     PanelManager::create();

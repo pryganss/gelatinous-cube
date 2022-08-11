@@ -69,7 +69,7 @@ public:
     ///        created.
     inline void refresh()
     {
-        if (!window)
+	if (!window)
         {
             throw NoWindowException();
         }
@@ -82,6 +82,7 @@ public:
     inline void select()
     {
         selected = true;
+	curs_set(1);
     }
 
     /// @brief Sets the panel to inactive.
@@ -89,14 +90,46 @@ public:
     inline void deselect()
     {
         selected = false;
+	curs_set(0);
     }
 
+    /// @brief Moves the cursor within the panel
+    /// @param y position to move cursor to relative to window
+    /// @param x position to move cursor to relative to window 
+    inline void pmove(size_t y, size_t x)
+    {
+	if ((curs_y > 0) && (curs_y < dimensions->height - 1)
+	    && (curs_x > 0) && (curs_x < dimensions->width - 1))
+	{
+	    curs_y = y;
+	    curs_x = x;
+	}
+	
+	wmove(window, y, x);
+    }
+
+
+    /// @brief Returns x position of cursor
+    /// @return Cursor X position as a size_t
+    inline size_t get_curs_x()
+    {
+	return curs_x;
+    }
+    
+    /// @brief Returns y position of cursor
+    /// @return Cursor y position as a size_t
+    inline size_t get_curs_y()
+    {
+	return curs_y;
+    }
+    
 private:
     Dimensions* dimensions;
     const char* title;
     size_t index;
     bool selected = false;
     WINDOW* window = nullptr;
+    size_t curs_x = 1, curs_y = 1;
 };
 
 }; // namespace gelcube
