@@ -44,9 +44,9 @@ void Tui::PanelManager::create()
     panels = {
         new Panel(&large_left, _("Magic"), 1, true),
         new Panel(&middle_upper, _("Combat"), 2),
-        new Panel(&large_right, _("Skills"), 3),
-        new Panel(&middle_middle, _("Name"), 4),
-        new Panel(&middle_lower, _("Attacks"), 5)
+        new Panel(&middle_middle, _("Name"), 3),
+        new Panel(&middle_lower, _("Attacks"), 4),
+        new Panel(&large_right, _("Skills"), 5)
     };
 
     selected_index = 0;
