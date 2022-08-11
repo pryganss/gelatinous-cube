@@ -22,8 +22,11 @@
 #define GELCUBE_SRC_TUI_MAIN_LOOP_HH_
 
 #include "../tui.hh"
+#include "key_bindings.hh"
+#include "panel_manager.hh"
 
 #include <csignal>
+#include <cstddef>
 #include <unordered_map>
 
 #include <ncurses.h>
@@ -34,6 +37,8 @@
 
 namespace chrono = std::chrono;
 #endif
+
+namespace modifiers = gelcube::key_bindings::modifiers;
 
 namespace gelcube
 {
@@ -80,8 +85,42 @@ private:
     }
 #endif
 
+    /// @brief Enters the panel selction mode based on current modifiers.
+    /// Deselects the current panel and enables gelcube::modifiers::go
+    /// in modifier_map if disabled, otherwise selects the previously selected
+    /// panel and disables gelcube::modifiers::go in modifier_map.
+    static inline void check_start_panel_selection()
+    {
+        if (!modifier_map[modifiers::go])
+        {
+            PanelManager::deselect(PanelManager::get_selected_index());
+            modifier_map[modifiers::go] = true;
+        }
+        else
+        {
+            PanelManager::select(PanelManager::get_last_selected_index());
+            modifier_map[modifiers::go] = false;
+        }
+    }
+
+    /// @brief Selects a panel based on current modifiers.
+    /// Moves the focus to a panel if gelcube::modifiers::go is enabled in
+    /// modifier_map and clears the modifier after selection.
+    ///
+    /// @param index Index of the panel in the PanelManager's internal panels
+    ///              vector.
+    /// @throw std::out_of_range if index is invalid.
+    static inline void check_select_panel(size_t index)
+    {
+        if (modifier_map[modifiers::go])
+        {
+            PanelManager::select(index);
+            modifier_map[modifiers::go] = false;
+        }
+    }
+
     static volatile sig_atomic_t done;
-    static std::unordered_map<int, bool> modifiers;
+    static std::unordered_map<int, bool> modifier_map;
 #ifndef NCURSES_EXT_FUNCS
     static volatile sig_atomic_t was_resized;
     static bool invalid_resize;
