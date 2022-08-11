@@ -31,6 +31,12 @@ namespace gelcube
 typedef class Tui
 {
 public:
+    /// @brief Starts the TUI.
+    /// Initializes ncurses and starts the main UI loop.
+    /// @return Exit code for the program.
+    static int start() noexcept;
+
+private:
     /// @brief Geometric dimensions for a UI object.
     /// Stores height, width, y, and x values.
     struct Dimensions;
@@ -57,12 +63,6 @@ public:
     /// Continuously handles the UI.
     class MainLoop;
 
-    /// @brief Starts the TUI.
-    /// Initializes ncurses and starts the main UI loop.
-    /// @return Exit code for the program.
-    static int start() noexcept;
-
-private:
     static Logger::Source log;
 } Tui;
 

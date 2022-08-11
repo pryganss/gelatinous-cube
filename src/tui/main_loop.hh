@@ -58,17 +58,6 @@ public:
         done = true;
     }
 
-#ifndef NCURSES_EXT_FUNCS
-    /// @brief Triggers a panel size update.
-    /// Used internally as a signal handler if KEY_RESIZE is not
-    /// supported.
-    /// @param sig_num Signal number for sighandler_t.
-    static inline void resized(int sig_num = 0) noexcept
-    {
-        was_resized = true;
-    }
-#endif
-
 private:
 #ifndef NCURSES_EXT_FUNCS
     /// @brief Polls to check if the SIGWINCH signal was received and
@@ -81,6 +70,14 @@ private:
     /// @param lock_duration Duration to lock the thread after each poll.
     static void poll_resize(std::timed_mutex* mutex,
                             chrono::milliseconds lock_duration) noexcept;
+
+    /// @brief Triggers a panel size update.
+    /// Used as a signal handler if KEY_RESIZE is not supported.
+    /// @param sig_num Signal number for sighandler_t.
+    static inline void resized(int sig_num = 0) noexcept
+    {
+        was_resized = true;
+    }
 #endif
 
     static volatile sig_atomic_t done;
