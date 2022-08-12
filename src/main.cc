@@ -26,7 +26,6 @@
 
 #include <libintl.h>
 
-namespace options = gelcube::options;
 typedef gelcube::Logger Logger;
 
 int main(int argc, char* argv[])
@@ -39,5 +38,5 @@ int main(int argc, char* argv[])
     Logger::init();
 
     // Performs procedures based on options.
-    return options::parse(argc, argv);
+    return gelcube::parse_options(argc, argv);
 }

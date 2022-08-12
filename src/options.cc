@@ -41,9 +41,6 @@ namespace po = boost::program_options;
 namespace gelcube
 {
 
-namespace options
-{
-
 /// @brief Stores data for a program option.
 /// Used as a dynamic container for boost::program_options (po::).
 typedef class Option
@@ -96,6 +93,14 @@ private:
     std::string s_name;
 } Option;
 
+namespace options
+{
+
+Option show_keys(
+    _("show-keys"),
+    _("display keybindings for the TUI"),
+    _("k"));
+
 Option help(
     _("help"),
     _("display this help and exit"),
@@ -103,10 +108,24 @@ Option help(
 
 Option version(
     _("version"),
-    _("output version information and exit"),
+    _("display version information and exit"),
     _("V"));
 
-/// @brief Shows the version string.
+}; // namespace options
+
+/// @brief Displays keybindings for the TUI.
+/// Prints to stdout.
+void show_keys() noexcept
+{
+    std::cout << _("Keybindings for the TUI:") << std::endl
+              << _(" g                  enter panel selection mode") << std::endl
+              << _(" q                  quit the program") << std::endl
+              << std::endl
+              << _("Keybindings in panel selection mode:") << std::endl
+              << _(" 1-9                focus the panel with the specified index") << std::endl;
+}
+
+/// @brief Displays version information.
 /// Prints version, copyright, and author information to stdout.
 void show_version() noexcept
 {
@@ -119,7 +138,7 @@ void show_version() noexcept
               << _("Written by Ryan Pullinger and Natalie Wiggins.") << std::endl;
 }
 
-int parse(int argc, char* argv[]) noexcept
+int parse_options(int argc, char* argv[]) noexcept
 {
     if (argc < 1)
         return EXIT_FAILURE;
@@ -134,6 +153,7 @@ int parse(int argc, char* argv[]) noexcept
             << _("Mandatory arguments to long options are mandatory for short options too");
     po::options_description desc(caption.str());
     desc.add_options()
+        (options::show_keys.name(), options::show_keys.description)
         (options::help.name(), options::help.description)
         (options::version.name(), options::version.description);
 
@@ -143,7 +163,12 @@ int parse(int argc, char* argv[]) noexcept
         po::variables_map vm;
         po::store(po::parse_command_line(argc, argv, desc), vm);
         po::notify(vm);
-        if (options::help.count(vm))
+        if (options::show_keys.count(vm))
+        {
+            show_keys();
+            return EXIT_SUCCESS;
+        }
+        else if (options::help.count(vm))
         {
             std::cout << desc << std::endl;
             return EXIT_SUCCESS;
@@ -166,7 +191,5 @@ int parse(int argc, char* argv[]) noexcept
         return EXIT_FAILURE;
     }
 }
-
-}; // namespace options
 
 }; // namespace gelcube

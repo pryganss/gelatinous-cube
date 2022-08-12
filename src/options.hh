@@ -24,17 +24,12 @@
 namespace gelcube
 {
 
-namespace options
-{
-
 /// @brief Parses program options.
 /// Performs required procedures based on options given via the command line.
 /// @param argc Number of arguments.
 /// @param argv Array of arguments.
 /// @return Exit code for the program.
-int parse(int argc, char* argv[]) noexcept;
-
-}; // namespace options
+int parse_options(int argc, char* argv[]) noexcept;
 
 }; // namespace gelcube
 
