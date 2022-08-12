@@ -55,15 +55,17 @@ void Tui::PanelManager::create()
 
 void Tui::PanelManager::update()
 {
-    // TODO(Natale): Improve panel sizing.
-
     // Height.
     large_left.height = LINES;
-    middle_upper.height = LINES / 5;
+    middle_upper.height = 5;
     large_right.height = large_left.height;
-    middle_middle.height = LINES / 7.2;
+    middle_middle.height = 3;
     middle_lower.height = LINES - middle_upper.height
                                 - middle_middle.height;
+    if (middle_lower.height < 3)
+    {
+        throw SizeException();
+    }
     // Width.
     large_left.width = COLS / 2.7;
     middle_upper.width = COLS - (2 * large_left.width);

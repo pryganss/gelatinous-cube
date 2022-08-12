@@ -30,7 +30,7 @@ namespace gelcube
 
 struct Tui::Position
 {
-    size_t y, x;
+    int y, x;
 };
 
 }; // namespace gelcube
