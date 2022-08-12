@@ -45,31 +45,9 @@ int Tui::start() noexcept
 
     // Initializes panels.
     PanelManager::create();
-    try
-    {
-        PanelManager::update();
-    }
-    catch (SizeException& e)
-    {
-        endwin();
-        BOOST_LOG_SEV(log, LogLevel::fatal)
-            << _("Terminal too small to fit user interface.");
-        return EXIT_FAILURE;
-    }
 
     // Processes user input and events.
-    try
-    {
-        MainLoop::start();
-    }
-    catch (SizeException& e)
-    {
-        PanelManager::destroy();
-        endwin();
-        BOOST_LOG_SEV(log, LogLevel::fatal)
-            << _("Terminal too small to fit user interface.");
-        return EXIT_FAILURE;
-    }
+    MainLoop::start();
 
     // Ends the TUI.
     PanelManager::destroy();

@@ -31,13 +31,6 @@
 
 #include <ncurses.h>
 
-#ifndef NCURSES_EXT_FUNCS
-#include <chrono>
-#include <mutex>
-
-namespace chrono = std::chrono;
-#endif
-
 namespace modifiers = gelcube::key_bindings::modifiers;
 
 namespace gelcube
@@ -48,9 +41,7 @@ class Tui::MainLoop
 public:
     /// @brief Starts the main UI loop.
     /// Processes user input and handles window resizing until stopped,
-    /// using panels from PanelManager.
-    /// @throw gelcube::Tui::SizeException if the terminal is too small to fit
-    ///        the panels.
+    /// using panels from PanelManager. Updates the PanelManager when called.
     /// @throw gelcube::Tui::NoWindowException if a panel is updated and its
     ///        window has not been created.
     static void start();
@@ -64,26 +55,24 @@ public:
     }
 
 private:
-#ifndef NCURSES_EXT_FUNCS
-    /// @brief Polls to check if the SIGWINCH signal was received and
-    ///        triggers a panel size update accordingly.
-    /// Used on a separate thread if KEY_RESIZE is not supported. Stops the
-    /// loop and: sets invalid_resize to true if PanelManager throws a
-    /// SizeException; sets uninitialized_resize if PanelManager throws a
-    /// NoWindowException.
-    /// @param mutex Timed mutex used to lock thread when sleeping.
-    /// @param lock_duration Duration to lock the thread after each poll.
-    static void poll_resize(std::timed_mutex* mutex,
-                            chrono::milliseconds lock_duration) noexcept;
-
-    /// @brief Triggers a panel size update.
-    /// Used as a signal handler if KEY_RESIZE is not supported.
-    /// @param sig_num Signal number for sighandler_t.
-    static inline void resized(int sig_num = 0) noexcept
+    /// @brief Updates PanelManager.
+    /// Sets invalid_resize to true, destroys the PanelManager's panels, and
+    /// prints a message if a SizeException is thrown.
+    /// @throw gelcube::Tui::NoWindowException if a panel is updated or
+    ///        refreshed and the panel's window has not been created.
+    static inline void try_panel_update()
     {
-        was_resized = true;
+        try
+        {
+            PanelManager::update();
+        }
+        catch (SizeException& e)
+        {
+            invalid_resize = true;
+            PanelManager::destroy();
+            mvprintw(0, 0, _("Terminal too small to fit user interface."));
+        }
     }
-#endif
 
     /// @brief Enters the panel selction mode based on current modifiers.
     /// Deselects the current panel and enables gelcube::modifiers::go
@@ -119,13 +108,10 @@ private:
         }
     }
 
+    static int ch;
     static volatile sig_atomic_t done;
     static std::unordered_map<int, bool> modifier_map;
-#ifndef NCURSES_EXT_FUNCS
-    static volatile sig_atomic_t was_resized;
     static bool invalid_resize;
-    static bool uninitialized_resize;
-#endif
 };
 
 }; // namespace gelcube
