@@ -40,13 +40,11 @@ size_t Tui::PanelManager::last_selected_index = 0;
 
 void Tui::PanelManager::create()
 {
-    panels = {
-        new Panel(&large_left, _("Magic"), 1),
-        new Panel(&middle_upper, _("Combat"), 2),
-        new Panel(&middle_middle, _("Name"), 3),
-        new Panel(&middle_lower, _("Attacks"), 4),
-        new Panel(&large_right, _("Skills"), 5)
-    };
+    panels = { new Panel(&large_left, _("Magic"), 1),
+               new Panel(&middle_upper, _("Combat"), 2),
+               new Panel(&middle_middle, _("Name"), 3),
+               new Panel(&middle_lower, _("Attacks"), 4),
+               new Panel(&large_right, _("Skills"), 5) };
 
     select(last_selected_index);
 }
