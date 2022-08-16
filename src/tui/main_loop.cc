@@ -44,12 +44,16 @@ void Tui::MainLoop::start()
     std::vector<Signal*> signals = {
         new Signal(stop, {SIGINT})
     };
-
+    
     try_panel_update();
 
+    Position cursor_position =
+	PanelManager::get_panel(PanelManager::get_selected_index())->Panel::get_cursor_position();
+	
     int ch;
     while (!done)
     {
+	
         ch = getch();
         if (!invalid_resize)
         {
@@ -65,11 +69,69 @@ void Tui::MainLoop::start()
                 stop();
                 break;
 
+	    // Moves cursor.
+	    case key_bindings::left:
+		try
+		{
+		    cursor_position.x -= 1;
+		    PanelManager::get_panel(PanelManager::get_selected_index())
+			->Panel::set_cursor_position(cursor_position);
+		    PanelManager::update();
+		    break;
+                }
+		catch (SizeException)
+		{
+		    cursor_position.x += 1;
+		    break;
+		}
+	    case key_bindings::right:
+		try
+		{
+		    cursor_position.x += 1;
+		    PanelManager::get_panel(PanelManager::get_selected_index())
+			->Panel::set_cursor_position(cursor_position);
+		    PanelManager::update();
+		    break;
+		}
+		catch (SizeException)
+		{
+		    cursor_position.x -= 1;
+		    break;
+		}
+	    case key_bindings::up:
+		try
+		{
+		    cursor_position.y -= 1;
+		    PanelManager::get_panel(PanelManager::get_selected_index())
+			->Panel::set_cursor_position(cursor_position);
+		    PanelManager::update();
+		    break;
+		}
+		catch(SizeException)
+		{
+		    cursor_position.y += 1;
+		    break;
+		}
+	    case key_bindings::down:
+		try
+		{
+	        cursor_position.y += 1;
+		PanelManager::get_panel(PanelManager::get_selected_index())
+		    ->Panel::set_cursor_position(cursor_position);
+		PanelManager::update();
+		break;
+		}
+		catch(SizeException)
+		{
+		    cursor_position.y -= 1;
+		    break;
+		}
+		
             // Enters panel selection mode.
             case modifiers::go:
                 check_start_panel_selection();
                 break;
-
+		
             // Selects the current panel by index.
             case static_cast<int>('1'):
                 check_select_panel(0);

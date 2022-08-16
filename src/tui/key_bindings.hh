@@ -29,6 +29,11 @@ namespace key_bindings
 
 const int quit = static_cast<int>('q');
 
+const int left = static_cast<int>('h');
+const int right = static_cast<int>('l');
+const int up = static_cast<int>('k');
+const int down = static_cast<int>('j');
+
 namespace modifiers
 {
 

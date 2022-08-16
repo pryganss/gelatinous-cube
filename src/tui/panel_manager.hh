@@ -99,6 +99,11 @@ public:
         curs_set(0);
     }
 
+    static inline Panel* get_panel(size_t index)
+    {
+	return panels.at(index);
+    }
+
 private:
     static Dimensions large_left, middle_upper, large_right, middle_middle,
                         middle_lower;
