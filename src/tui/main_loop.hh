@@ -49,7 +49,7 @@ public:
     /// @brief Stops the main UI loop.
     /// Used internally as a signal handler and for exit actions.
     /// @param sig_num Signal number for sighandler_t.
-    static inline void stop(int sig_num = 0) noexcept
+    static void stop(int sig_num = 0) noexcept
     {
         done = true;
     }

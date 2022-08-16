@@ -66,7 +66,7 @@ public:
     /// displayed.
     /// @throw gelcube::Tui::NoWindowException if the window has not been
     ///        created.
-    inline void refresh()
+    void refresh()
     {
 	    if (!window)
         {
@@ -78,33 +78,33 @@ public:
 
     /// @brief Gets the selection status of the panel.
     /// @return true if currently selected.
-    inline bool is_selected() const noexcept
+    bool is_selected() const noexcept
     {
         return selected;
     }
 
     /// @brief Sets the panel to active.
     /// Moves focus to the panel on the next draw.
-    inline void select() noexcept
+    void select() noexcept
     {
         selected = true;
     }
 
     /// @brief Sets the panel to inactive.
     /// Removes the focus from the panel on the next draw.
-    inline void deselect() noexcept
+    void deselect() noexcept
     {
         selected = false;
     }
 
     /// @brief Enables the visibility of the index label.
-    inline void enable_index_label() noexcept
+    void enable_index_label() noexcept
     {
         index_label_enabled = true;
     }
 
     /// @brief Disables the visibility of the index label.
-    inline void disable_index_label() noexcept
+    void disable_index_label() noexcept
     {
         index_label_enabled = false;
     }
@@ -115,7 +115,7 @@ public:
     /// @param position New coordinates relative to the panel's window.
     /// @throw gelcube::Tui::SizeException if the position does not fit within
     ///        panel's dimensions.
-    inline void set_cursor_position(const Position& position)
+    void set_cursor_position(const Position& position)
     {
         if (position.y < 1 || position.y >= dimensions->height - 1
             || position.x < 1 || position.x >= dimensions->height - 1)
@@ -129,7 +129,7 @@ public:
     /// @brief Gets the cursor position.
     /// @return Current position of the cursor relative to the upper left-hand
     ///         corner of the panel's window.
-    inline const Position& get_cursor_position() const noexcept
+    const Position& get_cursor_position() const noexcept
     {
         return cursor_position;
     }

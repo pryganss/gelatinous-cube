@@ -53,14 +53,14 @@ public:
 
     /// @brief Destroys all panels.
     /// Calls the destructor of each panel in the manager.
-    static inline void destroy() noexcept
+    static void destroy() noexcept
     {
         panels.clear();
     }
 
     /// @brief Gets the index of the last selected panel.
     /// @return Index.
-    static inline size_t get_last_selected_index()
+    static size_t get_last_selected_index()
     {
         return last_selected_index;
     }
@@ -70,7 +70,7 @@ public:
     /// @param index Index of the panel in the manager's internal panels
     ///              vector.
     /// @throw std::out_of_range if index is invalid.
-    static inline void select(size_t index)
+    static void select(size_t index)
     {
         panels.at(index)->select();
         last_selected_index = index;
@@ -81,14 +81,14 @@ public:
     /// @param index Index of the panel in the manager's internal panels
     ///              vector.
     /// @throw std::out_of_range if index is invalid.
-    static inline void deselect(size_t index)
+    static void deselect(size_t index)
     {
         panels.at(index)->deselect();
     }
 
     /// @brief Enables the visibility of index labels on all panels.
     /// The manager must be updated for visibility to change.
-    static inline void enable_index_labels()
+    static void enable_index_labels()
     {
         for (auto& panel : panels)
         {
@@ -98,7 +98,7 @@ public:
 
     /// @brief Disables the visibility of index labels on all panels.
     /// The manager must be updated for visibility to change.
-    static inline void disable_index_labels()
+    static void disable_index_labels()
     {
         for (auto& panel : panels)
         {
