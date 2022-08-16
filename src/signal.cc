@@ -48,9 +48,7 @@ Signal::Signal(__sighandler_t handler, std::initializer_list<int> sig_nums)
 
         // Replaces the old handler if it didn't ignore the signal.
         if (old_action.sa_handler != SIG_IGN)
-        {
             sigaction(sig_num, &action, NULL);
-        }
     }
 }
 

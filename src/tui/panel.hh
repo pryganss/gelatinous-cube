@@ -69,9 +69,7 @@ public:
     void refresh()
     {
 	    if (!window)
-        {
             throw NoWindowException();
-        }
 
         wrefresh(window);
     }

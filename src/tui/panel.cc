@@ -41,22 +41,16 @@ Tui::Panel::Panel(Dimensions* dimensions, const char* title, size_t index)
 Tui::Panel::~Panel()
 {
     if (window != nullptr)
-    {
         delwin(window);
-    }
 }
 
 void Tui::Panel::create_window()
 {
     if (dimensions->height < 1 || dimensions->width < 1)
-    {
         throw SizeException();
-    }
 
     if (window != nullptr)
-    {
         delwin(window);
-    }
 
     window = newwin(dimensions->height, dimensions->width,
                     dimensions->y, dimensions->x);
@@ -65,35 +59,25 @@ void Tui::Panel::create_window()
 void Tui::Panel::draw()
 {
     if (!window)
-    {
         throw NoWindowException();
-    }
 
     // Border.
     box(window, 0, 0); // 0, 0 used for default border characters
 
     // Title.
     if (selected)
-    {
         wattron(window, selected_title_attributes);
-    }
     mvwprintw(window, 0, 2, "%s", title);
     if (selected)
-    {
         wattroff(window, selected_title_attributes);
-    }
 
     // Index label.
     if (index_label_enabled)
-    {
         mvwprintw(window, 0, dimensions->width - 4, "[%zi]", index);
-    }
 
     // Cursor position.
     if (selected)
-    {
 	    wmove(window, cursor_position.y, cursor_position.x);
-    }
 }
 
 } // namespace gelcube

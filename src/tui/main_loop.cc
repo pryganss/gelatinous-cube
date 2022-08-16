@@ -41,9 +41,7 @@ std::unordered_map<int, bool> Tui::MainLoop::modifier_map;
 
 void Tui::MainLoop::start()
 {
-    std::vector<Signal*> signals = {
-        new Signal(stop, {SIGINT})
-    };
+    std::vector<Signal*> signals = {new Signal(stop, {SIGINT})};
 
     try_panel_resize();
 

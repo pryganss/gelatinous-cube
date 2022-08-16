@@ -91,9 +91,7 @@ public:
     static void enable_index_labels()
     {
         for (auto& panel : panels)
-        {
             panel->enable_index_label();
-        }
     }
 
     /// @brief Disables the visibility of index labels on all panels.
@@ -101,14 +99,12 @@ public:
     static void disable_index_labels()
     {
         for (auto& panel : panels)
-        {
             panel->disable_index_label();
-        }
     }
 
 private:
     static Dimensions large_left, middle_upper, large_right, middle_middle,
-                        middle_lower;
+                      middle_lower;
     static std::vector<Panel*> panels;
     static size_t last_selected_index;
 };

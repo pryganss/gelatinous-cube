@@ -59,9 +59,7 @@ void Tui::PanelManager::update_dimensions()
     middle_lower.height = LINES - middle_upper.height
                                 - middle_middle.height;
     if (middle_lower.height < 3)
-    {
         throw SizeException();
-    }
 
     // Width.
     large_left.width = COLS / 2.7;
@@ -70,9 +68,7 @@ void Tui::PanelManager::update_dimensions()
     middle_middle.width = middle_upper.width;
     middle_lower.width = middle_upper.width;
     if (middle_lower.width < 3)
-    {
         throw SizeException();
-    }
 
     // Y.
     large_left.y = 0;
