@@ -71,60 +71,72 @@ void Tui::MainLoop::start()
 
 	    // Moves cursor.
 	    case key_bindings::left:
-		try
+		if (!modifier_map[modifiers::go])
 		{
-		    cursor_position.x -= 1;
-		    PanelManager::get_panel(PanelManager::get_selected_index())
-			->Panel::set_cursor_position(cursor_position);
-		    PanelManager::update();
-		    break;
-                }
-		catch (SizeException)
-		{
-		    cursor_position.x += 1;
-		    break;
+		    try
+		    {
+			cursor_position.x -= 1;
+			PanelManager::get_panel(PanelManager::get_selected_index())
+			    ->Panel::set_cursor_position(cursor_position);
+			PanelManager::update();
+			break;
+		    }
+		    catch (SizeException)
+		    {
+			cursor_position.x += 1;
+			break;
+		    }
 		}
 	    case key_bindings::right:
-		try
+		if (!modifier_map[modifiers::go])
 		{
-		    cursor_position.x += 1;
-		    PanelManager::get_panel(PanelManager::get_selected_index())
-			->Panel::set_cursor_position(cursor_position);
-		    PanelManager::update();
-		    break;
-		}
-		catch (SizeException)
-		{
-		    cursor_position.x -= 1;
-		    break;
+		    try
+		    {
+			cursor_position.x += 1;
+			PanelManager::get_panel(PanelManager::get_selected_index())
+			    ->Panel::set_cursor_position(cursor_position);
+			PanelManager::update();
+			break;
+		    }
+		    catch (SizeException)
+		    {
+			cursor_position.x -= 1;
+			break;
+		    }
 		}
 	    case key_bindings::up:
-		try
+		if (!modifier_map[modifiers::go])
 		{
-		    cursor_position.y -= 1;
-		    PanelManager::get_panel(PanelManager::get_selected_index())
-			->Panel::set_cursor_position(cursor_position);
-		    PanelManager::update();
-		    break;
-		}
-		catch(SizeException)
-		{
-		    cursor_position.y += 1;
-		    break;
+		    try
+		    {
+			cursor_position.y -= 1;
+			PanelManager::get_panel(PanelManager::get_selected_index())
+			    ->Panel::set_cursor_position(cursor_position);
+			PanelManager::update();
+			break;
+		    }
+		    catch(SizeException)
+		    {
+			cursor_position.y += 1;
+			break;
+		    }
 		}
 	    case key_bindings::down:
-		try
+		if (!modifier_map[modifiers::go])
 		{
-	        cursor_position.y += 1;
-		PanelManager::get_panel(PanelManager::get_selected_index())
-		    ->Panel::set_cursor_position(cursor_position);
-		PanelManager::update();
-		break;
-		}
-		catch(SizeException)
-		{
-		    cursor_position.y -= 1;
-		    break;
+		    try
+		    {
+			cursor_position.y += 1;
+			PanelManager::get_panel(PanelManager::get_selected_index())
+			    ->Panel::set_cursor_position(cursor_position);
+			PanelManager::update();
+			break;
+		    }
+		    catch(SizeException)
+		    {
+			cursor_position.y -= 1;
+			break;
+		    }
 		}
 		
             // Enters panel selection mode.
