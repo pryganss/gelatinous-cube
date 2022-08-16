@@ -80,4 +80,4 @@ Signal::~Signal()
     }
 }
 
-}; // namespace gelcube
+} // namespace gelcube

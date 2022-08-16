@@ -70,6 +70,6 @@ private:
     static Logger::Source log;
 } Tui;
 
-}; // namespace gelcube
+} // namespace gelcube
 
 #endif // GELCUBE_SRC_TUI_HH_

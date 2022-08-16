@@ -43,4 +43,4 @@ void Logger::init()
     logging::core::get()->add_sink(sink);
 }
 
-}; // namespace gelcube
+} // namespace gelcube

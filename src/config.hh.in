@@ -31,8 +31,8 @@ const char* version_major = "@gelcube_VERSION_MAJOR@";
 const char* version_minor = "@gelcube_VERSION_MINOR@";
 const char* version_year = "@gelcube_VERSION_YEAR@";
 
-}; // namespace config
+} // namespace config
 
-}; // namespace gelcube
+} // namespace gelcube
 
 #endif // GELCUBE_SRC_CONFIG_HH_

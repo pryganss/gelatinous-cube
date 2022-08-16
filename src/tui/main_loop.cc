@@ -158,4 +158,4 @@ void Tui::MainLoop::check_select_panel(size_t index)
     }
 }
 
-}; // namespace gelcube
+} // namespace gelcube

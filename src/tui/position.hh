@@ -33,6 +33,6 @@ struct Tui::Position
     int y, x;
 };
 
-}; // namespace gelcube
+} // namespace gelcube
 
 #endif // GELCUBE_SRC_TUI_POSITION_HH_

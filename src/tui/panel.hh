@@ -145,6 +145,6 @@ private:
     Position cursor_position = {1, 2};
 };
 
-}; // namespace gelcube
+} // namespace gelcube
 
 #endif // GELCUBE_SRC_TUI_PANEL_HH_

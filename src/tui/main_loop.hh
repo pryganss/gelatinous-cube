@@ -82,6 +82,6 @@ private:
     static bool invalid_resize;
 };
 
-}; // namespace gelcube
+} // namespace gelcube
 
 #endif // GELCUBE_SRC_TUI_MAIN_LOOP_HH_

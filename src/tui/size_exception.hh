@@ -32,6 +32,6 @@ class Tui::SizeException : public std::exception
 {
 };
 
-}; // namespace gelcube
+} // namespace gelcube
 
 #endif // GELCUBE_SRC_TUI_SIZE_EXCEPTION_HH_

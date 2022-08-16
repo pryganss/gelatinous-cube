@@ -31,6 +31,6 @@ namespace gelcube
 /// @return Exit code for the program.
 int parse_options(int argc, char* argv[]) noexcept;
 
-}; // namespace gelcube
+} // namespace gelcube
 
 #endif // GELCUBE_SRC_OPTIONS_HH_

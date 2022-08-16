@@ -96,4 +96,4 @@ void Tui::Panel::draw()
     }
 }
 
-}; // namespace gelcube
+} // namespace gelcube

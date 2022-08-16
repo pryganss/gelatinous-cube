@@ -31,6 +31,6 @@ struct Tui::Dimensions
     int height, width, y, x;
 };
 
-}; // namespace gelcube
+} // namespace gelcube
 
 #endif // GELCUBE_SRC_TUI_DIMENSIONS_HH_

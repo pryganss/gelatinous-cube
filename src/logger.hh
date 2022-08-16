@@ -55,6 +55,6 @@ private:
 // Accessible alias for trivial log severity levels.
 typedef logging::trivial::severity_level LogLevel;
 
-}; // namespace gelcube
+} // namespace gelcube
 
 #endif // GELCUBE_SRC_LOGGER_HH_

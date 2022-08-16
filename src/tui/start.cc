@@ -56,4 +56,4 @@ int Tui::start() noexcept
     return EXIT_SUCCESS;
 }
 
-}; // namespace gelcube
+} // namespace gelcube

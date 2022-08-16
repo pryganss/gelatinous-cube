@@ -113,6 +113,6 @@ private:
     static size_t last_selected_index;
 };
 
-}; // namespace gelcube
+} // namespace gelcube
 
 #endif // GELCUBE_SRC_TUI_PANEL_MANAGER_HH_

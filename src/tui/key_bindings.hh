@@ -34,10 +34,10 @@ namespace modifiers
 
 const int go = static_cast<int>('g');
 
-}; // namespace modifiers
+} // namespace modifiers
 
-}; // namespace key_bindings
+} // namespace key_bindings
 
-}; // namespace gelcube
+} // namespace gelcube
 
 #endif // GELCUBE_SRC_TUI_KEY_BINDINGS_HH_

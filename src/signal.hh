@@ -51,6 +51,6 @@ private:
     std::vector<int> sig_nums;
 } Signal;
 
-}; // namespace gelcube
+} // namespace gelcube
 
 #endif

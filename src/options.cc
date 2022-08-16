@@ -111,7 +111,7 @@ Option version(
     _("display version information and exit"),
     _("V"));
 
-}; // namespace options
+} // namespace options
 
 /// @brief Displays keybindings for the TUI.
 /// Prints to stdout.
@@ -192,4 +192,4 @@ int parse_options(int argc, char* argv[]) noexcept
     }
 }
 
-}; // namespace gelcube
+} // namespace gelcube

@@ -107,4 +107,4 @@ void Tui::PanelManager::render()
     panels.at(last_selected_index)->refresh();
 }
 
-}; // namespace gelcube
+} // namespace gelcube
