@@ -142,7 +142,7 @@ private:
     bool selected = false;
     bool index_label_enabled = false;
     WINDOW* window = nullptr;
-    Position cursor_position = { 1, 2 };
+    Position cursor_position = {1, 2};
 };
 
 }; // namespace gelcube
