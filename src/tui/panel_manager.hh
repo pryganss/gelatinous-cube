@@ -39,13 +39,17 @@ public:
     static void create();
 
     /// @brief Updates the dimensions of all panels to fit the current
-    ///        terminal size; draws and refreshes the panels to display
-    ///        them.
+    ///        terminal size.
+    /// @throw gelcube::Tui::SizeException if the terminal is too small to fit
+    ///        the panels.
+    static void update_dimensions();
+
+    /// @brief (Re)draws and refreshes the panels to display them.
     /// @throw gelcube::Tui::SizeException if the terminal is too small to fit
     ///        the panels.
     /// @throw gelcube::Tui::NoWindowException if a panel is updated or
     ///        refreshed and the panel's window has not been created.
-    static void update();
+    static void render();
 
     /// @brief Destroys all panels.
     /// Calls the destructor of each panel in the manager.
@@ -54,14 +58,7 @@ public:
         panels.clear();
     }
 
-    /// @brief Gets the index of the currently selected panel.
-    /// @return Index.
-    static inline size_t get_selected_index()
-    {
-        return selected_index;
-    }
-
-    /// @brief Gets the index of the previously selected panel.
+    /// @brief Gets the index of the last selected panel.
     /// @return Index.
     static inline size_t get_last_selected_index()
     {
@@ -69,41 +66,50 @@ public:
     }
 
     /// @brief Selects a panel.
-    /// Emphasises the specified panel's title and enables the cursor. Cursor
-    /// visibility will be updated after the panel's window is refreshed.
+    /// The manager must be updated for visibility to change.
     /// @param index Index of the panel in the manager's internal panels
     ///              vector.
     /// @throw std::out_of_range if index is invalid.
     static inline void select(size_t index)
     {
         panels.at(index)->select();
-        panels.at(index)->draw();
-        panels.at(index)->refresh();
-        selected_index = index;
-        curs_set(1);
+        last_selected_index = index;
     }
 
     /// @brief Deselects a panel.
-    /// Removes the emphasis from the specified panel's title and disables the
-    /// cursor across all panels. Cursor visibility will be updated after any
-    /// panel's window is refreshed.
+    /// The manager must be updated for visibility to change.
     /// @param index Index of the panel in the manager's internal panels
     ///              vector.
     /// @throw std::out_of_range if index is invalid.
     static inline void deselect(size_t index)
     {
         panels.at(index)->deselect();
-        panels.at(index)->draw();
-        panels.at(index)->refresh();
-        last_selected_index = index;
-        curs_set(0);
+    }
+
+    /// @brief Enables the visibility of index labels on all panels.
+    /// The manager must be updated for visibility to change.
+    static inline void enable_index_labels()
+    {
+        for (auto& panel : panels)
+        {
+            panel->enable_index_label();
+        }
+    }
+
+    /// @brief Disables the visibility of index labels on all panels.
+    /// The manager must be updated for visibility to change.
+    static inline void disable_index_labels()
+    {
+        for (auto& panel : panels)
+        {
+            panel->disable_index_label();
+        }
     }
 
 private:
     static Dimensions large_left, middle_upper, large_right, middle_middle,
                         middle_lower;
     static std::vector<Panel*> panels;
-    static size_t selected_index;
     static size_t last_selected_index;
 };
 

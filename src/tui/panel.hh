@@ -41,10 +41,8 @@ public:
     /// Initializes the panel's dimensions and name.
     /// @param dimensions Geometric dimensions for panel size and position.
     /// @param title Visible title.
-    /// @param index Associated panel number in the UI.
-    /// @param selected Sets the panel to (in)active.
-    Panel(Dimensions* dimensions, const char* title, size_t index,
-          bool selected = false);
+    /// @param index Panel number.
+    Panel(Dimensions* dimensions, const char* title, size_t index);
 
     /// @brief Destroys the Panel object.
     /// Deletes the window associated with the panel.
@@ -99,6 +97,18 @@ public:
         selected = false;
     }
 
+    /// @brief Enables the visibility of the index label.
+    inline void enable_index_label() noexcept
+    {
+        index_label_enabled = true;
+    }
+
+    /// @brief Disables the visibility of the index label.
+    inline void disable_index_label() noexcept
+    {
+        index_label_enabled = false;
+    }
+
     /// @brief Sets the cursor position within the panel.
     /// The cursor position, relative to the upper left-hand corner of the
     /// panel's window, will be updated on the next draw.
@@ -130,6 +140,7 @@ private:
     const char* title;
     size_t index;
     bool selected = false;
+    bool index_label_enabled = false;
     WINDOW* window = nullptr;
     Position cursor_position = {1, 2};
 };

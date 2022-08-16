@@ -45,7 +45,7 @@ void Tui::MainLoop::start()
         new Signal(stop, {SIGINT})
     };
 
-    try_panel_update();
+    try_panel_resize();
 
     int ch;
     while (!done)
@@ -57,7 +57,7 @@ void Tui::MainLoop::start()
             {
             // Resizes panels.
             case KEY_RESIZE:
-                try_panel_update();
+                try_panel_resize();
                 break;
 
             // Exits the loop.
@@ -99,7 +99,8 @@ void Tui::MainLoop::start()
             try
             {
                 PanelManager::create();
-                PanelManager::update();
+                PanelManager::update_dimensions();
+                PanelManager::render();
                 invalid_resize = false;
             }
             catch (SizeException& e)
@@ -107,6 +108,53 @@ void Tui::MainLoop::start()
                 PanelManager::destroy();
             }
         }
+    }
+}
+
+void Tui::MainLoop::try_panel_resize()
+{
+    try
+    {
+        PanelManager::update_dimensions();
+        PanelManager::render();
+    }
+    catch (SizeException& e)
+    {
+        invalid_resize = true;
+        PanelManager::destroy();
+        mvprintw(0, 0, _("Terminal too small to fit user interface."));
+    }
+}
+
+void Tui::MainLoop::check_start_panel_selection()
+{
+    if (!modifier_map[modifiers::go])
+    {
+        PanelManager::enable_index_labels();
+        PanelManager::deselect(PanelManager::get_last_selected_index());
+        PanelManager::render();
+        curs_set(0);
+        modifier_map[modifiers::go] = true;
+    }
+    else
+    {
+        PanelManager::disable_index_labels();
+        PanelManager::select(PanelManager::get_last_selected_index());
+        PanelManager::render();
+        curs_set(1);
+        modifier_map[modifiers::go] = false;
+    }
+}
+
+void Tui::MainLoop::check_select_panel(size_t index)
+{
+    if (modifier_map[modifiers::go])
+    {
+        PanelManager::disable_index_labels();
+        PanelManager::select(index);
+        PanelManager::render();
+        curs_set(1);
+        modifier_map[modifiers::go] = false;
     }
 }
 

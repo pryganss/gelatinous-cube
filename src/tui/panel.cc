@@ -33,9 +33,8 @@ namespace gelcube
 
 attr_t Tui::Panel::selected_title_attributes = A_BOLD | A_UNDERLINE;
 
-Tui::Panel::Panel(Dimensions* dimensions, const char* title, size_t index,
-                  bool selected)
-    : dimensions{dimensions}, title{title}, index{index}, selected{selected}
+Tui::Panel::Panel(Dimensions* dimensions, const char* title, size_t index)
+    : dimensions{dimensions}, title{title}, index{index}
 {
 }
 
@@ -49,19 +48,18 @@ Tui::Panel::~Panel()
 
 void Tui::Panel::create_window()
 {
-    if (dimensions->height > 0 && dimensions->width > 0)
-    {
-        if (window != nullptr)
-        {
-            delwin(window);
-        }
-        window = newwin(dimensions->height, dimensions->width,
-                        dimensions->y, dimensions->x);
-    }
-    else
+    if (dimensions->height < 1 || dimensions->width < 1)
     {
         throw SizeException();
     }
+
+    if (window != nullptr)
+    {
+        delwin(window);
+    }
+
+    window = newwin(dimensions->height, dimensions->width,
+                    dimensions->y, dimensions->x);
 }
 
 void Tui::Panel::draw()
@@ -86,7 +84,10 @@ void Tui::Panel::draw()
     }
 
     // Index label.
-    mvwprintw(window, 0, dimensions->width - 4, "[%zi]", index);
+    if (index_label_enabled)
+    {
+        mvwprintw(window, 0, dimensions->width - 4, "[%zi]", index);
+    }
 
     // Cursor position.
     if (selected)
