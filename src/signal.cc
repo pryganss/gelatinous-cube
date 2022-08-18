@@ -23,59 +23,51 @@
 #include <csignal>
 #include <initializer_list>
 
-namespace gelcube
-{
-
 Signal::Signal(__sighandler_t handler, std::initializer_list<int> sig_nums)
     : sig_nums{sig_nums}
 {
-    struct sigaction action;
+	struct sigaction action;
 
-    action.sa_handler = handler;
+	action.sa_handler = handler;
 
-    // Prevents signal blocking.
-    sigemptyset(&action.sa_mask);
+	// Prevents signal blocking.
+	sigemptyset(&action.sa_mask);
 
-    action.sa_flags = 0;
+	action.sa_flags = 0;
 
-    struct sigaction old_action;
-    for (auto& sig_num : this->sig_nums)
-    {
-        sigaddset(&action.sa_mask, sig_num);
+	struct sigaction old_action;
+	for (auto& sig_num : this->sig_nums) {
+		sigaddset(&action.sa_mask, sig_num);
 
-        // Reads the old action associated with signal number.
-        sigaction(sig_num, NULL, &old_action);
+		// Reads the old action associated with signal number.
+		sigaction(sig_num, NULL, &old_action);
 
-        // Replaces the old handler if it didn't ignore the signal.
-        if (old_action.sa_handler != SIG_IGN)
-            sigaction(sig_num, &action, NULL);
-    }
+		// Replaces the old handler if it didn't ignore the signal.
+		if (old_action.sa_handler != SIG_IGN)
+			sigaction(sig_num, &action, NULL);
+	}
 }
 
 Signal::~Signal()
 {
     struct sigaction old_action;
-    for (auto& sig_num : sig_nums)
-    {
-        // Reads the old action associated with signal number.
-        sigaction(sig_num, NULL, &old_action);
+    for (auto& sig_num : sig_nums) {
+	// Reads the old action associated with signal number.
+	sigaction(sig_num, NULL, &old_action);
 
-        // Replaces the old handler with the default if it didn't ignore the
-        // signal.
-        if (old_action.sa_handler != SIG_IGN)
-        {
-            struct sigaction action;
+	// Replaces the old handler with the default if it didn't ignore the
+	// signal.
+	if (old_action.sa_handler != SIG_IGN) {
+		struct sigaction action;
 
-            action.sa_handler = SIG_DFL;
+		action.sa_handler = SIG_DFL;
 
-            // Prevents signal blocking.
-            sigemptyset(&action.sa_mask);
+		// Prevents signal blocking.
+		sigemptyset(&action.sa_mask);
 
-            action.sa_flags = 0;
+		action.sa_flags = 0;
 
-            sigaction(sig_num, &action, NULL);
-        }
+		sigaction(sig_num, &action, NULL);
+	}
     }
 }
-
-} // namespace gelcube

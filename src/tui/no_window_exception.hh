@@ -25,13 +25,7 @@
 
 #include <exception>
 
-namespace gelcube
-{
-
-class Tui::NoWindowException : public std::exception
-{
+class Tui::NoWindowException : public std::exception {
 };
-
-} // namespace gelcube
 
 #endif // GELCUBE_SRC_TUI_NO_WINDOW_EXCEPTION_HH_

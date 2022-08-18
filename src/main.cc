@@ -1,7 +1,7 @@
 /// @file main.cc
 /// @author Natalie Wiggins (islifepeachy@outlook.com)
 /// @brief Entry point to Gelatinous Cube, a Dungeons & Dragons character
-///        manager.
+/// manager.
 /// @version 0.1
 /// @date 2022-08-10
 ///
@@ -26,17 +26,15 @@
 
 #include <libintl.h>
 
-typedef gelcube::Logger Logger;
-
 int main(int argc, char* argv[])
 {
-    // Initializes internationalization.
-    std::setlocale(LC_ALL, "");
-    textdomain("gelcube");
+	// Initializes internationalization.
+	std::setlocale(LC_ALL, "");
+	textdomain("gelcube");
 
-    // Initializes the log interface.
-    Logger::init();
+	// Initializes the log interface.
+	Logger::init();
 
-    // Performs procedures based on options.
-    return gelcube::parse_options(argc, argv);
+	// Performs procedures based on options.
+	return parse_options(argc, argv);
 }

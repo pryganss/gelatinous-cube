@@ -25,13 +25,7 @@
 
 #include <exception>
 
-namespace gelcube
-{
-
-class Tui::SizeException : public std::exception
-{
+class Tui::SizeException : public std::exception {
 };
-
-} // namespace gelcube
 
 #endif // GELCUBE_SRC_TUI_SIZE_EXCEPTION_HH_

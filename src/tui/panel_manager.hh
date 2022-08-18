@@ -28,87 +28,79 @@
 #include <cstdlib>
 #include <vector>
 
-namespace gelcube
-{
-
-class Tui::PanelManager
-{
+class Tui::PanelManager {
 public:
-    /// @brief Creates all panels.
-    /// Initializes panels with titles and unspecified dimensions.
-    static void create();
+	/// @brief Creates all panels.
+	/// Initializes panels with titles and unspecified dimensions.
+	static void create();
 
-    /// @brief Updates the dimensions of all panels to fit the current
-    ///        terminal size.
-    /// @throw gelcube::Tui::SizeException if the terminal is too small to fit
-    ///        the panels.
-    static void update_dimensions();
+	/// @brief Updates the dimensions of all panels to fit the current
+	/// terminal size.
+	/// @throw SizeException if the terminal is too small to fit the panels.
+	static void update_dimensions();
 
-    /// @brief (Re)draws and refreshes the panels to display them.
-    /// @throw gelcube::Tui::SizeException if the terminal is too small to fit
-    ///        the panels.
-    /// @throw gelcube::Tui::NoWindowException if a panel is updated or
-    ///        refreshed and the panel's window has not been created.
-    static void render();
+	/// @brief (Re)draws and refreshes the panels to display them.
+	/// @throw SizeException if the terminal is too small to fit the panels.
+	/// @throw NoWindowException if a panel is updated or refreshed and the
+	/// panel's window has not been created.
+	static void render();
 
-    /// @brief Destroys all panels.
-    /// Calls the destructor of each panel in the manager.
-    static void destroy() noexcept
-    {
-        panels.clear();
-    }
+	/// @brief Destroys all panels.
+	/// Calls the destructor of each panel in the manager.
+	static void destroy() noexcept
+	{
+		panels.clear();
+	}
 
-    /// @brief Gets the index of the last selected panel.
-    /// @return Index.
-    static size_t get_last_selected_index()
-    {
-        return last_selected_index;
-    }
+	/// @brief Gets the index of the last selected panel.
+	/// @return Index.
+	static size_t get_last_selected_index()
+	{
+		return last_selected_index;
+	}
 
-    /// @brief Selects a panel.
-    /// The manager must be updated for visibility to change.
-    /// @param index Index of the panel in the manager's internal panels
-    ///              vector.
-    /// @throw std::out_of_range if index is invalid.
-    static void select(size_t index)
-    {
-        panels.at(index)->select();
-        last_selected_index = index;
-    }
+	/// @brief Selects a panel.
+	/// The manager must be updated for visibility to change.
+	/// @param index Index of the panel in the manager's internal panels
+	/// vector.
+	/// @throw std::out_of_range if index is invalid.
+	static void select(size_t index)
+	{
+		panels.at(index)->select();
+		last_selected_index = index;
+	}
 
-    /// @brief Deselects a panel.
-    /// The manager must be updated for visibility to change.
-    /// @param index Index of the panel in the manager's internal panels
-    ///              vector.
-    /// @throw std::out_of_range if index is invalid.
-    static void deselect(size_t index)
-    {
-        panels.at(index)->deselect();
-    }
+	/// @brief Deselects a panel.
+	/// The manager must be updated for visibility to change.
+	/// @param index Index of the panel in the manager's internal panels
+	/// vector.
+	/// @throw std::out_of_range if index is invalid.
+	static void deselect(size_t index)
+	{
+		panels.at(index)->deselect();
+	}
 
-    /// @brief Enables the visibility of index labels on all panels.
-    /// The manager must be updated for visibility to change.
-    static void enable_index_labels()
-    {
-        for (auto& panel : panels)
-            panel->enable_index_label();
-    }
+	/// @brief Enables the visibility of index labels on all panels.
+	/// The manager must be updated for visibility to change.
+	static void enable_index_labels()
+	{
+		for (auto& panel : panels)
+			panel->enable_index_label();
+	}
 
-    /// @brief Disables the visibility of index labels on all panels.
-    /// The manager must be updated for visibility to change.
-    static void disable_index_labels()
-    {
-        for (auto& panel : panels)
-            panel->disable_index_label();
-    }
+	/// @brief Disables the visibility of index labels on all panels.
+	/// The manager must be updated for visibility to change.
+	static void disable_index_labels()
+	{
+		for (auto& panel : panels)
+			panel->disable_index_label();
+	}
 
 private:
-    static Dimensions large_left, middle_upper, large_right, middle_middle,
-                      middle_lower;
-    static std::vector<Panel*> panels;
-    static size_t last_selected_index;
+	static Dimensions large_left, middle_upper, large_right, middle_middle,
+		middle_lower;
+	static std::vector<Panel*> panels;
+	static size_t last_selected_index;
 };
-
-} // namespace gelcube
 
 #endif // GELCUBE_SRC_TUI_PANEL_MANAGER_HH_

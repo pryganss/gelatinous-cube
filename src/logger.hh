@@ -27,34 +27,28 @@
 #include <boost/log/trivial.hpp>
 #include <boost/smart_ptr/shared_ptr.hpp>
 
-namespace logging = boost::log;
-namespace sources = boost::log::sources;
-namespace sinks = boost::log::sinks;
-
-namespace gelcube
-{
+namespace b_log = boost::log;
 
 /// @brief Handles message logging.
 /// Provides a source for boost::log after initialization.
-typedef class Logger
-{
+class Logger {
 public:
-    /// @brief Initializes the log interface.
-    /// Creates the required sink and registers the ostream backend to make the
-    /// source usable.
-    static void init();
+	/// @brief Initializes the log interface.
+	/// Creates the required sink and registers the ostream backend to make the
+	/// source usable.
+	static void init();
 
-    typedef sources::severity_logger<int> Source;
-    // Log source for use with BOOST_LOG_SEV.
-    static Source source;
+	typedef b_log::sources::severity_logger<int> Source;
+	// Log source for use with BOOST_LOG_SEV.
+	static Source source;
+
 private:
-    typedef sinks::synchronous_sink<sinks::text_ostream_backend> Sink;
-    static boost::shared_ptr<Sink> sink;
-} Logger;
+	typedef b_log::sinks::synchronous_sink<
+		b_log::sinks::text_ostream_backend> Sink;
+	static boost::shared_ptr<Sink> sink;
+};
 
 // Accessible alias for trivial log severity levels.
-typedef logging::trivial::severity_level LogLevel;
-
-} // namespace gelcube
+typedef boost::log::trivial::severity_level LogLevel;
 
 #endif // GELCUBE_SRC_LOGGER_HH_

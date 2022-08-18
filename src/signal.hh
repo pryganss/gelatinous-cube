@@ -25,32 +25,26 @@
 #include <initializer_list>
 #include <vector>
 
-namespace gelcube
-{
-
 /// @brief Wrapper for signal handling.
 /// Interfaces with sigaction to dynamically handle signals.
-typedef class Signal
-{
+class Signal {
 public:
-    /// @brief Constructs a new Signal object.
-    /// Registers an unmasked signal handler for each specified signal number if
-    /// the previous handler didn't ignore the signal.
-    /// @param handler Function to be called when the specified signals are
-    ///                received.
-    /// @param sig_nums Signal numbers to register with the handler and
-    ///                 unregister when destroyed.
-    Signal(__sighandler_t handler, std::initializer_list<int> sig_nums);
+	/// @brief Constructs a new Signal object.
+	/// Registers an unmasked signal handler for each specified signal
+	/// number if the previous handler didn't ignore the signal.
+	/// @param handler Function to be called when the specified signals are
+	/// received.
+	/// @param sig_nums Signal numbers to register with the handler and
+	/// unregister when destroyed.
+	Signal(__sighandler_t handler, std::initializer_list<int> sig_nums);
 
-    /// @brief Destroys the Signal object.
-    /// Replaces the signal handler associated with each signal number passed to
-    /// the constructor with the default handler.
-    ~Signal();
+	/// @brief Destroys the Signal object.
+	/// Replaces the signal handler associated with each signal number
+	/// passed to the constructor with the default handler.
+	~Signal();
 
 private:
-    std::vector<int> sig_nums;
-} Signal;
+	std::vector<int> sig_nums;
+};
 
-} // namespace gelcube
-
-#endif
+#endif // GELCUBE_SRC_SIGNAL_HH_

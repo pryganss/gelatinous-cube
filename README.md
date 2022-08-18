@@ -92,15 +92,12 @@ Ensure you have built the program for the release target.
 * Built using [CMake](https://cmake.org)
 * Gelatinous Cube is abbreviated to `gelcube` in source code identifiers, the
 build system, and the names of libraries and executables
-* Lines no longer than 80 characters, unless readability is affected
-* Source code located in `src/`
-* Source files have the suffix `.cc`
-* Header files have the suffix `.hh`
-* [Doxygen](https://doxygen.nl/index.html) comments
-* See the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html)
-for more guidelines. Exceptions to these guidelines include:
-    * Tab width is 4 spaces
-    * Braces, excluding for initializer lists, are placed on their own line
+* Source code is located in `src/`
+* C++ source files have the suffix `.cc`
+* C++ header files have the suffix `.hh`
+* Indented with hard tabs of 8 characters in width
+* Lines are no longer than 80 characters, unless readability is affected
+* Uses [Doxygen](https://doxygen.nl/index.html) comments
 
 ## Debugging
 

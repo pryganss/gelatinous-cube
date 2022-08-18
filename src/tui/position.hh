@@ -25,14 +25,8 @@
 
 #include <cstddef>
 
-namespace gelcube
-{
-
-struct Tui::Position
-{
+struct Tui::Position {
     int y, x;
 };
-
-} // namespace gelcube
 
 #endif // GELCUBE_SRC_TUI_POSITION_HH_

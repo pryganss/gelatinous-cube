@@ -27,20 +27,16 @@
 #include <boost/smart_ptr/make_shared_object.hpp>
 #include <boost/smart_ptr/shared_ptr.hpp>
 
-namespace logging = boost::log;
-
-namespace gelcube
-{
+namespace b_log = boost::log;
 
 boost::shared_ptr<Logger::Sink> Logger::sink;
 Logger::Source Logger::source;
 
 void Logger::init()
 {
-    sink = boost::make_shared<Sink>();
-    boost::shared_ptr<std::ostream> stream{&std::clog, boost::null_deleter{}};
-    sink->locked_backend()->add_stream(stream);
-    logging::core::get()->add_sink(sink);
+	sink = boost::make_shared<Sink>();
+	boost::shared_ptr<std::ostream> stream{&std::clog,
+		boost::null_deleter{}};
+	sink->locked_backend()->add_stream(stream);
+	b_log::core::get()->add_sink(sink);
 }
-
-} // namespace gelcube

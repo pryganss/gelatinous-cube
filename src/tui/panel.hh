@@ -31,118 +31,109 @@
 
 #include <ncurses.h>
 
-namespace gelcube
-{
-
-class Tui::Panel
-{
+class Tui::Panel {
 public:
-    /// @brief Constructs a new Panel object.
-    /// Initializes the panel's dimensions and name.
-    /// @param dimensions Geometric dimensions for panel size and position.
-    /// @param title Visible title.
-    /// @param index Panel number.
-    Panel(Dimensions* dimensions, const char* title, size_t index);
+	/// @brief Constructs a new Panel object.
+	/// Initializes the panel's dimensions and name.
+	/// @param dimensions Geometric dimensions for panel size and position.
+	/// @param title Visible title.
+	/// @param index Panel number.
+	Panel(Dimensions* dimensions, const char* title, size_t index);
 
-    /// @brief Destroys the Panel object.
-    /// Deletes the window associated with the panel.
-    ~Panel();
+	/// @brief Destroys the Panel object.
+	/// Deletes the window associated with the panel.
+	~Panel();
 
-    /// @brief (Re)creates the panel's window.
-    /// Dereferences the dimensions passed to the constructor. Must be called at
-    /// least once before refreshing the panel in order for it to be displayed.
-    /// @throw gelcube::Tui::SizeException if the height or width of the
-    ///        dimensions is less than 1.
-    void create_window();
+	/// @brief (Re)creates the panel's window.
+	/// Dereferences the dimensions passed to the constructor. Must be
+	/// called at least once before refreshing the panel in order for it to
+	/// be displayed.
+	/// @throw SizeException if the height or width of the dimensions is
+	/// less than 1.
+	void create_window();
 
-    /// @brief Draws the border.
-    /// Updates the panel's window object.
-    /// @throw gelcube::Tui::NoWindowException if the window has not been
-    ///        created.
-    void draw();
+	/// @brief Draws the border.
+	/// Updates the panel's window object.
+	/// @throw NoWindowException if the window has not been created.
+	void draw();
 
-    /// @brief Refreshes the panel contents.
-    /// Updates the displayed window. Must be called for the panel to be
-    /// displayed.
-    /// @throw gelcube::Tui::NoWindowException if the window has not been
-    ///        created.
-    void refresh()
-    {
-	    if (!window)
-            throw NoWindowException();
+	/// @brief Refreshes the panel contents.
+	/// Updates the displayed window. Must be called for the panel to be
+	/// displayed.
+	/// @throw NoWindowException if the window has not been created.
+	void refresh()
+	{
+		if (!window)
+			throw NoWindowException();
 
-        wrefresh(window);
-    }
+		wrefresh(window);
+	}
 
-    /// @brief Gets the selection status of the panel.
-    /// @return true if currently selected.
-    bool is_selected() const noexcept
-    {
-        return selected;
-    }
+	/// @brief Gets the selection status of the panel.
+	/// @return true if currently selected.
+	bool is_selected() const noexcept
+	{
+		return selected;
+	}
 
-    /// @brief Sets the panel to active.
-    /// Moves focus to the panel on the next draw.
-    void select() noexcept
-    {
-        selected = true;
-    }
+	/// @brief Sets the panel to active.
+	/// Moves focus to the panel on the next draw.
+	void select() noexcept
+	{
+		selected = true;
+	}
 
-    /// @brief Sets the panel to inactive.
-    /// Removes the focus from the panel on the next draw.
-    void deselect() noexcept
-    {
-        selected = false;
-    }
+	/// @brief Sets the panel to inactive.
+	/// Removes the focus from the panel on the next draw.
+	void deselect() noexcept
+	{
+		selected = false;
+	}
 
-    /// @brief Enables the visibility of the index label.
-    void enable_index_label() noexcept
-    {
-        index_label_enabled = true;
-    }
+	/// @brief Enables the visibility of the index label.
+	void enable_index_label() noexcept
+	{
+		index_label_enabled = true;
+	}
 
-    /// @brief Disables the visibility of the index label.
-    void disable_index_label() noexcept
-    {
-        index_label_enabled = false;
-    }
+	/// @brief Disables the visibility of the index label.
+	void disable_index_label() noexcept
+	{
+		index_label_enabled = false;
+	}
 
-    /// @brief Sets the cursor position within the panel.
-    /// The cursor position, relative to the upper left-hand corner of the
-    /// panel's window, will be updated on the next draw.
-    /// @param position New coordinates relative to the panel's window.
-    /// @throw gelcube::Tui::SizeException if the position does not fit within
-    ///        panel's dimensions.
-    void set_cursor_position(const Position& position)
-    {
-        if (position.y < 1 || position.y >= dimensions->height - 1
-            || position.x < 1 || position.x >= dimensions->height - 1)
-        {
-            throw SizeException();
-        }
+	/// @brief Sets the cursor position within the panel.
+	/// The cursor position, relative to the upper left-hand corner of the
+	/// panel's window, will be updated on the next draw.
+	/// @param position New coordinates relative to the panel's window.
+	/// @throw SizeException if the position does not fit within panel's
+	/// dimensions.
+	void set_cursor_position(const Position& position)
+	{
+		if (position.y < 1 || position.y >= dimensions->height - 1
+			|| position.x < 1 || position.x >= dimensions->height - 1)
+			throw SizeException();
 
-        cursor_position = position;
-    }
+		cursor_position = position;
+	}
 
-    /// @brief Gets the cursor position.
-    /// @return Current position of the cursor relative to the upper left-hand
-    ///         corner of the panel's window.
-    const Position& get_cursor_position() const noexcept
-    {
-        return cursor_position;
-    }
+	/// @brief Gets the cursor position.
+	/// @return Current position of the cursor relative to the upper
+	/// left-hand corner of the panel's window.
+	const Position& get_cursor_position() const noexcept
+	{
+		return cursor_position;
+	}
 
 private:
-    static attr_t selected_title_attributes;
-    Dimensions* dimensions;
-    const char* title;
-    size_t index;
-    bool selected = false;
-    bool index_label_enabled = false;
-    WINDOW* window = nullptr;
-    Position cursor_position = {1, 2};
+	static attr_t selected_title_attributes;
+	Dimensions* dimensions;
+	const char* title;
+	size_t index;
+	bool selected = false;
+	bool index_label_enabled = false;
+	WINDOW* window = nullptr;
+	Position cursor_position = {1, 2};
 };
-
-} // namespace gelcube
 
 #endif // GELCUBE_SRC_TUI_PANEL_HH_

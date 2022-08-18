@@ -29,31 +29,26 @@
 
 #include <ncurses.h>
 
-namespace gelcube
-{
-
 Logger::Source Tui::log;
 
 int Tui::start() noexcept
 {
-    log = Logger::source;
+	log = Logger::source;
 
-    // Initializes ncurses screen.
-    initscr();
-    noecho();
-    cbreak();
+	// Initializes ncurses screen.
+	initscr();
+	noecho();
+	cbreak();
 
-    // Initializes panels.
-    PanelManager::create();
+	// Initializes panels.
+	PanelManager::create();
 
-    // Processes user input and events.
-    MainLoop::start();
+	// Processes user input and events.
+	MainLoop::start();
 
-    // Ends the TUI.
-    PanelManager::destroy();
-    endwin();
+	// Ends the TUI.
+	PanelManager::destroy();
+	endwin();
 
-    return EXIT_SUCCESS;
+	return EXIT_SUCCESS;
 }
-
-} // namespace gelcube

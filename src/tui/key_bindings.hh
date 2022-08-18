@@ -21,23 +21,12 @@
 #ifndef GELCUBE_SRC_TUI_KEY_BINDINGS_HH_
 #define GELCUBE_SRC_TUI_KEY_BINDINGS_HH_
 
-namespace gelcube
-{
+namespace key_bindings {
+	const int quit = static_cast<int>('q');
 
-namespace key_bindings
-{
-
-const int quit = static_cast<int>('q');
-
-namespace modifiers
-{
-
-const int go = static_cast<int>('g');
-
-} // namespace modifiers
-
-} // namespace key_bindings
-
-} // namespace gelcube
+	namespace modifiers {
+		const int go = static_cast<int>('g');
+	}
+}
 
 #endif // GELCUBE_SRC_TUI_KEY_BINDINGS_HH_

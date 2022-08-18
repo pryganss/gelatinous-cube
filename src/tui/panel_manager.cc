@@ -28,79 +28,72 @@
 
 #include <ncurses.h>
 
-namespace gelcube
-{
-
 Tui::Dimensions Tui::PanelManager::large_left, Tui::PanelManager::middle_upper,
-                Tui::PanelManager::large_right,
-                Tui::PanelManager::middle_middle,
-                Tui::PanelManager::middle_lower;
+	Tui::PanelManager::large_right, Tui::PanelManager::middle_middle,
+	Tui::PanelManager::middle_lower;
+
 std::vector<Tui::Panel*> Tui::PanelManager::panels;
 size_t Tui::PanelManager::last_selected_index = 0;
 
 void Tui::PanelManager::create()
 {
-    panels = {new Panel(&large_left, _("Magic"), 1),
-              new Panel(&middle_upper, _("Combat"), 2),
-              new Panel(&middle_middle, _("Name"), 3),
-              new Panel(&middle_lower, _("Attacks"), 4),
-              new Panel(&large_right, _("Skills"), 5)};
+	panels = {new Panel(&large_left, _("Magic"), 1),
+		new Panel(&middle_upper, _("Combat"), 2),
+		new Panel(&middle_middle, _("Name"), 3),
+		new Panel(&middle_lower, _("Attacks"), 4),
+		new Panel(&large_right, _("Skills"), 5)};
 
-    select(last_selected_index);
+	select(last_selected_index);
 }
 
 void Tui::PanelManager::update_dimensions()
 {
-    // Height.
-    large_left.height = LINES;
-    middle_upper.height = 5;
-    large_right.height = large_left.height;
-    middle_middle.height = 3;
-    middle_lower.height = LINES - middle_upper.height
-                                - middle_middle.height;
-    if (middle_lower.height < 3)
-        throw SizeException();
+	// Height.
+	large_left.height = LINES;
+	middle_upper.height = 5;
+	large_right.height = large_left.height;
+	middle_middle.height = 3;
+	middle_lower.height = LINES - middle_upper.height
+				- middle_middle.height;
+	if (middle_lower.height < 3)
+		throw SizeException();
 
-    // Width.
-    large_left.width = COLS / 2.7;
-    middle_upper.width = COLS - (2 * large_left.width);
-    large_right.width = large_left.width;
-    middle_middle.width = middle_upper.width;
-    middle_lower.width = middle_upper.width;
-    if (middle_lower.width < 3)
-        throw SizeException();
+	// Width.
+	large_left.width = COLS / 2.7;
+	middle_upper.width = COLS - (2 * large_left.width);
+	large_right.width = large_left.width;
+	middle_middle.width = middle_upper.width;
+	middle_lower.width = middle_upper.width;
+	if (middle_lower.width < 3)
+		throw SizeException();
 
-    // Y.
-    large_left.y = 0;
-    middle_upper.y = 0;
-    large_right.y = 0;
-    middle_middle.y = middle_upper.height;
-    middle_lower.y = middle_upper.height + middle_middle.height;
+	// Y.
+	large_left.y = 0;
+	middle_upper.y = 0;
+	large_right.y = 0;
+	middle_middle.y = middle_upper.height;
+	middle_lower.y = middle_upper.height + middle_middle.height;
 
-    // X.
-    large_left.x = 0;
-    middle_upper.x = large_left.width;
-    large_right.x = large_left.width + middle_upper.width;
-    middle_middle.x = large_left.width;
-    middle_lower.x = large_left.width;
+	// X.
+	large_left.x = 0;
+	middle_upper.x = large_left.width;
+	large_right.x = large_left.width + middle_upper.width;
+	middle_middle.x = large_left.width;
+	middle_lower.x = large_left.width;
 }
 
 void Tui::PanelManager::render()
 {
-    for (auto& panel : panels)
-    {
-        panel->create_window();
-        panel->draw();
-    }
+	for (auto& panel : panels) {
+		panel->create_window();
+		panel->draw();
+	}
 
-    refresh();
+	refresh();
 
-    for (auto& panel : panels)
-    {
-        if (!panel->is_selected())
-            panel->refresh();
-    }
-    panels.at(last_selected_index)->refresh();
+	for (auto& panel : panels) {
+		if (!panel->is_selected())
+			panel->refresh();
+	}
+	panels.at(last_selected_index)->refresh();
 }
-
-} // namespace gelcube

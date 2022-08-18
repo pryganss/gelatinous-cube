@@ -23,14 +23,9 @@
 
 #include "../tui.hh"
 
-namespace gelcube
-{
-
 struct Tui::Dimensions
 {
-    int height, width, y, x;
+	int height, width, y, x;
 };
-
-} // namespace gelcube
 
 #endif // GELCUBE_SRC_TUI_DIMENSIONS_HH_

@@ -23,53 +23,47 @@
 
 #include "logger.hh"
 
-namespace gelcube
-{
-
 /// @brief Manages the Terminal User Interface.
 /// Handles an ncurses screen and its required procedures.
-typedef class Tui
-{
+class Tui {
 public:
-    /// @brief Starts the TUI.
-    /// Initializes ncurses and starts the main UI loop.
-    /// @return Exit code for the program.
-    static int start() noexcept;
+	/// @brief Starts the TUI.
+	/// Initializes ncurses and starts the main UI loop.
+	/// @return Exit code for the program.
+	static int start() noexcept;
 
 private:
-    /// @brief 2D coordinates for a UI object.
-    /// Stores y and x values.
-    struct Position;
+	/// @brief 2D coordinates for a UI object.
+	/// Stores y and x values.
+	struct Position;
 
-    /// @brief 2D geometric dimensions for a UI object.
-    /// Stores height, width, y, and x values.
-    struct Dimensions;
+	/// @brief 2D geometric dimensions for a UI object.
+	/// Stores height, width, y, and x values.
+	struct Dimensions;
 
-    /// @brief Exception signifying invalid size for a UI element.
-    /// Thrown if the height or width of a set of dimensions for a UI element
-    /// cannot be fit into the current screen size.
-    class SizeException;
+	/// @brief Exception signifying invalid size for a UI element.
+	/// Thrown if the height or width of a set of dimensions for a UI
+	/// element cannot be fit into the current screen size.
+	class SizeException;
 
-    /// @brief Exception signifying an uninitialized window.
-    /// Thrown if a function which references an ncurses window is called
-    /// without its window being initialized.
-    class NoWindowException;
+	/// @brief Exception signifying an uninitialized window.
+	/// Thrown if a function which references an ncurses window is called
+	/// without its window being initialized.
+	class NoWindowException;
 
-    /// @brief Wrapper for ncurses window.
-    /// UI element with runtime-modifyable dimensions.
-    class Panel;
+	/// @brief Wrapper for ncurses window.
+	/// UI element with runtime-modifyable dimensions.
+	class Panel;
 
-    /// @brief Manages all panels.
-    /// Handles the creation, destruction, and dimensions of all panels.
-    class PanelManager;
+	/// @brief Manages all panels.
+	/// Handles the creation, destruction, and dimensions of all panels.
+	class PanelManager;
 
-    /// @brief Processes events and user input.
-    /// Continuously handles the UI.
-    class MainLoop;
+	/// @brief Processes events and user input.
+	/// Continuously handles the UI.
+	class MainLoop;
 
-    static Logger::Source log;
-} Tui;
-
-} // namespace gelcube
+	static Logger::Source log;
+};
 
 #endif // GELCUBE_SRC_TUI_HH_

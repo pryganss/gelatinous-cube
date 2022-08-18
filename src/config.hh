@@ -1,6 +1,6 @@
 /// @file config.hh
 /// @author Natalie Wiggins (islifepeachy@outlook.com)
-/// @brief CMake configured header containing compile-time constants.
+/// @brief CMake configured header to define compile-time constants.
 /// @version 0.1
 /// @date 2022-08-10
 ///
@@ -21,18 +21,10 @@
 #ifndef GELCUBE_SRC_CONFIG_HH_
 #define GELCUBE_SRC_CONFIG_HH_
 
-namespace gelcube
-{
-
-namespace config
-{
-
-const char* version_major = "0";
-const char* version_minor = "1";
-const char* version_year = "2022";
-
-} // namespace config
-
-} // namespace gelcube
+namespace config {
+	const char* version_major = "0";
+	const char* version_minor = "1";
+	const char* version_year = "2022";
+}
 
 #endif // GELCUBE_SRC_CONFIG_HH_
