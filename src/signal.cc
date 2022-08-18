@@ -24,13 +24,13 @@
 #include <initializer_list>
 
 Signal::Signal(__sighandler_t handler, std::initializer_list<int> sig_nums)
-    : sig_nums{sig_nums}
+	: sig_nums{sig_nums}
 {
 	struct sigaction action;
 
 	action.sa_handler = handler;
 
-	// Prevents signal blocking.
+	// Prevent signal blocking.
 	sigemptyset(&action.sa_mask);
 
 	action.sa_flags = 0;
@@ -39,10 +39,10 @@ Signal::Signal(__sighandler_t handler, std::initializer_list<int> sig_nums)
 	for (auto& sig_num : this->sig_nums) {
 		sigaddset(&action.sa_mask, sig_num);
 
-		// Reads the old action associated with signal number.
+		// Read the previous action associated with the signal number.
 		sigaction(sig_num, NULL, &old_action);
 
-		// Replaces the old handler if it didn't ignore the signal.
+		// Replace the previous handler if it didn't ignore the signal.
 		if (old_action.sa_handler != SIG_IGN)
 			sigaction(sig_num, &action, NULL);
 	}
@@ -50,24 +50,24 @@ Signal::Signal(__sighandler_t handler, std::initializer_list<int> sig_nums)
 
 Signal::~Signal()
 {
-    struct sigaction old_action;
-    for (auto& sig_num : sig_nums) {
-	// Reads the old action associated with signal number.
-	sigaction(sig_num, NULL, &old_action);
+	struct sigaction old_action;
+	for (auto& sig_num : sig_nums) {
+		// Read the previous action associated with the signal number.
+		sigaction(sig_num, NULL, &old_action);
 
-	// Replaces the old handler with the default if it didn't ignore the
-	// signal.
-	if (old_action.sa_handler != SIG_IGN) {
-		struct sigaction action;
+		// Replace the previous handler with the default if it didn't
+		// ignore the signal.
+		if (old_action.sa_handler != SIG_IGN) {
+			struct sigaction action;
 
-		action.sa_handler = SIG_DFL;
+			action.sa_handler = SIG_DFL;
 
-		// Prevents signal blocking.
-		sigemptyset(&action.sa_mask);
+			// Prevent signal blocking.
+			sigemptyset(&action.sa_mask);
 
-		action.sa_flags = 0;
+			action.sa_flags = 0;
 
-		sigaction(sig_num, &action, NULL);
+			sigaction(sig_num, &action, NULL);
+		}
 	}
-    }
 }

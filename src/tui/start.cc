@@ -35,18 +35,18 @@ int Tui::start() noexcept
 {
 	log = Logger::source;
 
-	// Initializes ncurses screen.
+	// Initialize ncurses screen.
 	initscr();
 	noecho();
 	cbreak();
 
-	// Initializes panels.
+	// Initialize panels.
 	PanelManager::create();
 
-	// Processes user input and events.
+	// Handle user input and events.
 	MainLoop::start();
 
-	// Ends the TUI.
+	// End.
 	PanelManager::destroy();
 	endwin();
 

@@ -45,22 +45,22 @@ void Tui::MainLoop::start()
 		ch = getch();
 		if (!invalid_resize) {
 			switch (ch) {
-			// Resizes panels.
+			// Resize panels.
 			case KEY_RESIZE:
 				try_panel_resize();
 				break;
 
-			// Exits the loop.
+			// Exit the loop.
 			case key_bindings::quit:
 				stop();
 				break;
 
-			// Enters panel selection mode.
+			// Enter panel selection mode.
 			case key_bindings::modifiers::go:
 				check_start_panel_selection();
 				break;
 
-			// Selects the current panel by index.
+			// Select the current panel by index.
 			case static_cast<int>('1'):
 				check_select_panel(0);
 				break;
@@ -77,14 +77,14 @@ void Tui::MainLoop::start()
 				check_select_panel(4);
 				break;
 
-			// Clears modifiers.
+			// Clear modifiers.
 			default:
 				check_select_panel(
 					PanelManager::get_last_selected_index());
 				break;
 			}
 		} else if (ch == KEY_RESIZE) {
-			// Recreates and updates panels if the last resize operation failed.
+			// Recreate and update panels if the last resize operation failed.
 			try {
 				PanelManager::create();
 				PanelManager::update_dimensions();

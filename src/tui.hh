@@ -27,18 +27,15 @@
 /// Handles an ncurses screen and its required procedures.
 class Tui {
 public:
-	/// @brief Starts the TUI.
-	/// Initializes ncurses and starts the main UI loop.
+	/// @brief Initializes ncurses and starts the main UI loop.
 	/// @return Exit code for the program.
 	static int start() noexcept;
 
 private:
 	/// @brief 2D coordinates for a UI object.
-	/// Stores y and x values.
 	struct Position;
 
 	/// @brief 2D geometric dimensions for a UI object.
-	/// Stores height, width, y, and x values.
 	struct Dimensions;
 
 	/// @brief Exception signifying invalid size for a UI element.
@@ -59,8 +56,7 @@ private:
 	/// Handles the creation, destruction, and dimensions of all panels.
 	class PanelManager;
 
-	/// @brief Processes events and user input.
-	/// Continuously handles the UI.
+	/// @brief Continuously handles events and user input.
 	class MainLoop;
 
 	static Logger::Source log;

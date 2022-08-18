@@ -26,7 +26,7 @@
 #include <cstddef>
 
 struct Tui::Position {
-    int y, x;
+	int y, x;
 };
 
 #endif // GELCUBE_SRC_TUI_POSITION_HH_

@@ -28,13 +28,13 @@
 
 int main(int argc, char* argv[])
 {
-	// Initializes internationalization.
+	// Initialize internationalization.
 	std::setlocale(LC_ALL, "");
 	textdomain("gelcube");
 
-	// Initializes the log interface.
+	// Initialize the log interface.
 	Logger::init();
 
-	// Performs procedures based on options.
+	// Perform procedures based on options.
 	return parse_options(argc, argv);
 }

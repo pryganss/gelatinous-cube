@@ -137,7 +137,7 @@ int parse_options(int argc, char* argv[]) noexcept
 
 	Logger::Source log = Logger::source;
 
-	// Declares supported options.
+	// Declare supported options.
 	std::stringstream caption;
 	caption << _("Usage: ") << argv[0] << _(" [OPTION]...") << std::endl
 		<< _("Manage Dungeons & Dragons characters.") << std::endl
@@ -149,7 +149,7 @@ int parse_options(int argc, char* argv[]) noexcept
 	(options::help.name(), options::help.description)
 	(options::version.name(), options::version.description);
 
-	// Processes options.
+	// Process options.
 	try {
 		b_options::variables_map vm;
 		b_options::store(b_options::parse_command_line(argc, argv, desc), vm);
