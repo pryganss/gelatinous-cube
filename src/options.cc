@@ -110,11 +110,11 @@ namespace options {
 void show_keys() noexcept
 {
 	std::cout << _("Keybindings for the TUI:") << std::endl
-        	<< _(" g		enter panel selection mode") << std::endl
-        	<< _(" q		quit the program") << std::endl
+        	<< _("  g			enter panel selection mode") << std::endl
+        	<< _("  q			quit the program") << std::endl
               	<< std::endl
               	<< _("Keybindings in panel selection mode:") << std::endl
-              	<< _(" 1-9		focus the panel with the specified index") << std::endl;
+              	<< _("  1-9			focus the panel with the specified index") << std::endl;
 }
 
 /// @brief Displays version information.
