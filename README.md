@@ -28,7 +28,7 @@ Dungeons & Dragons character manager.
 
 ## Documentation
 
-* POSIX shell commands to be run as user are denoted by `$`
+* POSIX shell commands to be run as user are denoted by shell code blocks
 * Text to be substituted in shell commands is capitalised and encapsulated in
 brackets
 * 'Visual Studio Code' and 'Code - OSS' are abbreviated to VS Code
@@ -41,7 +41,11 @@ brackets
 
 ## Usage
 
-See output of `$ gelcube --help`.
+See output of:
+
+```shell
+gelcube --help
+```
 
 ## Building
 
@@ -54,11 +58,15 @@ See output of `$ gelcube --help`.
 
 Targets:
 * Debug:
-    * `$ (mkdir -p build/debug && cd build/debug && cmake ../..  -DCMAKE_BUILD_TYPE=Debug && make)`
-        * Output: `build/debug/gelcube`
+    ```shell
+    (mkdir -p build/debug && cd build/debug && cmake ../.. -DCMAKE_BUILD_TYPE=Debug && make)
+    ```
+    * Output: `build/debug/gelcube`
 * Release:
-    * `$ (mkdir -p build/release && cd build/release && cmake ../.. && make)`
-        * Output: `build/release/gelcube`
+    ```shell
+    (mkdir -p build/release && cd build/release && cmake ../.. && make)
+    ```
+    * Output: `build/release/gelcube`
 
 ### VS Code
 
@@ -80,11 +88,15 @@ Ensure you have built the program for the release target.
 * `sudo`
 
 
-`$ (cd build/release && sudo make install)`
+```shell
+(cd build/release && sudo make install)
+```
 
 ### Uninstallation
 
-`$ (cd build/release && sudo make uninstall)`
+```shell
+(cd build/release && sudo make uninstall)
+```
 
 ## Code structure
 
@@ -109,7 +121,9 @@ Ensure you have built the program for the debug target.
 
 ### Standalone
 
-`$ gdb build/debug/gelcube`
+```shell
+gdb build/debug/gelcube
+```
 
 ### VS Code
 
@@ -126,23 +140,31 @@ Ensure you have built the program for the release target.
 
 ### Generating the POT template file
 
-`$ (cd build/release && make pot-update)`
+```shell
+(cd build/release && make pot-update)
+```
 
 This will generate `locale/gelcube.pot`.
 
 ### Generating PO files
 
-`$ msginit -i locale/gelcube.pot -o locale/[LANG].po -l [LOCALE])`
+```shell
+msginit -i locale/gelcube.pot -o locale/[LANG].po -l [LOCALE]
+```
 
 Edit `locale/[LANG].po` as required.
 
 ### Updating existing PO files
 
-`$ (cd build/release && make pot-merge)`
+```shell
+(cd build/release && make pot-merge)
+```
 
 ### Generating MO files
 
-`$ (cd build/release && make po-compile)`
+```shell
+(cd build/release && make po-compile)
+```
 
 ## Version control
 
