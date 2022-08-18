@@ -75,7 +75,7 @@ public:
 	const char* short_name;
 
 private:
-    std::string internal_name;
+	std::string internal_name;
 };
 
 const char* Option::name() noexcept
